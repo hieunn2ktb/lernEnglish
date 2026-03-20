@@ -83,6 +83,7 @@ public class TestVocabActivity extends AppCompatActivity {
     private TextView tvQuestionType;
     private TextView tvPromptLabel;
     private TextView tvPromptValue;
+    private TextView tvInstruction;
     private LinearLayout layoutMultipleChoice;
     private LinearLayout layoutTrueFalse;
     private LinearLayout layoutMatching;
@@ -93,6 +94,8 @@ public class TestVocabActivity extends AppCompatActivity {
     private Button btnTrue;
     private Button btnFalse;
     private EditText etWrittenAnswer;
+    private TextView tvWrittenLabel;
+    private TextView tvDontKnow;
     private Button btnNext;
 
     private TextView tvScore;
@@ -154,6 +157,7 @@ public class TestVocabActivity extends AppCompatActivity {
         tvQuestionType = findViewById(R.id.tvQuestionType);
         tvPromptLabel = findViewById(R.id.tvPromptLabel);
         tvPromptValue = findViewById(R.id.tvPromptValue);
+        tvInstruction = findViewById(R.id.tvInstruction);
         layoutMultipleChoice = findViewById(R.id.layoutMultipleChoice);
         layoutTrueFalse = findViewById(R.id.layoutTrueFalse);
         layoutMatching = findViewById(R.id.layoutMatching);
@@ -162,6 +166,8 @@ public class TestVocabActivity extends AppCompatActivity {
         btnTrue = findViewById(R.id.btnTrue);
         btnFalse = findViewById(R.id.btnFalse);
         etWrittenAnswer = findViewById(R.id.etWrittenAnswer);
+        tvWrittenLabel = findViewById(R.id.tvWrittenLabel);
+        tvDontKnow = findViewById(R.id.tvDontKnow);
         btnNext = findViewById(R.id.btnNext);
 
         choiceCards = new CardView[]{
@@ -221,10 +227,10 @@ public class TestVocabActivity extends AppCompatActivity {
         btnOptions.setOnClickListener(v -> {
             if (testContainer.getVisibility() == View.VISIBLE && isInTest) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Dừng bài kiểm tra?")
-                        .setMessage("Bạn sẽ mất tiến trình hiện tại nếu quay lại tùy chỉnh.")
-                        .setPositiveButton("Quay lại", (d, w) -> showSetup())
-                        .setNegativeButton("Tiếp tục", null)
+                        .setTitle("D?ng b?i ki?m tra?")
+                        .setMessage("B?n s? m?t ti?n tr?nh hi?n t?i n?u quay l?i t?y ch?nh.")
+                        .setPositiveButton("Quay l?i", (d, w) -> showSetup())
+                        .setNegativeButton("Ti?p t?c", null)
                         .show();
             } else {
                 showSetup();
@@ -235,7 +241,7 @@ public class TestVocabActivity extends AppCompatActivity {
         btnRetakeFull.setOnClickListener(v -> startTestWithSource(allVocab, false));
         btnRetryWrong.setOnClickListener(v -> {
             if (lastWrongItems.isEmpty()) {
-                Toast.makeText(this, "Không có câu sai nào ở lượt trước", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Kh?ng c? c?u sai n?o ? l??t tr??c", Toast.LENGTH_SHORT).show();
             } else {
                 startTestWithSource(lastWrongItems, true);
             }
@@ -244,6 +250,7 @@ public class TestVocabActivity extends AppCompatActivity {
 
         btnTrue.setOnClickListener(v -> selectTrueFalse(true));
         btnFalse.setOnClickListener(v -> selectTrueFalse(false));
+        tvDontKnow.setOnClickListener(v -> fillUnknownAnswer());
 
         for (int i = 0; i < choiceCards.length; i++) {
             int idx = i;
@@ -509,12 +516,21 @@ public class TestVocabActivity extends AppCompatActivity {
             return;
         }
         TestQuestion question = questions.get(currentIndex);
-        tvProgress.setText(String.format(Locale.getDefault(), "Câu %d / %d", currentIndex + 1, questions.size()));
+        boolean isWrittenQuestion = question.type == QuestionType.WRITTEN;
+
+        tvProgress.setText(String.format(Locale.getDefault(), "%d/%d", currentIndex + 1, questions.size()));
         progressTest.setMax(questions.size());
         progressTest.setProgress(currentIndex + 1);
-        tvQuestionType.setText(question.getTypeLabel());
-        tvPromptLabel.setText(question.promptLabel);
+        tvQuestionType.setText(isWrittenQuestion ? "" : question.promptLabel);
         tvPromptValue.setText(question.prompt);
+        tvPromptLabel.setText(isWrittenQuestion ? "" : getAnswerLabel(question));
+        tvQuestionType.setVisibility(isWrittenQuestion ? View.GONE : View.VISIBLE);
+        tvPromptLabel.setVisibility(isWrittenQuestion ? View.GONE : View.VISIBLE);
+        tvInstruction.setVisibility(isWrittenQuestion ? View.GONE : View.VISIBLE);
+        tvPromptValue.setTextSize(isWrittenQuestion ? 30f : 22f);
+        tvPromptValue.setTextColor(Color.parseColor("#111827"));
+        tvInstruction.setText(question.type == QuestionType.MATCHING ? "Gh?p c?u tr? l?i" : "Ch?n c?u tr? l?i");
+        tvWrittenLabel.setText("??p ?n c?a b?n");
 
         layoutMultipleChoice.setVisibility(question.type == QuestionType.MULTIPLE_CHOICE ? View.VISIBLE : View.GONE);
         layoutTrueFalse.setVisibility(question.type == QuestionType.TRUE_FALSE ? View.VISIBLE : View.GONE);
@@ -538,7 +554,7 @@ public class TestVocabActivity extends AppCompatActivity {
                 etWrittenAnswer.removeTextChangedListener(writtenWatcher);
             }
             etWrittenAnswer.setText(question.userAnswer != null ? question.userAnswer : "");
-            etWrittenAnswer.setHint(question.promptIsTerm ? "Nhập nghĩa tiếng Việt" : "Nhập thuật ngữ tiếng Anh");
+            etWrittenAnswer.setHint("Nh?p ??p ?n");
             writtenWatcher = new WrittenAnswerWatcher(question);
             etWrittenAnswer.addTextChangedListener(writtenWatcher);
         } else if (question.type == QuestionType.MATCHING) {
@@ -546,7 +562,7 @@ public class TestVocabActivity extends AppCompatActivity {
         }
 
         boolean isLast = currentIndex == questions.size() - 1;
-        btnNext.setText(isLast ? "Gửi bài" : "Lưu và tiếp tục");
+        btnNext.setText(isLast ? "G?i b?i" : "L?u v? ti?p t?c");
         updateNextButtonState();
     }
 
@@ -657,6 +673,7 @@ public class TestVocabActivity extends AppCompatActivity {
     }
 
     private void showTestContainer() {
+        btnOptions.setVisibility(View.GONE);
         setupContainer.setVisibility(View.GONE);
         resultContainer.setVisibility(View.GONE);
         testContainer.setVisibility(View.VISIBLE);
@@ -664,6 +681,7 @@ public class TestVocabActivity extends AppCompatActivity {
 
     private void showSetup() {
         isInTest = false;
+        btnOptions.setVisibility(View.VISIBLE);
         setupContainer.setVisibility(View.VISIBLE);
         testContainer.setVisibility(View.GONE);
         resultContainer.setVisibility(View.GONE);
@@ -680,12 +698,13 @@ public class TestVocabActivity extends AppCompatActivity {
         int total = questions.size();
         int percent = Math.round((correctCount * 100f) / total);
         tvScore.setText(percent + "%");
-        tvScoreDetail.setText(String.format(Locale.getDefault(), "%d / %d câu dúng", correctCount, total));
+        tvScoreDetail.setText(String.format(Locale.getDefault(), "%d / %d c?u ??ng", correctCount, total));
 
         lastWrongItems = extractWrongItems();
         btnRetryWrong.setVisibility(lastWrongItems.isEmpty() ? View.GONE : View.VISIBLE);
 
         resultAdapter.notifyDataSetChanged();
+        btnOptions.setVisibility(View.GONE);
         setupContainer.setVisibility(View.GONE);
         testContainer.setVisibility(View.GONE);
         resultContainer.setVisibility(View.VISIBLE);
@@ -836,6 +855,21 @@ public class TestVocabActivity extends AppCompatActivity {
             }
             return sb.toString();
         }
+    }
+
+    private String getAnswerLabel(TestQuestion question) {
+        if (question.type == QuestionType.TRUE_FALSE) {
+            return "Ch?n c?u tr? l?i";
+        }
+        return question.promptIsTerm ? "??nh ngh?a" : "Thu?t ng?";
+    }
+
+    private void fillUnknownAnswer() {
+        if (currentIndex < 0 || currentIndex >= questions.size()) return;
+        TestQuestion question = questions.get(currentIndex);
+        if (question.type != QuestionType.WRITTEN) return;
+        etWrittenAnswer.setText("Kh?ng bi?t");
+        etWrittenAnswer.setSelection(etWrittenAnswer.getText().length());
     }
 
     private class WrittenAnswerWatcher implements TextWatcher {
