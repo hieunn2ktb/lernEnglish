@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F3F4F6"
+    tools:context=".CreateLessonActivity">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#1F2937" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Tạo bài học mới"
+            android:textColor="#1F2937"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Tên bài học -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên bài học *"
+                android:textColor="#374151"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card_rounded"
+                android:hint="VD: Ngày 2 - Thì hiện tại đơn"
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1F2937"
+                android:textSize="15sp" />
+
+            <!-- Mô tả -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Mô tả"
+                android:textColor="#374151"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card_rounded"
+                android:gravity="top"
+                android:hint="VD: Học cấu trúc và cách dùng..."
+                android:inputType="textMultiLine"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="12dp"
+                android:textColor="#1F2937"
+                android:textSize="15sp" />
+
+            <!-- Link YouTube -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Link YouTube (không bắt buộc)"
+                android:textColor="#374151"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/etVideoUrl"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card_rounded"
+                android:hint="VD: https://youtu.be/abc123"
+                android:inputType="textUri"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1F2937"
+                android:textSize="15sp" />
+
+            <!-- Note -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_badge_blue"
+                android:padding="12dp"
+                android:text="Sau khi tạo bài học, bạn sẽ được thêm từ vựng, câu hỏi ngữ pháp và kiểm tra từ vựng."
+                android:textColor="#1E40AF"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Button -->
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_button_blue"
+        android:text="Tạo bài học"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAllCaps="false" />
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_card_rounded_quizlet"
+    android:padding="16dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="to circle"
+            android:textColor="#4B5563"
+            android:textSize="18sp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/tvVietnamese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="khoanh tròn"
+            android:textColor="#1F2937"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:maxLines="3"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="top"
+        android:layout_marginStart="8dp">
+
+        <ImageButton
+            android:id="@+id/btnPronounce"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_speaker"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/btnStar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_star_outline"
+            android:scaleType="centerInside" />
+    </LinearLayout>
+</LinearLayout>

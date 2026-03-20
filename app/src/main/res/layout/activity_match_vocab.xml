@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F4F6">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#4F46E5"
+        android:elevation="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close"
+            android:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="0.0s"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCards"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:clipToPadding="false"
+        android:padding="8dp" />
+
+    <LinearLayout
+        android:id="@+id/llResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_rounded_quizlet"
+        android:layout_margin="32dp"
+        android:padding="32dp"
+        android:visibility="gone"
+        android:elevation="10dp">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tuyệt vời!"
+            android:textColor="#059669"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+            
+        <TextView
+            android:id="@+id/tvFinalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thành tích: 12.4s"
+            android:layout_marginTop="8dp"
+            android:textColor="#1F2937"
+            android:textSize="18sp" />
+            
+        <Button
+            android:id="@+id/btnPlayAgain"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#4F46E5"
+            android:text="Chơi lại"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

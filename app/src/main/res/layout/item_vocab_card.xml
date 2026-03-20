@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <!-- Main Word - Centered -->
+        <LinearLayout
+            android:id="@+id/centerContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvEnglishWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello"
+                android:textColor="#1F2937"
+                android:textSize="42sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPhonetic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="/həˈloʊ/"
+                android:textColor="#9CA3AF"
+                android:textSize="18sp" />
+
+            <!-- Skip / Know labels -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="&lt; Skip"
+                    android:textColor="#D1D5DB"
+                    android:textSize="14sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Know &gt;"
+                    android:textColor="#D1D5DB"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Word type badge -->
+            <TextView
+                android:id="@+id/tvWordType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_badge_mint"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:text="Verb"
+                android:textColor="#059669"
+                android:textSize="14sp" />
+
+            <!-- Vietnamese meaning (hidden by default) -->
+            <TextView
+                android:id="@+id/tvVietnameseMeaning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Xin chào"
+                android:textColor="#3B82F6"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <!-- Tap to see definition -->
+        <LinearLayout
+            android:id="@+id/tapHintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvTapHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Tap to see definition"
+                android:textColor="#9CA3AF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
