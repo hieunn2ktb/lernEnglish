@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+            
+            <TextView
+                android:id="@+id/tvCardIndex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="#9CA3AF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- X button to delete card -->
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close"
+                android:tint="#9CA3AF" />
+        </RelativeLayout>
+
+        <!-- Terms layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Thuật ngữ -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvLangTerm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TIẾNG ANH"
+                    android:textSize="10sp"
+                    android:textColor="#4F46E5"
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/etTerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Thuật ngữ"
+                android:textSize="18sp"
+                android:textColor="#1F2937" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#1F2937"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="THUẬT NGỮ"
+                android:textSize="10sp"
+                android:textColor="#9CA3AF"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold" />
+
+            <!-- Định nghĩa -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+                <TextView
+                    android:id="@+id/tvLangDef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TIẾNG VIỆT"
+                    android:textSize="10sp"
+                    android:textColor="#4F46E5"
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/etDef"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Định nghĩa"
+                android:textSize="18sp"
+                android:textColor="#1F2937" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#4F46E5"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ĐỊNH NGHĨA"
+                android:textSize="10sp"
+                android:textColor="#4F46E5"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Image Add mock -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card_rounded_quizlet"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_image"
+                android:tint="#4B5563" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HÌNH ẢNH"
+                android:layout_marginStart="4dp"
+                android:textSize="12sp"
+                android:textColor="#4B5563"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
