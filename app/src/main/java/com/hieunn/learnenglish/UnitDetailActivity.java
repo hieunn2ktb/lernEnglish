@@ -88,6 +88,12 @@ public class UnitDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        findViewById(R.id.btnOptionTest).setOnClickListener(v -> {
+            Intent intent = new Intent(this, TestVocabActivity.class);
+            intent.putExtra("lessonId", lessonId);
+            startActivity(intent);
+        });
+
         findViewById(R.id.btnOptionLearn).setOnClickListener(v -> {
             Intent intent = new Intent(this, LearnVocabActivity.class);
             intent.putExtra("lessonId", lessonId);

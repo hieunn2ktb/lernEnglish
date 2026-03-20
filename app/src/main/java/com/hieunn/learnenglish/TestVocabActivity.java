@@ -1,5 +1,4 @@
 package com.hieunn.learnenglish;
-
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -27,6 +25,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -67,17 +66,17 @@ public class TestVocabActivity extends AppCompatActivity {
     private TextView tvLessonName;
     private TextView tvQuestionCount;
     private SeekBar seekQuestionCount;
-    private CheckBox cbUseAll;
-    private CheckBox cbMultipleChoice;
-    private CheckBox cbTrueFalse;
-    private CheckBox cbMatching;
-    private CheckBox cbWritten;
+    private SwitchCompat cbUseAll;
+    private SwitchCompat cbMultipleChoice;
+    private SwitchCompat cbTrueFalse;
+    private SwitchCompat cbMatching;
+    private SwitchCompat cbWritten;
     private RadioGroup rgDisplayMode;
     private RadioButton rbDisplayTerm;
     private RadioButton rbDisplayDefinition;
     private RadioButton rbDisplayBoth;
     private Button btnStartTest;
-    private Button btnOptions;
+    private ImageButton btnOptions;
 
     private TextView tvProgress;
     private ProgressBar progressTest;
@@ -112,6 +111,7 @@ public class TestVocabActivity extends AppCompatActivity {
     private TextWatcher writtenWatcher;
 
     private int lessonId = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,10 +221,10 @@ public class TestVocabActivity extends AppCompatActivity {
         btnOptions.setOnClickListener(v -> {
             if (testContainer.getVisibility() == View.VISIBLE && isInTest) {
                 new AlertDialog.Builder(this)
-                        .setTitle("D?ng b�i ki?m tra?")
-                        .setMessage("B?n s? m?t ti?n tr�nh hi?n t?i n?u quay l?i t�y ch?nh.")
-                        .setPositiveButton("Quay l?i", (d, w) -> showSetup())
-                        .setNegativeButton("Ti?p t?c", null)
+                        .setTitle("Dừng bài kiểm tra?")
+                        .setMessage("Bạn sẽ mất tiến trình hiện tại nếu quay lại tùy chỉnh.")
+                        .setPositiveButton("Quay lại", (d, w) -> showSetup())
+                        .setNegativeButton("Tiếp tục", null)
                         .show();
             } else {
                 showSetup();
@@ -235,7 +235,7 @@ public class TestVocabActivity extends AppCompatActivity {
         btnRetakeFull.setOnClickListener(v -> startTestWithSource(allVocab, false));
         btnRetryWrong.setOnClickListener(v -> {
             if (lastWrongItems.isEmpty()) {
-                Toast.makeText(this, "Kh�ng c� c�u sai n�o ? lu?t tru?c", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Không có câu sai nào ở lượt trước", Toast.LENGTH_SHORT).show();
             } else {
                 startTestWithSource(lastWrongItems, true);
             }
@@ -266,7 +266,7 @@ public class TestVocabActivity extends AppCompatActivity {
         }
 
         if (allVocab.isEmpty()) {
-            Toast.makeText(this, "Kh�ng c� t? v?ng d? ki?m tra", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không có từ vựng để kiểm tra", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -280,28 +280,28 @@ public class TestVocabActivity extends AppCompatActivity {
     private void updateQuestionCountLabel() {
         int total = allVocab.size();
         if (cbUseAll.isChecked()) {
-            tvQuestionCount.setText(String.format(Locale.getDefault(), "To�n b? (%d c�u)", total));
+            tvQuestionCount.setText(String.format(Locale.getDefault(), "Toàn bộ (%d câu)", total));
         } else {
             int selected = Math.max(1, Math.min(seekQuestionCount.getProgress(), total));
-            tvQuestionCount.setText(String.format(Locale.getDefault(), "%d c�u (t?i da %d)", selected, total));
+            tvQuestionCount.setText(String.format(Locale.getDefault(), "%d câu (tối đa %d)", selected, total));
         }
     }
 
     private void startTestWithSource(List<VocabItem> source, boolean forceUseAll) {
         if (source == null || source.isEmpty()) {
-            Toast.makeText(this, "Kh�ng c� d? li?u d? t?o b�i ki?m tra", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không có dữ liệu để tạo bài kiểm tra", Toast.LENGTH_SHORT).show();
             return;
         }
 
         List<QuestionType> enabledTypes = getEnabledQuestionTypes();
         if (enabledTypes.isEmpty()) {
-            Toast.makeText(this, "Ch?n �t nh?t m?t d?ng c�u h?i", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Chọn ít nhất một dạng câu hỏi", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int targetCount = forceUseAll ? source.size() : getDesiredQuestionCount(source.size());
         if (targetCount <= 0) {
-            Toast.makeText(this, "S? c�u h?i ph?i l?n hon 0", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Số câu hỏi phải lớn hơn 0", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -324,7 +324,7 @@ public class TestVocabActivity extends AppCompatActivity {
         }
 
         if (questions.isEmpty()) {
-            Toast.makeText(this, "Kh�ng th? t?o b�i ki?m tra v?i t�y ch?n hi?n t?i", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không thể tạo bài kiểm tra với tùy chọn hiện tại", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -402,7 +402,7 @@ public class TestVocabActivity extends AppCompatActivity {
         TestQuestion q = new TestQuestion(QuestionType.MULTIPLE_CHOICE, effective);
         q.promptIsTerm = effective == DisplayMode.TERM;
         q.prompt = q.promptIsTerm ? base.getEnglishWord() : base.getVietnameseMeaning();
-        q.promptLabel = q.promptIsTerm ? "Thu?t ng?" : "�?nh nghia";
+        q.promptLabel = q.promptIsTerm ? "Thuật ngữ" : "Định nghĩa";
         q.correctAnswer = q.promptIsTerm ? base.getVietnameseMeaning() : base.getEnglishWord();
         q.options.add(q.correctAnswer);
         for (VocabItem item : pool) {
@@ -447,10 +447,10 @@ public class TestVocabActivity extends AppCompatActivity {
 
         TestQuestion q = new TestQuestion(QuestionType.TRUE_FALSE, effective);
         q.promptIsTerm = promptIsTerm;
-        q.promptLabel = "Ph�n do�n";
+        q.promptLabel = "Phán đoán";
         q.prompt = String.format(Locale.getDefault(), "%s = %s", left, right);
-        q.correctAnswer = statementTrue ? "��ng" : "Sai";
-        q.options.add("��ng");
+        q.correctAnswer = statementTrue ? "Đúng" : "Sai";
+        q.options.add("Đúng");
         q.options.add("Sai");
         q.relatedItems.add(base);
         if (wrongItem != null) q.relatedItems.add(wrongItem);
@@ -462,7 +462,7 @@ public class TestVocabActivity extends AppCompatActivity {
         TestQuestion q = new TestQuestion(QuestionType.WRITTEN, effective);
         q.promptIsTerm = effective == DisplayMode.TERM;
         q.prompt = q.promptIsTerm ? base.getEnglishWord() : base.getVietnameseMeaning();
-        q.promptLabel = q.promptIsTerm ? "Thu?t ng?" : "�?nh nghia";
+        q.promptLabel = q.promptIsTerm ? "Thuật ngữ" : "Định nghĩa";
         q.correctAnswer = q.promptIsTerm ? base.getVietnameseMeaning() : base.getEnglishWord();
         q.relatedItems.add(base);
         return q;
@@ -499,16 +499,17 @@ public class TestVocabActivity extends AppCompatActivity {
             q.matchDefinitionOptions.add(candidate);
         }
         Collections.shuffle(q.matchDefinitionOptions, random);
-        q.promptLabel = "Gh�p th?";
-        q.prompt = "Ch?n d?nh nghia ph� h?p cho t?ng thu?t ng?";
+        q.promptLabel = "Ghép thẻ";
+        q.prompt = "Chọn định nghĩa phù hợp cho từng thuật ngữ";
         return q;
     }
+
     private void showQuestion() {
         if (currentIndex < 0 || currentIndex >= questions.size()) {
             return;
         }
         TestQuestion question = questions.get(currentIndex);
-        tvProgress.setText(String.format(Locale.getDefault(), "C�u %d / %d", currentIndex + 1, questions.size()));
+        tvProgress.setText(String.format(Locale.getDefault(), "Câu %d / %d", currentIndex + 1, questions.size()));
         progressTest.setMax(questions.size());
         progressTest.setProgress(currentIndex + 1);
         tvQuestionType.setText(question.getTypeLabel());
@@ -537,7 +538,7 @@ public class TestVocabActivity extends AppCompatActivity {
                 etWrittenAnswer.removeTextChangedListener(writtenWatcher);
             }
             etWrittenAnswer.setText(question.userAnswer != null ? question.userAnswer : "");
-            etWrittenAnswer.setHint(question.promptIsTerm ? "Nh?p nghia ti?ng Vi?t" : "Nh?p thu?t ng? ti?ng Anh");
+            etWrittenAnswer.setHint(question.promptIsTerm ? "Nhập nghĩa tiếng Việt" : "Nhập thuật ngữ tiếng Anh");
             writtenWatcher = new WrittenAnswerWatcher(question);
             etWrittenAnswer.addTextChangedListener(writtenWatcher);
         } else if (question.type == QuestionType.MATCHING) {
@@ -545,7 +546,7 @@ public class TestVocabActivity extends AppCompatActivity {
         }
 
         boolean isLast = currentIndex == questions.size() - 1;
-        btnNext.setText(isLast ? "G?i b�i" : "Luu v� ti?p t?c");
+        btnNext.setText(isLast ? "Gửi bài" : "Lưu và tiếp tục");
         updateNextButtonState();
     }
 
@@ -576,13 +577,13 @@ public class TestVocabActivity extends AppCompatActivity {
         if (currentIndex < 0 || currentIndex >= questions.size()) return;
         TestQuestion question = questions.get(currentIndex);
         if (question.type != QuestionType.TRUE_FALSE) return;
-        question.userAnswer = isTrue ? "��ng" : "Sai";
+        question.userAnswer = isTrue ? "Đúng" : "Sai";
         updateTrueFalseButtons(question.userAnswer);
         updateNextButtonState();
     }
 
     private void updateTrueFalseButtons(String answer) {
-        boolean trueSelected = "��ng".equalsIgnoreCase(answer);
+        boolean trueSelected = "Đúng".equalsIgnoreCase(answer);
         boolean falseSelected = "Sai".equalsIgnoreCase(answer);
         styleDecisionButton(btnTrue, trueSelected);
         styleDecisionButton(btnFalse, falseSelected);
@@ -608,7 +609,7 @@ public class TestVocabActivity extends AppCompatActivity {
             tvTerm.setText(question.matchTerms.get(i));
 
             List<String> items = new ArrayList<>();
-            items.add("Ch?n d?nh nghia ph� h?p");
+            items.add("Chọn định nghĩa phù hợp");
             items.addAll(question.matchDefinitionOptions);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -644,7 +645,7 @@ public class TestVocabActivity extends AppCompatActivity {
         if (currentIndex < 0 || currentIndex >= questions.size()) return;
         TestQuestion question = questions.get(currentIndex);
         if (!question.isAnswered()) {
-            Toast.makeText(this, "H�y ho�n th�nh c�u h?i n�y tru?c", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hãy hoàn thành câu hỏi này trước", Toast.LENGTH_SHORT).show();
             return;
         }
         if (currentIndex == questions.size() - 1) {
@@ -679,7 +680,7 @@ public class TestVocabActivity extends AppCompatActivity {
         int total = questions.size();
         int percent = Math.round((correctCount * 100f) / total);
         tvScore.setText(percent + "%");
-        tvScoreDetail.setText(String.format(Locale.getDefault(), "%d / %d c�u d�ng", correctCount, total));
+        tvScoreDetail.setText(String.format(Locale.getDefault(), "%d / %d câu dúng", correctCount, total));
 
         lastWrongItems = extractWrongItems();
         btnRetryWrong.setVisibility(lastWrongItems.isEmpty() ? View.GONE : View.VISIBLE);
@@ -705,6 +706,7 @@ public class TestVocabActivity extends AppCompatActivity {
         }
         return new ArrayList<>(map.values());
     }
+
     private class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
 
         @Override
@@ -716,9 +718,9 @@ public class TestVocabActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             TestQuestion question = questions.get(position);
-            holder.tvQuestion.setText(String.format(Locale.getDefault(), "C�u %d - %s", position + 1, question.getTypeLabel()));
-            holder.tvUserAnswer.setText("B?n tr? l?i: " + question.getUserAnswerText());
-            holder.tvCorrectAnswer.setText("��p �n d�ng: " + question.getCorrectAnswerText());
+            holder.tvQuestion.setText(String.format(Locale.getDefault(), "Câu %d - %s", position + 1, question.getTypeLabel()));
+            holder.tvUserAnswer.setText("Bạn trả lời: " + question.getUserAnswerText());
+            holder.tvCorrectAnswer.setText("Đáp án đúng: " + question.getCorrectAnswerText());
             holder.indicator.setBackgroundColor(question.isCorrect() ? Color.parseColor("#10B981") : Color.parseColor("#EF4444"));
         }
 
@@ -792,20 +794,20 @@ public class TestVocabActivity extends AppCompatActivity {
         String getTypeLabel() {
             switch (type) {
                 case MULTIPLE_CHOICE:
-                    return "Tr?c nghi?m";
+                    return "Trắc nghiệm";
                 case TRUE_FALSE:
-                    return "��ng / Sai";
+                    return "Đúng / Sai";
                 case MATCHING:
-                    return "Gh�p th?";
+                    return "Ghép thẻ";
                 case WRITTEN:
-                    return "T? lu?n";
+                    return "Tự luận";
                 default:
-                    return "C�u h?i";
+                    return "Câu hỏi";
             }
         }
 
         String getUserAnswerText() {
-            if (!isAnswered()) return "Chua tr? l?i";
+            if (!isAnswered()) return "Chưa trả lời";
             if (type == QuestionType.MATCHING) {
                 return formatPairs(userMatchSelections, matchTerms);
             }
@@ -817,7 +819,7 @@ public class TestVocabActivity extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < matchTerms.size(); i++) {
                     if (i > 0) sb.append("; ");
-                    sb.append(matchTerms.get(i)).append(" ? ").append(matchCorrectDefinitions.get(i));
+                    sb.append(matchTerms.get(i)).append(" -> ").append(matchCorrectDefinitions.get(i));
                 }
                 return sb.toString();
             }
@@ -828,9 +830,9 @@ public class TestVocabActivity extends AppCompatActivity {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < terms.size(); i++) {
                 if (i > 0) sb.append("; ");
-                sb.append(terms.get(i)).append(" ? ");
+                sb.append(terms.get(i)).append(" -> ");
                 String ans = selections.get(i);
-                sb.append(ans == null ? "?" : ans);
+                    sb.append(ans == null ? "?" : ans);
             }
             return sb.toString();
         }
@@ -886,3 +888,5 @@ public class TestVocabActivity extends AppCompatActivity {
         }
     }
 }
+
+

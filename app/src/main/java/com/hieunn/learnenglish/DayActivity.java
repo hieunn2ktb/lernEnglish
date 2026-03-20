@@ -39,8 +39,14 @@ public class DayActivity extends AppCompatActivity {
         });
 
         lessonId = getIntent().getIntExtra("lessonId", -1);
+    }
 
-        // Load lesson info
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (lessonId == -1) return;
+
+        // Tải lại UI khi quay về từ màn hình khác (ví dụ: Tạo bộ thẻ)
         AppDatabase db = AppDatabase.getInstance(this);
         LessonEntity lesson = db.lessonDao().getLessonById(lessonId);
 
@@ -112,6 +118,17 @@ public class DayActivity extends AppCompatActivity {
         // Playlist items
         int vocabCount = db.vocabDao().getVocabCount(lessonId);
         int grammarCount = db.grammarQuizDao().getQuizCount(lessonId);
+
+        // Nút thêm từ vựng thẳng từ DayActivity
+        View itemAddVocab = findViewById(R.id.itemAddVocab);
+        if (itemAddVocab != null) {
+            itemAddVocab.setOnClickListener(v -> {
+                Intent intent = new Intent(this, CreateSetActivity.class);
+                intent.putExtra("lessonId", lessonId);
+                intent.putExtra("from_day_activity", true);
+                startActivity(intent);
+            });
+        }
 
         // Ẩn các item không có nội dung
         View itemVocab = findViewById(R.id.itemVocab);

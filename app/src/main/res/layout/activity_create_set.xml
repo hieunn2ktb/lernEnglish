@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Tạo học phần mới"
+            android:text="Thêm thẻ từ vựng"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -65,14 +65,16 @@
                 android:hint="Chủ đề, chương, đơn vị"
                 android:textColor="#1F2937"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
                 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#1F2937"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/etDescription"
@@ -81,14 +83,16 @@
                 android:background="@android:color/transparent"
                 android:hint="Thêm mô tả..."
                 android:textColor="#4B5563"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#9CA3AF"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"
+                android:visibility="gone" />
 
             <!-- Import button -->
             <Button

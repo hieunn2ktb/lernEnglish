@@ -1,60 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F4F6"
-    android:paddingBottom="16dp">
+    android:background="#F6F8FD">
 
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@android:color/white"
-        android:elevation="2dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Quay lại"
+        android:src="@drawable/ic_close"
+        app:tint="#111827" />
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="#1F2937" />
-
-        <TextView
-            android:id="@+id/tvHeaderTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Ki?m tra"
-            android:textColor="#1F2937"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/bg_btn_outline"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="T�y ch?n"
-            android:textColor="#2563EB"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    <ImageButton
+        android:id="@+id/btnOptions"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Tùy chọn"
+        android:src="@drawable/ic_settings"
+        app:tint="#9CA3AF" />
 
     <FrameLayout
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header"
+        android:layout_below="@id/btnBack"
+        android:layout_marginTop="8dp"
         android:padding="16dp">
 
         <ScrollView
@@ -66,174 +47,240 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_sheet_round"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:background="@drawable/bg_card_rounded_quizlet">
+                android:padding="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Thi?t l?p b�i ki?m tra"
-                    android:textColor="#1F2937"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvLessonName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="#4B5563"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvLessonName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Unit 1 Using this book"
+                            android:textColor="#6B7280"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Thiết lập bài kiểm tra"
+                            android:textColor="#111827"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_check"
+                        android:tint="#F97316" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Số câu hỏi"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvQuestionCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#1F2937"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="S? c�u h?i"
-                    android:textColor="#1F2937"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvQuestionCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="0"
-                    android:textColor="#2563EB"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:text="(Tối đa 17)"
+                    android:textColor="#9CA3AF"
+                    android:textSize="13sp" />
 
                 <SeekBar
                     android:id="@+id/seekQuestionCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:max="20" />
-
-                <CheckBox
-                    android:id="@+id/cbUseAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Ki?m tra to�n b? b? th?"
-                    android:textColor="#1F2937"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="12dp"
+                    android:max="20"
+                    android:progressTint="#2563EB"
+                    android:thumbTint="#2563EB" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#E5E7EB" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="D?ng c�u h?i"
-                    android:textColor="#1F2937"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
 
-                <CheckBox
-                    android:id="@+id/cbMultipleChoice"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kiểm tra toàn bộ bộ thẻ"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cbUseAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        app:thumbTint="@color/switch_thumb_color"
+                        app:trackTint="@color/switch_track_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Đúng / Sai"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cbTrueFalse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:thumbTint="@color/switch_thumb_color"
+                        app:trackTint="@color/switch_track_color" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Tr?c nghi?m"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:checked="true" />
+                    android:gravity="center_vertical">
 
-                <CheckBox
-                    android:id="@+id/cbTrueFalse"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Nhiều lựa chọn"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cbMultipleChoice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:thumbTint="@color/switch_thumb_color"
+                        app:trackTint="@color/switch_track_color" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="��ng / Sai"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:checked="true" />
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
 
-                <CheckBox
-                    android:id="@+id/cbMatching"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ghép thẻ"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cbMatching"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:thumbTint="@color/switch_thumb_color"
+                        app:trackTint="@color/switch_track_color" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Gh�p th?"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:checked="true" />
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
 
-                <CheckBox
-                    android:id="@+id/cbWritten"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="T? lu?n"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:checked="true" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tự luận"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hi?n th? c�u h?i"
-                    android:textColor="#1F2937"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cbWritten"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:thumbTint="@color/switch_thumb_color"
+                        app:trackTint="@color/switch_track_color" />
+                </LinearLayout>
 
                 <RadioGroup
                     android:id="@+id/rgDisplayMode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="8dp">
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:visibility="gone">
 
                     <RadioButton
                         android:id="@+id/rbDisplayTerm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Thu?t ng?"
-                        android:textColor="#111827"
-                        android:textSize="15sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/rbDisplayDefinition"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="�?nh nghia"
-                        android:textColor="#111827"
-                        android:textSize="15sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/rbDisplayBoth"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="C? hai"
-                        android:textColor="#111827"
-                        android:textSize="15sp"
                         android:checked="true" />
                 </RadioGroup>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
 
                 <Button
                     android:id="@+id/btnStartTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="28dp"
                     android:background="@drawable/bg_btn_primary"
-                    android:padding="12dp"
-                    android:text="B?t d?u l�m ki?m tra"
+                    android:padding="14dp"
+                    android:text="Bắt đầu làm kiểm tra"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
@@ -251,220 +298,242 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@drawable/bg_sheet_round"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvProgress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@drawable/bg_card_rounded_quizlet">
+                    android:gravity="center"
+                    android:text="1/17"
+                    android:textColor="#111827"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvProgress"
+                <ProgressBar
+                    android:id="@+id/progressTest"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="12dp"
+                    android:progressTint="#2563EB" />
+
+                <TextView
+                    android:id="@+id/tvQuestionType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Định nghĩa"
+                    android:textColor="#111827"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPromptValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="to correct"
+                    android:textColor="#111827"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPromptLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Thuật ngữ"
+                    android:textColor="#6B7280"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvInstruction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn câu trả lời"
+                    android:textColor="#6B7280"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/layoutMultipleChoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardChoice1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="C�u 1 / 10"
-                        android:textColor="#4B5563"
-                        android:textSize="14sp" />
-
-                    <ProgressBar
-                        android:id="@+id/progressTest"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="6dp"
-                        android:layout_marginTop="8dp"
-                        android:progress="0"
-                        android:progressTint="#2563EB" />
-
-                    <TextView
-                        android:id="@+id/tvQuestionType"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Tr?c nghi?m"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E5E7EB"
+                        app:strokeWidth="1dp">
+
+                        <TextView
+                            android:id="@+id/tvChoice1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:text="Đáp án 1"
+                            android:textColor="#111827"
+                            android:textSize="16sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardChoice2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E5E7EB"
+                        app:strokeWidth="1dp">
+
+                        <TextView
+                            android:id="@+id/tvChoice2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:text="Đáp án 2"
+                            android:textColor="#111827"
+                            android:textSize="16sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardChoice3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E5E7EB"
+                        app:strokeWidth="1dp">
+
+                        <TextView
+                            android:id="@+id/tvChoice3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:text="Đáp án 3"
+                            android:textColor="#111827"
+                            android:textSize="16sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardChoice4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E5E7EB"
+                        app:strokeWidth="1dp">
+
+                        <TextView
+                            android:id="@+id/tvChoice4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:text="Đáp án 4"
+                            android:textColor="#111827"
+                            android:textSize="16sp" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutTrueFalse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btnTrue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_option_outline"
+                        android:text="Đúng"
+                        android:textAllCaps="false"
                         android:textColor="#111827"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/btnFalse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_option_outline"
+                        android:text="Sai"
+                        android:textAllCaps="false"
+                        android:textColor="#111827"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutWritten"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/tvPromptLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#4B5563"
-                        android:textSize="14sp"
-                        android:text="Thu?t ng?" />
+                        android:text="Đáp án của bạn"
+                        android:textColor="#6B7280"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvPromptValue"
+                    <EditText
+                        android:id="@+id/etWrittenAnswer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Hello"
-                        android:textColor="#111827"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:id="@+id/layoutMultipleChoice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardChoice1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:cardUseCompatPadding="true">
-
-                            <TextView
-                                android:id="@+id/tvChoice1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:text="��p �n 1"
-                                android:textColor="#111827"
-                                android:textSize="16sp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardChoice2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:cardUseCompatPadding="true">
-
-                            <TextView
-                                android:id="@+id/tvChoice2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:text="��p �n 2"
-                                android:textColor="#111827"
-                                android:textSize="16sp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardChoice3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:cardUseCompatPadding="true">
-
-                            <TextView
-                                android:id="@+id/tvChoice3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:text="��p �n 3"
-                                android:textColor="#111827"
-                                android:textSize="16sp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardChoice4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:cardUseCompatPadding="true">
-
-                            <TextView
-                                android:id="@+id/tvChoice4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:text="��p �n 4"
-                                android:textColor="#111827"
-                                android:textSize="16sp" />
-                        </androidx.cardview.widget.CardView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layoutTrueFalse"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <Button
-                            android:id="@+id/btnTrue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_btn_outline"
-                            android:text="��ng"
-                            android:textColor="#111827"
-                            android:textSize="16sp" />
-
-                        <Button
-                            android:id="@+id/btnFalse"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_btn_outline"
-                            android:text="Sai"
-                            android:textColor="#111827"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layoutWritten"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <EditText
-                            android:id="@+id/etWrittenAnswer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_edittext"
-                            android:hint="Nh?p c�u tr? l?i"
-                            android:padding="12dp"
-                            android:textColor="#111827"
-                            android:textSize="16sp"
-                            android:textColorHint="#9CA3AF" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layoutMatching"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <LinearLayout
-                            android:id="@+id/layoutMatchRows"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btnNext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:background="@drawable/bg_btn_primary_disabled"
-                        android:enabled="false"
+                        android:background="@drawable/bg_option_outline"
+                        android:hint="Nhập đáp án"
                         android:padding="12dp"
-                        android:text="Luu v� ti?p t?c"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textColor="#111827"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutMatching"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/layoutMatchRows"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_btn_primary_disabled"
+                    android:enabled="false"
+                    android:padding="14dp"
+                    android:text="Lưu và tiếp tục"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
 
@@ -478,92 +547,83 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@drawable/bg_sheet_round"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvScore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@drawable/bg_card_rounded_quizlet">
+                    android:gravity="center"
+                    android:text="0%"
+                    android:textColor="#111827"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvScore"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="85%"
-                        android:textColor="#111827"
-                        android:textSize="32sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvScoreDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="17 / 20 c�u d�ng"
-                        android:textColor="#4B5563"
-                        android:textSize="15sp" />
-
-                    <Button
-                        android:id="@+id/btnRetakeFull"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_btn_primary"
-                        android:text="L�m l?i d? m?i"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnRetryWrong"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_btn_outline"
-                        android:text="�n l?i c�u sai"
-                        android:textAllCaps="false"
-                        android:textColor="#2563EB"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnBackToSetup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_btn_outline"
-                        android:text="Quay l?i t�y bi?n"
-                        android:textAllCaps="false"
-                        android:textColor="#111827"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvScoreDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_card_rounded_quizlet"
-                    android:padding="16dp">
+                    android:gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:text="0 / 0 câu đúng"
+                    android:textColor="#6B7280"
+                    android:textSize="15sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ph�n t�ch c�u tr? l?i"
-                        android:textColor="#111827"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnRetakeFull"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_btn_primary"
+                    android:padding="14dp"
+                    android:text="Làm lại đề mới"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvResult"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:layout_marginTop="12dp" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/btnRetryWrong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_btn_outline"
+                    android:padding="14dp"
+                    android:text="Ôn lại câu sai"
+                    android:textAllCaps="false"
+                    android:textColor="#2563EB"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnBackToSetup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_btn_outline"
+                    android:padding="14dp"
+                    android:text="Quay lại tùy biến"
+                    android:textAllCaps="false"
+                    android:textColor="#111827"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Phân tích câu trả lời"
+                    android:textColor="#111827"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false" />
             </LinearLayout>
         </ScrollView>
     </FrameLayout>

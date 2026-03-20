@@ -56,9 +56,8 @@ public class CreateSetActivity extends AppCompatActivity {
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        // Initialize with 2 empty cards like Quizlet
+        // Start with a single empty card so one complete vocab can be saved
         cardList = new ArrayList<>();
-        cardList.add(new VocabModel("", ""));
         cardList.add(new VocabModel("", ""));
 
         rvCards.setLayoutManager(new LinearLayoutManager(this));
@@ -124,10 +123,9 @@ public class CreateSetActivity extends AppCompatActivity {
     }
 
     private void saveLesson() {
-        String title = etTitle.getText().toString().trim();
-        if (title.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập tiêu đề học phần", Toast.LENGTH_SHORT).show();
-            etTitle.requestFocus();
+        int lessonId = getIntent().getIntExtra("lessonId", -1);
+        if (lessonId == -1) {
+            Toast.makeText(this, "Lỗi: Không tìm thấy bài học", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,30 +136,30 @@ public class CreateSetActivity extends AppCompatActivity {
             }
         }
 
-        if (validCards.size() < 2) {
-            Toast.makeText(this, "Học phần phải có ít nhất 2 thẻ hoàn chỉnh", Toast.LENGTH_SHORT).show();
+        if (validCards.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập ít nhất 1 thẻ hoàn chỉnh", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Save to DB
+        // Save valid Vocabs to DB attached to the lessonId
         AppDatabase db = AppDatabase.getInstance(this);
-        String desc = etDescription.getText().toString().trim();
-        LessonEntity lesson = new LessonEntity(title, desc, "");
-        long lessonId = db.lessonDao().insertLesson(lesson);
-
         List<VocabEntity> entities = new ArrayList<>();
         for (VocabModel c : validCards) {
-            entities.add(new VocabEntity((int) lessonId, c.term, c.definition, "", ""));
+            entities.add(new VocabEntity(lessonId, c.term, c.definition, "", ""));
         }
         db.vocabDao().insertAllVocab(entities);
 
-        Toast.makeText(this, "Tạo học phần thành công!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Đã thêm từ vựng thành công!", Toast.LENGTH_SHORT).show();
         
-        // Return to MainActivity or Lesson Detail
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        boolean fromDay = getIntent().getBooleanExtra("from_day_activity", false);
+        if (fromDay) {
+            finish();
+        } else {
+            Intent intent = new Intent(this, AddGrammarQuizActivity.class);
+            intent.putExtra("lessonId", lessonId);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private static class VocabModel {

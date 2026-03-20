@@ -53,7 +53,7 @@
         android:textStyle="bold" />
 
     <!-- Main Content -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
@@ -165,6 +165,18 @@
                     android:textColor="#1F2937"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/btnOptionTest"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_rounded_quizlet"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:text="Kiểm tra"
+                    android:textColor="#1F2937"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <!-- List Header -->
@@ -199,12 +211,15 @@
                 android:id="@+id/rvVocabList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:clipToPadding="false"
                 android:nestedScrollingEnabled="false" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="24dp" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

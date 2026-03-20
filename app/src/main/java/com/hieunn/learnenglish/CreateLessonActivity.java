@@ -54,8 +54,7 @@ public class CreateLessonActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Đã tạo bài học!", Toast.LENGTH_SHORT).show();
 
-            // Chuyển sang thêm từ vựng
-            Intent intent = new Intent(this, AddVocabActivity.class);
+            Intent intent = new Intent(this, CreateSetActivity.class);
             intent.putExtra("lessonId", (int) lessonId);
             startActivity(intent);
             finish();

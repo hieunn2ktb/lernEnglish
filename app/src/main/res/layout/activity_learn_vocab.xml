@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,14 +36,14 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/btnClose"
+            android:id="@+id/btnSettings"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_star_outline"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_settings"
+            android:tint="#1F2937" />
     </RelativeLayout>
 
     <ProgressBar
@@ -55,141 +56,296 @@
         android:progress="0"
         android:progressDrawable="@drawable/progress_bar_blue" />
 
+    <!-- Status Badges (Chưa học, Đang học, Nắm vững) -->
     <LinearLayout
+        android:id="@+id/layoutStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvNewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#3B82F6"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chưa học"
+                android:textColor="#6B7280"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#E5E7EB" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvLearningCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#F59E0B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang học"
+                android:textColor="#6B7280"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#E5E7EB" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvMasteredCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#10B981"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nắm vững"
+                android:textColor="#6B7280"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Main Question Area -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/progressBar"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thuật ngữ"
-            android:textColor="#9CA3AF"
-            android:textSize="16sp" />
+        android:layout_below="@id/layoutStatus"
+        android:layout_above="@id/btnContinue"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:padding="20dp"
             android:gravity="center_vertical">
-            
+
             <TextView
-                android:id="@+id/tvQuestionWord"
-                android:layout_width="0dp"
+                android:id="@+id/tvQuestionLabel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:text="Word"
-                android:textColor="#1F2937"
-                android:textSize="32sp"
-                android:textStyle="bold" />
-                
-            <ImageButton
-                android:id="@+id/btnAudio"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_speaker" />
+                android:text="Thuật ngữ"
+                android:textColor="#9CA3AF"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvQuestionWord"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="Word"
+                    android:textColor="#1F2937"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btnAudio"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_speaker" />
+
+                <ImageButton
+                    android:id="@+id/btnStarWord"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_star_outline"
+                    android:tint="#9CA3AF" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn định nghĩa đúng"
+                android:textColor="#6B7280"
+                android:textSize="14sp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Multiple Choice Layout -->
+            <LinearLayout
+                android:id="@+id/layoutMultipleChoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+                    <TextView
+                        android:id="@+id/tvOptionA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:text="Option A"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+                    <TextView
+                        android:id="@+id/tvOptionB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:text="Option B"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+                    <TextView
+                        android:id="@+id/tvOptionC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:text="Option C"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+                    <TextView
+                        android:id="@+id/tvOptionD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:text="Option D"
+                        android:textColor="#1F2937"
+                        android:textSize="16sp" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Write Mode Layout -->
+            <LinearLayout
+                android:id="@+id/layoutWriteMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/etWriteAnswer"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_card_rounded"
+                    android:hint="Gõ bằng tiếng Anh..."
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="#1F2937"
+                    android:textSize="18sp"
+                    android:inputType="textNoSuggestions|textVisiblePassword"
+                    android:imeOptions="actionDone" />
+
+                <TextView
+                    android:id="@+id/tvWriteFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Chính xác!"
+                    android:textColor="#065F46"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnSubmitWrite"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#10B981"
+                    android:text="Kiểm tra"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chọn định nghĩa đúng"
-            android:textColor="#6B7280"
-            android:textSize="14sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Options -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardOptionA"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="1dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <TextView
-                android:id="@+id/tvOptionA"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Option A"
-                android:textColor="#1F2937"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardOptionB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="1dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <TextView
-                android:id="@+id/tvOptionB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Option B"
-                android:textColor="#1F2937"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardOptionC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="1dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <TextView
-                android:id="@+id/tvOptionC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Option C"
-                android:textColor="#1F2937"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardOptionD"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="1dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <TextView
-                android:id="@+id/tvOptionD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Option D"
-                android:textColor="#1F2937"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btnContinue"

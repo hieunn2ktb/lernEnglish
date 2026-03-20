@@ -1,50 +1,50 @@
-<?xml version=\"1.0\" encoding=\"utf-8\"?>
-<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"
-    android:layout_width=\"match_parent\"
-    android:layout_height=\"wrap_content\"
-    android:orientation=\"horizontal\"
-    android:padding=\"12dp\"
-    android:background=\"@drawable/bg_card_rounded_quizlet\"
-    android:layout_marginBottom=\"12dp\">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/bg_card_rounded_quizlet"
+    android:layout_marginBottom="12dp">
 
     <View
-        android:id=\"@+id/viewIndicator\"
-        android:layout_width=\"6dp\"
-        android:layout_height=\"match_parent\"
-        android:layout_marginEnd=\"12dp\"
-        android:background=\"#10B981\" />
+        android:id="@+id/viewIndicator"
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="12dp"
+        android:background="#10B981" />
 
     <LinearLayout
-        android:layout_width=\"0dp\"
-        android:layout_height=\"wrap_content\"
-        android:layout_weight=\"1\"
-        android:orientation=\"vertical\">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
-            android:id=\"@+id/tvResultQuestion\"
-            android:layout_width=\"match_parent\"
-            android:layout_height=\"wrap_content\"
-            android:text=\"C�u 1 - Tr?c nghi?m\"
-            android:textColor=\"#111827\"
-            android:textSize=\"16sp\"
-            android:textStyle=\"bold\" />
+            android:id="@+id/tvResultQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Câu 1 - Trắc nghiệm"
+            android:textColor="#111827"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id=\"@+id/tvUserAnswer\"
-            android:layout_width=\"match_parent\"
-            android:layout_height=\"wrap_content\"
-            android:layout_marginTop=\"4dp\"
-            android:text=\"B?n tr? l?i: ...\"
-            android:textColor=\"#1F2937\"
-            android:textSize=\"14sp\" />
+            android:id="@+id/tvUserAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Bạn trả lời: ..."
+            android:textColor="#1F2937"
+            android:textSize="14sp" />
 
         <TextView
-            android:id=\"@+id/tvCorrectAnswer\"
-            android:layout_width=\"match_parent\"
-            android:layout_height=\"wrap_content\"
-            android:layout_marginTop=\"2dp\"
-            android:text=\"��p �n d�ng: ...\"
-            android:textColor=\"#4B5563\"
-            android:textSize=\"14sp\" />
+            android:id="@+id/tvCorrectAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Đáp án đúng: ..."
+            android:textColor="#4B5563"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>
