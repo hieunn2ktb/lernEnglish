@@ -1,6 +1,9 @@
 # Gradle
 .gradle/
+.gradle-user-home/
+**/.gradle/
 build/
+**/build/
 
 # Local config
 local.properties
@@ -11,7 +14,15 @@ local.properties
 
 # OS
 .DS_Store
+Thumbs.db
 
-# NDK
+# NDK / C++
 .externalNativeBuild/
 .cxx/
+
+# Logs
+*.log
+
+# Keystore (nếu có)
+*.jks
+*.keystore
