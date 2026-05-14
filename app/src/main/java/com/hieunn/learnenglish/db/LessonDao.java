@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface LessonDao {
-    @Query("SELECT * FROM lessons ORDER BY createdAt DESC")
+    @Query("SELECT * FROM lessons ORDER BY id ASC")
     List<LessonEntity> getAllLessons();
 
     @Query("SELECT * FROM lessons WHERE id = :id")

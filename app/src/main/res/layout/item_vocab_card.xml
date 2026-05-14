@@ -39,28 +39,7 @@
                 android:textColor="#9CA3AF"
                 android:textSize="18sp" />
 
-            <!-- Skip / Know labels -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="&lt; Skip"
-                    android:textColor="#D1D5DB"
-                    android:textSize="14sp" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Know &gt;"
-                    android:textColor="#D1D5DB"
-                    android:textSize="14sp" />
-            </LinearLayout>
+
 
             <!-- Word type badge -->
             <TextView
@@ -91,30 +70,15 @@
         </LinearLayout>
 
         <!-- Tap to see definition -->
-        <LinearLayout
-            android:id="@+id/tapHintLayout"
+        <TextView
+            android:id="@+id/tvTapHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tap"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvTapHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="Tap to see definition"
-                android:textColor="#9CA3AF"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:text="Tap to see definition"
+            android:textColor="#9CA3AF"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

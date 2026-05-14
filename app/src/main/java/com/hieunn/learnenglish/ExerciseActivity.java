@@ -1,6 +1,7 @@
 package com.hieunn.learnenglish;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -122,10 +123,14 @@ public class ExerciseActivity extends AppCompatActivity {
         tvQuestion.setText(q[0]);
         TextView tvNumber = findViewById(R.id.tvQuestionNumber);
         tvNumber.setText(String.valueOf(currentQuestion + 1));
-        options[0].setText(q[1]);
-        options[1].setText(q[2]);
-        options[2].setText(q[3]);
-        options[3].setText(q[4]);
+        for (int i = 0; i < 4; i++) {
+            options[i].setText(q[i + 1]);
+            if (q[i + 1] == null || q[i + 1].trim().isEmpty()) {
+                cards[i].setVisibility(View.GONE);
+            } else {
+                cards[i].setVisibility(View.VISIBLE);
+            }
+        }
         for (CardView c : cards)
             c.setCardBackgroundColor(0xFFFFFFFF);
         selectedAnswer = "";

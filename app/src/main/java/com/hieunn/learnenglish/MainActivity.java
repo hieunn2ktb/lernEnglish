@@ -59,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
         AppDatabase db = AppDatabase.getInstance(this);
         List<LessonEntity> lessons = db.lessonDao().getAllLessons();
 
+        // Sort by Day Number to fix ordering issues after DB resets 
+        lessons.sort((l1, l2) -> {
+            int d1 = extractDayNumber(l1.title);
+            int d2 = extractDayNumber(l2.title);
+            if (d1 > 0 && d2 > 0) return Integer.compare(d1, d2);
+            if (d1 > 0) return -1;
+            if (d2 > 0) return 1;
+            if (l1.title != null && l2.title != null) return l1.title.compareTo(l2.title);
+            return 0;
+        });
+
         for (int i = 0; i < lessons.size(); i++) {
             LessonEntity lesson = lessons.get(i);
 
@@ -147,5 +158,17 @@ public class MainActivity extends AppCompatActivity {
 
     private int dpToPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private int extractDayNumber(String title) {
+        if (title != null && title.toLowerCase().startsWith("ngày ")) {
+            try {
+                String numStr = title.substring(5).split(":")[0].trim();
+                return Integer.parseInt(numStr);
+            } catch (Exception e) {
+                // Return -1 if parse fails
+            }
+        }
+        return -1;
     }
 }
