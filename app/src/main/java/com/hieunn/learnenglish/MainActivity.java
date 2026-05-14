@@ -43,7 +43,86 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, CreateLessonActivity.class));
         });
 
+        Button btnLearnAll = findViewById(R.id.btnLearnAll);
+        if (btnLearnAll != null) {
+            btnLearnAll.setOnClickListener(v -> {
+                showSelectLessonsDialog();
+            });
+        }
+
         loadLessons();
+    }
+
+    private void showSelectLessonsDialog() {
+        AppDatabase db = AppDatabase.getInstance(this);
+        List<LessonEntity> lessons = db.lessonDao().getAllLessons();
+        if (lessons.isEmpty()) {
+            android.widget.Toast.makeText(this, "Chưa có bài học nào", android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        lessons.sort((l1, l2) -> {
+            int d1 = extractDayNumber(l1.title);
+            int d2 = extractDayNumber(l2.title);
+            if (d1 > 0 && d2 > 0) return Integer.compare(d1, d2);
+            if (d1 > 0) return -1;
+            if (d2 > 0) return 1;
+            if (l1.title != null && l2.title != null) return l1.title.compareTo(l2.title);
+            return 0;
+        });
+
+        String[] lessonTitles = new String[lessons.size()];
+        boolean[] checkedItems = new boolean[lessons.size()];
+
+        for (int i = 0; i < lessons.size(); i++) {
+            lessonTitles[i] = lessons.get(i).title;
+            checkedItems[i] = true; // Mặc định chọn tất cả
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Chọn các bài muốn học")
+                .setMultiChoiceItems(lessonTitles, checkedItems, (dialogInterface, which, isChecked) -> {
+                    checkedItems[which] = isChecked;
+                })
+                .setPositiveButton("Bắt đầu", (dialogInterface, which) -> {
+                    java.util.ArrayList<Integer> selectedIds = new java.util.ArrayList<>();
+                    for (int i = 0; i < checkedItems.length; i++) {
+                        if (checkedItems[i]) {
+                            selectedIds.add(lessons.get(i).id);
+                        }
+                    }
+                    if (!selectedIds.isEmpty()) {
+                        Intent intent = new Intent(this, LearnVocabActivity.class);
+                        intent.putIntegerArrayListExtra("selectedLessonIds", selectedIds);
+                        startActivity(intent);
+                    } else {
+                        android.widget.Toast.makeText(this, "Vui lòng chọn ít nhất 1 bài", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Hủy", null)
+                .setNeutralButton("Chọn/Bỏ tất cả", null);
+                
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button neutralBtn = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            neutralBtn.setOnClickListener(v -> {
+                boolean isAllChecked = true;
+                for (boolean b : checkedItems) {
+                    if (!b) {
+                        isAllChecked = false;
+                        break;
+                    }
+                }
+                
+                boolean newState = !isAllChecked;
+                for (int i = 0; i < checkedItems.length; i++) {
+                    checkedItems[i] = newState;
+                    dialog.getListView().setItemChecked(i, newState);
+                }
+            });
+        });
+        
+        dialog.show();
     }
 
     @Override

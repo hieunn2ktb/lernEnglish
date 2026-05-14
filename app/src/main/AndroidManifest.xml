@@ -23,14 +23,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ExerciseActivity" android:exported="false" />
+        <activity android:name=".ExerciseActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".VocabularyActivity" android:exported="false" />
         <activity android:name=".LessonSummaryActivity" android:exported="false" />
         <activity android:name=".VocabQuizActivity" android:exported="false" />
         <activity android:name=".CreateSetActivity" android:exported="false" />
         <activity android:name=".UnitDetailActivity" android:exported="false" />
-        <activity android:name=".LearnVocabActivity" android:exported="false" />
-        <activity android:name=".WriteVocabActivity" android:exported="false" />
+        <activity android:name=".LearnVocabActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".WriteVocabActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MatchVocabActivity" android:exported="false" />
         <activity android:name=".TestVocabActivity" android:exported="false" />
         <activity android:name=".DayActivity" android:exported="false" />

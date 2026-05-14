@@ -11,6 +11,12 @@ public interface VocabDao {
     @Query("SELECT * FROM vocab_items WHERE lessonId = :lessonId")
     List<VocabEntity> getVocabByLessonId(int lessonId);
 
+    @Query("SELECT * FROM vocab_items WHERE lessonId IN (:lessonIds)")
+    List<VocabEntity> getVocabByLessonIds(List<Integer> lessonIds);
+
+    @Query("SELECT * FROM vocab_items")
+    List<VocabEntity> getAllVocab();
+
     @Insert
     void insertVocab(VocabEntity vocab);
 

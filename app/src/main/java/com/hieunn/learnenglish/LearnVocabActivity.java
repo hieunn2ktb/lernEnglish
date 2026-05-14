@@ -222,12 +222,24 @@ public class LearnVocabActivity extends AppCompatActivity {
 
     private void loadData() {
         int lessonId = getIntent().getIntExtra("lessonId", -1);
-        if (lessonId > 0) {
-            AppDatabase db = AppDatabase.getInstance(this);
-            List<VocabEntity> dbItems = db.vocabDao().getVocabByLessonId(lessonId);
-            for (VocabEntity e : dbItems) {
-                allVocab.add(new VocabItem(e.english, e.vietnamese, e.phonetic, e.wordType));
-            }
+        boolean learnAll = getIntent().getBooleanExtra("learnAll", false);
+        ArrayList<Integer> selectedLessonIds = getIntent().getIntegerArrayListExtra("selectedLessonIds");
+        
+        AppDatabase db = AppDatabase.getInstance(this);
+        List<VocabEntity> dbItems;
+        
+        if (learnAll || lessonId == 0) {
+            dbItems = db.vocabDao().getAllVocab();
+        } else if (selectedLessonIds != null && !selectedLessonIds.isEmpty()) {
+            dbItems = db.vocabDao().getVocabByLessonIds(selectedLessonIds);
+        } else if (lessonId > 0) {
+            dbItems = db.vocabDao().getVocabByLessonId(lessonId);
+        } else {
+            dbItems = new ArrayList<>();
+        }
+        
+        for (VocabEntity e : dbItems) {
+            allVocab.add(new VocabItem(e.english, e.vietnamese, e.phonetic, e.wordType));
         }
 
         if (allVocab.isEmpty()) {
