@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Grammar Practice"
+                android:text="Luyện ngữ pháp"
                 android:textColor="#1F2937"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -46,10 +46,21 @@
                 android:id="@+id/tvLessonInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lesson 1 of 1"
+                android:text="Luyện đến khi nắm vững"
                 android:textColor="#9CA3AF"
                 android:textSize="13sp" />
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Cài đặt"
+            android:src="@drawable/ic_settings"
+            app:tint="#1F2937" />
     </RelativeLayout>
 
     <!-- Progress -->
@@ -69,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Progress"
+                android:text="Tiến độ"
                 android:textColor="#374151"
                 android:textSize="14sp" />
             <TextView
@@ -77,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="1/5"
+                android:text="Nắm vững: 0/0"
                 android:textColor="#3B82F6"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -88,9 +99,47 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_marginTop="8dp"
-            android:max="100"
-            android:progress="20"
+            android:max="1"
+            android:progress="0"
             android:progressDrawable="@drawable/progress_bar_blue" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView android:id="@+id/tvNewCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="#3B82F6" android:textSize="20sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Chưa học" android:textColor="#6B7280" android:textSize="12sp" />
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="32dp" android:background="#E5E7EB" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView android:id="@+id/tvLearningCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="#F59E0B" android:textSize="20sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Đang học" android:textColor="#6B7280" android:textSize="12sp" />
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="32dp" android:background="#E5E7EB" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView android:id="@+id/tvMasteredCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="#10B981" android:textSize="20sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nắm vững" android:textColor="#6B7280" android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <ScrollView
@@ -140,7 +189,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Choose the correct form"
+                            android:text="Chọn đáp án đúng"
                             android:textColor="#374151"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -299,7 +348,7 @@
         android:layout_height="56dp"
         android:layout_margin="16dp"
         android:background="@drawable/bg_button_blue"
-        android:text="Check Answer"
+        android:text="Kiểm tra"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"

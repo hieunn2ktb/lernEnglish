@@ -9,6 +9,9 @@ public class DatabaseSeeder {
 
     private static final String PREF_NAME = "db_seeder";
     private static final String KEY_SEEDED = "data_seeded_v9";
+    private static final String KEY_ENRICHED = "lesson_enriched_v1";
+    private static final String KEY_LESSON2_DEMONSTRATIVES = "lesson2_demonstratives_v1";
+    private static final String KEY_MAPPED_PRACTICE = "mapped_practice_v1";
     private static final String DAY_1_VIDEO_ID = "x4F1npn2g8Q";
 
     public static void seedIfNeeded(Context context) {
@@ -37,6 +40,21 @@ public class DatabaseSeeder {
             ensureLessonMetadata(db);
             ensureExtendedLessonContent(db);
             prefs.edit().putBoolean(KEY_SEEDED, true).apply();
+        }
+
+        if (!prefs.getBoolean(KEY_ENRICHED, false)) {
+            seedEnrichedContent(db);
+            prefs.edit().putBoolean(KEY_ENRICHED, true).apply();
+        }
+
+        if (!prefs.getBoolean(KEY_LESSON2_DEMONSTRATIVES, false)) {
+            seedLesson2DemonstrativePractice(db);
+            prefs.edit().putBoolean(KEY_LESSON2_DEMONSTRATIVES, true).apply();
+        }
+
+        if (!prefs.getBoolean(KEY_MAPPED_PRACTICE, false)) {
+            MappedPracticeData.seed(db);
+            prefs.edit().putBoolean(KEY_MAPPED_PRACTICE, true).apply();
         }
     }
 
@@ -72,8 +90,13 @@ public class DatabaseSeeder {
                 "Cấu trúc, cách dùng và dấu hiệu nhận biết", "");
         upsertLessonMetadata(db, "Ngày 16", "Ngày 16: Thì tương lai đơn",
                 "Cấu trúc, cách dùng và dấu hiệu nhận biết", "");
-        upsertLessonMetadata(db, "Ngày 17", "Ngày 17: Câu điều kiện",
-                "Cấu trúc và cách dùng", "");
+        LessonEntity day17 = upsertLessonMetadata(db, "Ngày 17", "Ngày 17: Thì tương lai hoàn thành",
+                "Diễn tả hành động hoàn tất trước một mốc trong tương lai", "");
+        if (day17.title != null && day17.title.contains("Câu điều kiện")) {
+            day17.title = "Ngày 17: Thì tương lai hoàn thành";
+            day17.description = "Diễn tả hành động hoàn tất trước một mốc trong tương lai";
+            db.lessonDao().updateLesson(day17);
+        }
     }
 
     private static void ensureExtendedLessonContent(AppDatabase db) {
@@ -91,8 +114,8 @@ public class DatabaseSeeder {
                 "Cấu trúc, cách dùng và dấu hiệu nhận biết", 15);
         ensureLessonContent(db, "Ngày 16", "Ngày 16: Thì tương lai đơn",
                 "Cấu trúc, cách dùng và dấu hiệu nhận biết", 16);
-        ensureLessonContent(db, "Ngày 17", "Ngày 17: Câu điều kiện",
-                "Cấu trúc và cách dùng", 17);
+        ensureLessonContent(db, "Ngày 17", "Ngày 17: Thì tương lai hoàn thành",
+                "Diễn tả hành động hoàn tất trước một mốc trong tương lai", 17);
     }
 
     private static void ensureLessonContent(AppDatabase db, String dayLabel, String title, String description,
@@ -1256,6 +1279,237 @@ public class DatabaseSeeder {
         insertQuiz(db, id, "By 6 pm today, his mother _______ dinner.", "has cooked", "will have cooked", "wasn’t cooking", "", "will have cooked");
         insertQuiz(db, id, "We _______ your suitcase by the end of the day.", "are finding", "hasn’t found", "will have found", "", "will have found");
         insertQuiz(db, id, "By tomorrow, I _______ the essay.", "won’t have written", "didn’t write", "will not write", "", "won’t have written");
+    }
+
+    /** Bổ sung nội dung tự soạn, đi từ nhận biết đến vận dụng cho từng chủ điểm. */
+    private static void seedEnrichedContent(AppDatabase db) {
+        addEnrichment(db, "Ngày 1", new String[][]{
+                {"ready", "sẵn sàng", "Adjective"}, {"careful", "cẩn thận", "Adjective"},
+                {"neighbor", "hàng xóm", "Noun"}, {"important", "quan trọng", "Adjective"}
+        }, new String[][]{
+                {"[Cơ bản] My name ______ Lan.", "am", "is", "are", "be", "is"},
+                {"[Cơ bản] The children ______ not tired.", "am", "is", "are", "be", "are"},
+                {"[Trung bình] Chọn câu đúng.", "She is a careful student.", "She are a careful student.", "She am careful student.", "She be a careful student.", "She is a careful student."},
+                {"[Trung bình] Tom and I ______ ready, but Anna ______ not.", "are - is", "is - are", "am - is", "are - are", "are - is"},
+                {"[Nâng cao] Neither the teacher nor the student ______ late.", "am", "is", "are", "be", "is"}
+        });
+        addEnrichment(db, "Ngày 2", new String[][]{
+                {"near", "gần", "Adjective"}, {"far", "xa", "Adjective"},
+                {"object", "đồ vật", "Noun"}, {"relative", "họ hàng", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] ______ this your bag?", "Am", "Is", "Are", "Be", "Is"},
+                {"[Cơ bản] ______ those your keys?", "Am", "Is", "Are", "Be", "Are"},
+                {"[Trung bình] Is your aunt a doctor? – Yes, ______.", "she is", "it is", "they are", "she does", "she is"},
+                {"[Trung bình] ______ are my shoes over there.", "This", "That", "These", "Those", "Those"},
+                {"[Nâng cao] Chọn câu hỏi đúng cho câu trả lời “No, these aren't mine.”", "Are these yours?", "Is this yours?", "Do these yours?", "Are this yours?", "Are these yours?"}
+        });
+        addEnrichment(db, "Ngày 3", new String[][]{
+                {"owner", "chủ sở hữu", "Noun"}, {"stranger", "người lạ", "Noun"},
+                {"wallet", "ví tiền", "Noun"}, {"umbrella", "ô, dù", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] ______ is that man? – He is my uncle.", "What", "Who", "Where", "When", "Who"},
+                {"[Cơ bản] ______ is in the box? – A new phone.", "What", "Who", "Where", "When", "What"},
+                {"[Trung bình] ______ are those people? – Our new neighbors.", "What", "Who", "Where", "When", "Who"},
+                {"[Trung bình] What ______ your favorite subjects?", "am", "is", "are", "be", "are"},
+                {"[Nâng cao] “______ is responsible for this project?” – “Ms. Hoa is.”", "What", "Who", "Where", "When", "Who"}
+        });
+        addEnrichment(db, "Ngày 4", new String[][]{
+                {"library", "thư viện", "Noun"}, {"meeting", "cuộc họp", "Noun"},
+                {"weekend", "cuối tuần", "Noun"}, {"shelf", "kệ", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] ______ is the library? – Next to the bank.", "When", "Where", "Who", "What", "Where"},
+                {"[Cơ bản] The meeting is ______ 9 a.m.", "in", "on", "at", "under", "at"},
+                {"[Trung bình] We visit our grandparents ______ Sundays.", "in", "on", "at", "from", "on"},
+                {"[Trung bình] The books are ______ the top shelf.", "in", "on", "at", "between", "on"},
+                {"[Nâng cao] ______ does the course begin? – On the first Monday in June.", "Where", "When", "Who", "How many", "When"}
+        });
+        addEnrichment(db, "Ngày 5", new String[][]{
+                {"practice", "luyện tập", "Verb"}, {"prepare", "chuẩn bị", "Verb"},
+                {"usually", "thường xuyên", "Adverb"}, {"routine", "thói quen hằng ngày", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] I ______ English every evening.", "practice", "practices", "practicing", "practiced", "practice"},
+                {"[Cơ bản] My sister ______ breakfast at 7 a.m.", "have", "has", "having", "had", "has"},
+                {"[Trung bình] The bus ______ at this stop every ten minutes.", "stop", "stops", "stopping", "stopped", "stops"},
+                {"[Trung bình] Nam usually ______ his homework before dinner.", "finish", "finishes", "finished", "finishing", "finishes"},
+                {"[Nâng cao] Water ______ at 100°C under normal conditions.", "boil", "boils", "is boiling", "boiled", "boils"}
+        });
+        addEnrichment(db, "Ngày 6", new String[][]{
+                {"believe", "tin tưởng", "Verb"}, {"need", "cần", "Verb"},
+                {"understand", "hiểu", "Verb"}, {"often", "thường", "Adverb"}
+        }, new String[][]{
+                {"[Cơ bản] I ______ drink coffee at night.", "don't", "doesn't", "am not", "isn't", "don't"},
+                {"[Cơ bản] She ______ work on Sundays.", "don't", "doesn't", "isn't", "not", "doesn't"},
+                {"[Trung bình] My parents ______ understand this rule.", "doesn't", "don't", "aren't", "not", "don't"},
+                {"[Trung bình] He doesn't ______ a car.", "has", "have", "having", "had", "have"},
+                {"[Nâng cao] Neither Mai nor her brother ______ like spicy food.", "don't", "doesn't", "isn't", "aren't", "doesn't"}
+        });
+        addEnrichment(db, "Ngày 7", new String[][]{
+                {"question", "câu hỏi", "Noun"}, {"answer", "trả lời", "Verb"},
+                {"prefer", "thích hơn", "Verb"}, {"frequency", "tần suất", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] ______ you like music?", "Do", "Does", "Are", "Is", "Do"},
+                {"[Cơ bản] ______ Lan walk to school?", "Do", "Does", "Is", "Has", "Does"},
+                {"[Trung bình] Where ______ your parents work?", "do", "does", "are", "is", "do"},
+                {"[Trung bình] How often ______ he play tennis?", "do", "does", "is", "has", "does"},
+                {"[Nâng cao] Which book ______ your teacher recommend?", "do", "does", "is", "has", "does"}
+        });
+        addEnrichment(db, "Ngày 8", new String[][]{
+                {"habit", "thói quen", "Noun"}, {"schedule", "lịch trình", "Noun"},
+                {"rarely", "hiếm khi", "Adverb"}, {"always", "luôn luôn", "Adverb"}
+        }, new String[][]{
+                {"[Cơ bản] We ______ dinner together every day.", "eat", "eats", "are eating", "ate", "eat"},
+                {"[Cơ bản] He ______ late for class.", "never is", "is never", "never", "does never", "is never"},
+                {"[Trung bình] The train ______ at 6:15 tomorrow morning.", "leave", "leaves", "is leave", "leaving", "leaves"},
+                {"[Trung bình] How often ______ she ______ the gym?", "do - visit", "does - visit", "is - visiting", "does - visits", "does - visit"},
+                {"[Nâng cao] If you heat ice, it ______.", "melt", "melts", "is melting", "melted", "melts"}
+        });
+        addEnrichment(db, "Ngày 9", new String[][]{
+                {"noun", "danh từ", "Noun"}, {"verb", "động từ", "Noun"},
+                {"adjective", "tính từ", "Noun"}, {"adverb", "trạng từ", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] Từ nào là danh từ?", "beauty", "beautiful", "beautifully", "beautify", "beauty"},
+                {"[Cơ bản] She is a ______ singer.", "beauty", "beautiful", "beautifully", "beautify", "beautiful"},
+                {"[Trung bình] He completed the task ______.", "success", "successful", "successfully", "succeed", "successfully"},
+                {"[Trung bình] The suffix “-tion” thường tạo thành loại từ nào?", "Danh từ", "Động từ", "Tính từ", "Trạng từ", "Danh từ"},
+                {"[Nâng cao] Her quick ______ prevented a serious accident.", "decide", "decision", "decisive", "decisively", "decision"}
+        });
+        addEnrichment(db, "Ngày 10", new String[][]{
+                {"currently", "hiện tại", "Adverb"}, {"temporary", "tạm thời", "Adjective"},
+                {"improve", "cải thiện", "Verb"}, {"concentrate", "tập trung", "Verb"}
+        }, new String[][]{
+                {"[Cơ bản] Look! The baby ______.", "cries", "is crying", "cry", "cried", "is crying"},
+                {"[Cơ bản] We ______ for the bus now.", "wait", "are waiting", "waited", "have waited", "are waiting"},
+                {"[Trung bình] She ______ with her aunt this month.", "stays", "is staying", "stayed", "has stayed", "is staying"},
+                {"[Trung bình] Why ______ you ______?", "do - laugh", "are - laughing", "is - laughing", "did - laugh", "are - laughing"},
+                {"[Nâng cao] More people ______ online these days.", "shop", "are shopping", "shopped", "shops", "are shopping"}
+        });
+        addEnrichment(db, "Ngày 11", new String[][]{
+                {"normally", "thông thường", "Adverb"}, {"at the moment", "ngay lúc này", "Phrase"},
+                {"permanent", "lâu dài", "Adjective"}, {"trend", "xu hướng", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] She usually ______ tea, but today she ______ coffee.", "drinks - is drinking", "is drinking - drinks", "drink - drinks", "drank - drinks", "drinks - is drinking"},
+                {"[Cơ bản] Be quiet! I ______ to the news.", "listen", "listens", "am listening", "listened", "am listening"},
+                {"[Trung bình] My father ______ in Hanoi, but he ______ in Da Nang this week.", "works - is working", "is working - works", "work - working", "worked - works", "works - is working"},
+                {"[Trung bình] I ______ what you mean.", "am understanding", "understand", "understood now", "am understand", "understand"},
+                {"[Nâng cao] The climate ______ warmer, so scientists ______ the changes closely.", "gets - study", "is getting - are studying", "get - are study", "is get - study", "is getting - are studying"}
+        });
+        addEnrichment(db, "Ngày 12", new String[][]{
+                {"yesterday", "hôm qua", "Adverb"}, {"ago", "trước đây", "Adverb"},
+                {"discover", "khám phá", "Verb"}, {"achieve", "đạt được", "Verb"}
+        }, new String[][]{
+                {"[Cơ bản] We ______ the museum yesterday.", "visit", "visited", "visiting", "visits", "visited"},
+                {"[Cơ bản] She ______ a letter last night.", "write", "wrote", "written", "writes", "wrote"},
+                {"[Trung bình] The class ______ at nine and ______ at eleven.", "began - ended", "begin - end", "begun - ended", "begins - ends", "began - ended"},
+                {"[Trung bình] They ______ a rare bird during the trip.", "see", "saw", "seen", "seeing", "saw"},
+                {"[Nâng cao] After years of research, the scientist finally ______ a solution.", "find", "found", "founded", "has find", "found"}
+        });
+        addEnrichment(db, "Ngày 13", new String[][]{
+                {"miss", "bỏ lỡ", "Verb"}, {"attend", "tham dự", "Verb"},
+                {"reason", "lý do", "Noun"}, {"unexpected", "bất ngờ", "Adjective"}
+        }, new String[][]{
+                {"[Cơ bản] I ______ go out last night.", "don't", "didn't", "wasn't", "doesn't", "didn't"},
+                {"[Cơ bản] ______ you see Minh yesterday?", "Do", "Did", "Were", "Have", "Did"},
+                {"[Trung bình] Why ______ she ______ the meeting?", "did - miss", "did - missed", "does - miss", "was - miss", "did - miss"},
+                {"[Trung bình] They didn't ______ the answer.", "knew", "know", "known", "knowing", "know"},
+                {"[Nâng cao] Which route ______ the driver ______ after the road closed?", "did - take", "did - took", "was - take", "does - took", "did - take"}
+        });
+        addEnrichment(db, "Ngày 14", new String[][]{
+                {"interrupt", "làm gián đoạn", "Verb"}, {"while", "trong khi", "Conjunction"},
+                {"suddenly", "đột nhiên", "Adverb"}, {"background", "bối cảnh", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] At 8 p.m., I ______ TV.", "watched", "was watching", "am watching", "watch", "was watching"},
+                {"[Cơ bản] They ______ when the phone rang.", "slept", "were sleeping", "are sleeping", "sleep", "were sleeping"},
+                {"[Trung bình] While Lan ______, her brother ______ dinner.", "studied - cooked", "was studying - was cooking", "studies - cooks", "is studying - cooks", "was studying - was cooking"},
+                {"[Trung bình] What ______ you ______ at this time yesterday?", "did - do", "were - doing", "are - doing", "was - doing", "were - doing"},
+                {"[Nâng cao] The lights went out while the surgeon ______ the operation.", "performed", "was performing", "performs", "has performed", "was performing"}
+        });
+        addEnrichment(db, "Ngày 15", new String[][]{
+                {"experience", "trải nghiệm", "Noun"}, {"recently", "gần đây", "Adverb"},
+                {"already", "đã rồi", "Adverb"}, {"yet", "chưa, rồi", "Adverb"}
+        }, new String[][]{
+                {"[Cơ bản] I ______ my homework already.", "finished", "have finished", "finish", "am finishing", "have finished"},
+                {"[Cơ bản] She ______ never ______ abroad.", "has - traveled", "have - traveled", "did - travel", "is - traveling", "has - traveled"},
+                {"[Trung bình] ______ you ever ______ sushi?", "Did - eat", "Have - eaten", "Has - ate", "Are - eating", "Have - eaten"},
+                {"[Trung bình] We haven't received the results ______.", "already", "yet", "ever", "since", "yet"},
+                {"[Nâng cao] This is the most useful course I ______.", "ever took", "have ever taken", "am taking", "had take", "have ever taken"}
+        });
+        addEnrichment(db, "Ngày 16", new String[][]{
+                {"promise", "hứa", "Verb"}, {"predict", "dự đoán", "Verb"},
+                {"probably", "có lẽ", "Adverb"}, {"decision", "quyết định", "Noun"}
+        }, new String[][]{
+                {"[Cơ bản] I ______ call you tonight.", "will", "am", "did", "have", "will"},
+                {"[Cơ bản] She won't ______ late.", "arrives", "arrive", "arrived", "arriving", "arrive"},
+                {"[Trung bình] A: The doorbell is ringing. B: I ______ it.", "answer", "will answer", "answered", "am answer", "will answer"},
+                {"[Trung bình] I promise I ______ anyone your secret.", "won't tell", "don't tell", "didn't tell", "haven't told", "won't tell"},
+                {"[Nâng cao] Based on current trends, demand ______ increase next year.", "probably will", "will probably", "probably", "is probably increase", "will probably"}
+        });
+        addEnrichment(db, "Ngày 17", new String[][]{
+                {"deadline", "hạn chót", "Noun"}, {"milestone", "cột mốc", "Noun"},
+                {"accomplish", "hoàn thành, đạt được", "Verb"}, {"by then", "trước lúc đó", "Phrase"}
+        }, new String[][]{
+                {"[Cơ bản] By Friday, I ______ the report.", "will finish", "will have finished", "finished", "have finished", "will have finished"},
+                {"[Cơ bản] She will have ______ before noon.", "leave", "left", "leaving", "leaves", "left"},
+                {"[Trung bình] ______ they ______ the bridge by next year?", "Will - complete", "Will - have completed", "Do - complete", "Have - completed", "Will - have completed"},
+                {"[Trung bình] By 2030, he ______ at the company for twenty years.", "will work", "will have worked", "has worked", "works", "will have worked"},
+                {"[Nâng cao] By the time the auditors arrive, the team ______ all the financial records.", "will review", "will have reviewed", "reviews", "has reviewed", "will have reviewed"}
+        });
+    }
+
+    private static void addEnrichment(AppDatabase db, String dayLabel, String[][] vocabulary, String[][] quizzes) {
+        LessonEntity lesson = findLessonByDayLabel(db, dayLabel);
+        if (lesson == null) return;
+        for (String[] word : vocabulary) {
+            insertVocab(db, lesson.id, word[0], word[1], word[2]);
+        }
+        for (String[] quiz : quizzes) {
+            insertQuiz(db, lesson.id, quiz[0], quiz[1], quiz[2], quiz[3], quiz[4], quiz[5]);
+        }
+    }
+
+    private static void seedLesson2DemonstrativePractice(AppDatabase db) {
+        LessonEntity lesson = findLessonByDayLabel(db, "Ngày 2");
+        if (lesson == null) return;
+
+        String[][] quizzes = {
+                // Cơ bản
+                {"[Cơ bản] ______ is my phone. (cầm trong tay)", "This", "That", "These", "Those", "This"},
+                {"[Cơ bản] ______ is a nice house. (chỉ ngôi nhà ở xa)", "This", "That", "These", "Those", "That"},
+                {"[Cơ bản] ______ are my friends. (đứng cạnh bạn)", "This", "That", "These", "Those", "These"},
+                {"[Cơ bản] ______ are birds over there. (chỉ những con chim ở xa)", "This", "That", "These", "Those", "Those"},
+                {"[Cơ bản] ______ cup is mine. (chiếc cốc ở gần)", "This", "That", "These", "Those", "This"},
+
+                // Trung bình
+                {"[Trung bình] Look at ______ mountains over there!", "this", "that", "these", "those", "those"},
+                {"[Trung bình] ______ is a photo of my family. (bức ảnh ở gần)", "This", "That", "These", "Those", "This"},
+                {"[Trung bình] ______ flowers smell good. (những bông hoa ở gần)", "This", "That", "These", "Those", "These"},
+                {"[Trung bình] Is ______ your bag? (chiếc túi ở gần)", "this", "these", "those", "they", "this"},
+                {"[Trung bình] What are ______ over there?", "this", "that", "these", "those", "those"},
+
+                // Nâng cao
+                {"[Nâng cao] ______ days, I feel very well.", "This", "That", "These", "Those", "These"},
+                {"[Nâng cao] ______ was a great movie.", "This", "That", "These", "Those", "That"},
+                {"[Nâng cao] ______ are the moments I enjoy most.", "This", "That", "These", "Those", "These"},
+                {"[Nâng cao] ______ sounds perfect!", "This", "That", "These", "Those", "That"},
+                {"[Nâng cao] ______ are small things, but they are important.", "This", "That", "These", "Those", "These"},
+
+                // Giao tiếp hằng ngày
+                {"[Giao tiếp] ______ way, please.", "This", "That", "These", "Those", "This"},
+                {"[Giao tiếp] ______ is the bus stop over there.", "This", "That", "These", "Those", "That"},
+                {"[Giao tiếp] ______ are my shoes here.", "This", "That", "These", "Those", "These"},
+                {"[Giao tiếp] How much are ______ apples? (chỉ những quả táo ở xa)", "this", "that", "these", "those", "those"},
+                {"[Giao tiếp] I’ll take ______ one here, please.", "this", "that", "these", "those", "this"},
+
+                // Lỗi thường gặp và củng cố
+                {"[Củng cố] ______ is not a problem.", "This", "That", "These", "Those", "That"},
+                {"[Củng cố] ______ buildings over there look new.", "This", "That", "These", "Those", "Those"},
+                {"[Củng cố] Is ______ seat here taken?", "this", "these", "those", "they", "this"},
+                {"[Củng cố] ______ is my friend, Minh. (giới thiệu người đứng cạnh)", "This", "That", "These", "Those", "This"},
+                {"[Củng cố] ______ are my colleagues here.", "This", "That", "These", "Those", "These"}
+        };
+
+        for (String[] quiz : quizzes) {
+            insertQuiz(db, lesson.id, quiz[0], quiz[1], quiz[2], quiz[3], quiz[4], quiz[5]);
+        }
     }
 }
 
