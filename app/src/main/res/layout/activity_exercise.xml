@@ -78,11 +78,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tvSessionStats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tiến độ"
+                android:text="Đúng: 0  •  Sai: 0"
                 android:textColor="#374151"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/tvQuestionProgress"
                 android:layout_width="wrap_content"
@@ -145,7 +147,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -187,11 +190,12 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvInstruction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Chọn đáp án đúng"
                             android:textColor="#374151"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -200,148 +204,228 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="I ______ a student."
-                            android:textColor="#6B7280"
-                            android:textSize="16sp" />
+                            android:textColor="#1F2937"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnAudio"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Phát âm"
+                        android:src="@drawable/ic_speaker"
+                        app:tint="#4B5563" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Answer Options -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardOptionA"
+            <!-- Multiple Choice Container -->
+            <LinearLayout
+                android:id="@+id/layoutMultipleChoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_option"
+                            android:gravity="center"
+                            android:text="A"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/tvOptionA"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="am"
+                            android:textColor="#374151"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_option"
+                            android:gravity="center"
+                            android:text="B"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/tvOptionB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="is"
+                            android:textColor="#374151"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_option"
+                            android:gravity="center"
+                            android:text="C"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/tvOptionC"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="are"
+                            android:textColor="#374151"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOptionD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_option"
+                            android:gravity="center"
+                            android:text="D"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/tvOptionD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="be"
+                            android:textColor="#374151"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Write Mode Layout (Tự luận / Tự viết giống học từ mới) -->
+            <LinearLayout
+                android:id="@+id/layoutWriteMode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="@android:color/white">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_circle_option"
-                        android:gravity="center"
-                        android:text="A"
-                        android:textColor="#6B7280"
-                        android:textSize="13sp" />
-                    <TextView
-                        android:id="@+id/tvOptionA"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="am"
-                        android:textColor="#374151"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardOptionB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="@android:color/white">
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvWritePrompt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_circle_option"
-                        android:gravity="center"
-                        android:text="B"
-                        android:textColor="#6B7280"
-                        android:textSize="13sp" />
-                    <TextView
-                        android:id="@+id/tvOptionB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="is"
-                        android:textColor="#374151"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    android:text="Nhập đáp án của bạn:"
+                    android:textColor="#374151"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardOptionC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="@android:color/white">
-                <LinearLayout
+                <EditText
+                    android:id="@+id/etWriteAnswer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_circle_option"
-                        android:gravity="center"
-                        android:text="C"
-                        android:textColor="#6B7280"
-                        android:textSize="13sp" />
-                    <TextView
-                        android:id="@+id/tvOptionC"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="are"
-                        android:textColor="#374151"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    android:minHeight="56dp"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="Gõ câu trả lời bằng tiếng Anh..."
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="#1F2937"
+                    android:textColorHint="#9CA3AF"
+                    android:textSize="17sp"
+                    android:inputType="textCapSentences|textNoSuggestions"
+                    android:imeOptions="actionDone" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardOptionD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="@android:color/white">
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvWriteFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/bg_circle_option"
-                        android:gravity="center"
-                        android:text="D"
-                        android:textColor="#6B7280"
-                        android:textSize="13sp" />
-                    <TextView
-                        android:id="@+id/tvOptionD"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="be"
-                        android:textColor="#374151"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_card_rounded_quizlet"
+                    android:padding="14dp"
+                    android:text="Chính xác!"
+                    android:textColor="#065F46"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Check Answer Button -->
+    <!-- Action Button (Kiểm tra / Tiếp tục) -->
     <Button
         android:id="@+id/btnCheckAnswer"
         android:layout_width="match_parent"

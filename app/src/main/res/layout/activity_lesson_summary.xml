@@ -71,6 +71,7 @@
                 android:textSize="32sp" />
 
             <TextView
+                android:id="@+id/tvSummaryLessonTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -80,10 +81,11 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvSummaryStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Lesson completed • 60 minutes"
+                android:text="Tiến độ bài học: 100%"
                 android:textColor="#9CA3AF"
                 android:textSize="14sp" />
 
@@ -133,6 +135,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/tvSummaryAccuracy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="95%"
@@ -142,7 +145,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Accuracy"
+                                android:text="Độ chính xác"
                                 android:textColor="#9CA3AF"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -154,6 +157,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/tvSummaryVocabCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="40+"
@@ -163,7 +167,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="New Words"
+                                android:text="Từ vựng đã thuộc"
                                 android:textColor="#9CA3AF"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -175,6 +179,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/tvSummaryGrammarCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="31"
@@ -184,7 +189,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Exercises"
+                                android:text="Câu ngữ pháp nắm vững"
                                 android:textColor="#9CA3AF"
                                 android:textSize="13sp" />
                         </LinearLayout>

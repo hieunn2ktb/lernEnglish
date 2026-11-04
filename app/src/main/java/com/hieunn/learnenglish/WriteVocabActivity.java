@@ -28,6 +28,7 @@ public class WriteVocabActivity extends AppCompatActivity {
     private List<VocabItem> learningList = new ArrayList<>();
     private List<VocabItem> originalVocab = new ArrayList<>();
     private int totalMastered = 0;
+    private int lessonId = -1;
     
     private VocabItem currentWord;
     private boolean isShowingCorrection = false;
@@ -67,7 +68,7 @@ public class WriteVocabActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        int lessonId = getIntent().getIntExtra("lessonId", -1);
+        lessonId = getIntent().getIntExtra("lessonId", -1);
         if (lessonId > 0) {
             AppDatabase db = AppDatabase.getInstance(this);
             List<VocabEntity> dbItems = db.vocabDao().getVocabByLessonId(lessonId);
@@ -132,9 +133,11 @@ public class WriteVocabActivity extends AppCompatActivity {
         if (answer.equalsIgnoreCase(expected)) {
             learningList.remove(0);
             totalMastered++;
+            LessonProgressManager.recordVocabAnswer(this, lessonId, true, totalMastered);
             etAnswer.setBackgroundColor(0xFFD1FAE5);
             etAnswer.postDelayed(this::nextQuestion, 300);
         } else {
+            LessonProgressManager.recordVocabAnswer(this, lessonId, false, totalMastered);
             isShowingCorrection = true;
             llFeedback.setVisibility(View.VISIBLE);
             tvCorrectAnswer.setText(expected);

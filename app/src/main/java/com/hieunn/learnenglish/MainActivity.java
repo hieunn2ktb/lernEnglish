@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -202,8 +203,62 @@ public class MainActivity extends AppCompatActivity {
             textLayout.addView(tvTitle);
             textLayout.addView(tvDesc);
 
+            // Tiến độ và thống kê
+            int percent = LessonProgressManager.getDayProgressPercent(this, lesson.id);
+            int correct = LessonProgressManager.getTotalCorrect(this, lesson.id);
+            int wrong = LessonProgressManager.getTotalWrong(this, lesson.id);
+
+            TextView tvProgress = new TextView(this);
+            String progressStr = "Tiến độ: " + percent + "%";
+            if (correct + wrong > 0) {
+                progressStr += " • Đúng: " + correct + " | Sai: " + wrong;
+            }
+            tvProgress.setText(progressStr);
+            tvProgress.setTextSize(12);
+            tvProgress.setTextColor(percent >= 100 ? 0xFF059669 : (percent > 0 ? 0xFF2563EB : 0xFF9CA3AF));
+            LinearLayout.LayoutParams progressParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            progressParams.topMargin = dpToPx(4);
+            tvProgress.setLayoutParams(progressParams);
+            textLayout.addView(tvProgress);
+
+            ProgressBar pb = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+            LinearLayout.LayoutParams pbParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(4));
+            pbParams.topMargin = dpToPx(6);
+            pb.setLayoutParams(pbParams);
+            pb.setMax(100);
+            pb.setProgress(percent);
+            pb.setProgressDrawable(androidx.core.content.ContextCompat.getDrawable(
+                    this, percent >= 100 ? R.drawable.progress_bar_green : R.drawable.progress_bar_blue));
+            textLayout.addView(pb);
+
+            // Badge phần trăm bên phải
+            TextView tvRightBadge = new TextView(this);
+            LinearLayout.LayoutParams rightBadgeParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            rightBadgeParams.leftMargin = dpToPx(8);
+            tvRightBadge.setLayoutParams(rightBadgeParams);
+            tvRightBadge.setPadding(dpToPx(8), dpToPx(4), dpToPx(8), dpToPx(4));
+            tvRightBadge.setTextSize(12);
+            tvRightBadge.setTypeface(null, android.graphics.Typeface.BOLD);
+            if (percent >= 100) {
+                tvRightBadge.setText("100% ✓");
+                tvRightBadge.setBackgroundResource(R.drawable.bg_badge_green);
+                tvRightBadge.setTextColor(0xFF065F46);
+            } else if (percent > 0) {
+                tvRightBadge.setText(percent + "%");
+                tvRightBadge.setBackgroundResource(R.drawable.bg_badge_blue);
+                tvRightBadge.setTextColor(0xFF2563EB);
+            } else {
+                tvRightBadge.setText("0%");
+                tvRightBadge.setBackgroundResource(R.drawable.bg_badge_gray);
+                tvRightBadge.setTextColor(0xFF6B7280);
+            }
+
             innerLayout.addView(badge);
             innerLayout.addView(textLayout);
+            innerLayout.addView(tvRightBadge);
             card.addView(innerLayout);
 
             // Bấm để vào học

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F3F4F6"
-    tools:context=".DayOneActivity">
+    tools:context=".DayActivity">
 
     <!-- Header -->
     <RelativeLayout
@@ -33,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Daily Lesson"
+            android:text="Chi tiết ngày học"
             android:textColor="#1F2937"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:textStyle="bold" />
 
         <ImageButton
@@ -60,9 +60,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
-            <!-- YouTube Player (Thay bằng Hình ảnh & Nút Play độc lập do lỗi Crash) -->
+            <!-- YouTube Player -->
             <RelativeLayout
                 android:id="@+id/youtube_player_container"
                 android:layout_width="match_parent"
@@ -78,7 +79,6 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
-                <!-- Vùng xám bán trong suốt để làm nổi nút Play -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -114,16 +114,16 @@
                     android:id="@+id/tvLessonDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Học thể khẳng định và phủ định của động từ To Be trong tiếng Anh"
+                    android:layout_marginTop="6dp"
+                    android:text="Thể khẳng định và phủ định của động từ To Be"
                     android:textColor="#6B7280"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <!-- Stats Row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -140,7 +140,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="60 min"
+                            android:text="60 phút"
                             android:textColor="#6B7280"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -160,54 +160,564 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="Beginner"
+                            android:text="Cơ bản"
                             android:textColor="#6B7280"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Today's Playlist -->
+            <!-- Card: Tiến độ hoàn thành ngày học & Thống kê đúng/sai -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tiến độ ngày học"
+                            android:textColor="#1F2937"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDayProgressPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="0%"
+                            android:textColor="#3B82F6"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <!-- Progress Bar ngày học -->
+                    <ProgressBar
+                        android:id="@+id/progressDay"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="8dp"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/progress_bar_blue" />
+
+                    <!-- Hàng thống kê Làm đúng / Làm sai / Độ chính xác -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
+
+                        <!-- Box Làm đúng -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:background="@drawable/bg_badge_gray"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvStatCorrect"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 câu"
+                                android:textColor="#10B981"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Làm đúng"
+                                android:textColor="#6B7280"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Box Làm sai -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:background="@drawable/bg_badge_gray"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvStatWrong"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 câu"
+                                android:textColor="#EF4444"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Làm sai"
+                                android:textColor="#6B7280"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Box Độ chính xác -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:background="@drawable/bg_badge_gray"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvStatAccuracy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0%"
+                                android:textColor="#3B82F6"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Chính xác"
+                                android:textColor="#6B7280"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Lộ trình học tập (Timeline) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@android:color/white"
                 android:padding="16dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="12dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nội dung bài học"
+                        android:text="Lộ trình bài học (Timeline)"
                         android:textColor="#1F2937"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvTimelineStepCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="3 phần"
+                        android:text="4 bước"
                         android:textColor="#3B82F6"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:background="@drawable/bg_badge_blue"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp" />
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp" />
                 </RelativeLayout>
+
+                <!-- TIMELINE STEP 1: Video bài giảng -->
+                <LinearLayout
+                    android:id="@+id/layoutTimelineVideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Cột node & line -->
+                    <LinearLayout
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvTimelineNode1"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/viewTimelineLine1"
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:minHeight="40dp"
+                            android:background="#E5E7EB" />
+                    </LinearLayout>
+
+                    <!-- Thẻ bài học -->
+                    <LinearLayout
+                        android:id="@+id/itemTimelineVideo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_card_rounded_quizlet"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bước 1: Video bài giảng"
+                                android:textColor="#1F2937"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Khởi động và nắm chắc kiến thức"
+                                android:textColor="#6B7280"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvBadgeVideo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_badge_gray"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:text="Chưa xem"
+                            android:textColor="#6B7280"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TIMELINE STEP 2: Học từ vựng -->
+                <LinearLayout
+                    android:id="@+id/layoutTimelineVocab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Cột node & line -->
+                    <LinearLayout
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvTimelineNode2"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/viewTimelineLine2"
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:minHeight="50dp"
+                            android:background="#E5E7EB" />
+                    </LinearLayout>
+
+                    <!-- Thẻ bài học -->
+                    <LinearLayout
+                        android:id="@+id/itemVocab"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_card_rounded_quizlet"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bước 2: Học từ vựng"
+                                android:textColor="#1F2937"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvBadgeVocab"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_badge_gray"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="Chưa học"
+                                android:textColor="#6B7280"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvVocabProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Đã nắm vững: 0/0 từ (0%)"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+
+                        <ProgressBar
+                            android:id="@+id/progressVocabMini"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="6dp"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/progress_bar_blue" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TIMELINE STEP 3: Luyện ngữ pháp -->
+                <LinearLayout
+                    android:id="@+id/layoutTimelineGrammar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Cột node & line -->
+                    <LinearLayout
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvTimelineNode3"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:gravity="center"
+                            android:text="3"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/viewTimelineLine3"
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:minHeight="50dp"
+                            android:background="#E5E7EB" />
+                    </LinearLayout>
+
+                    <!-- Thẻ bài học -->
+                    <LinearLayout
+                        android:id="@+id/itemGrammar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_card_rounded_quizlet"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bước 3: Luyện ngữ pháp"
+                                android:textColor="#1F2937"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvBadgeGrammar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_badge_gray"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="Chưa học"
+                                android:textColor="#6B7280"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvGrammarProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Trắc nghiệm &amp; Tự luận: 0/0 câu (0%)"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+
+                        <ProgressBar
+                            android:id="@+id/progressGrammarMini"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:layout_marginTop="6dp"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/progress_bar_blue" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TIMELINE STEP 4: Tổng kết ngày học -->
+                <LinearLayout
+                    android:id="@+id/layoutTimelineSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Cột node -->
+                    <LinearLayout
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvTimelineNode4"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_circle_gray"
+                            android:gravity="center"
+                            android:text="4"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Thẻ bài học -->
+                    <LinearLayout
+                        android:id="@+id/itemSummary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_card_rounded_quizlet"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bước 4: Tổng kết ngày học"
+                                android:textColor="#1F2937"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvBadgeSummary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_badge_gray"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="Chưa đạt"
+                                android:textColor="#6B7280"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvSummaryDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Xem lại toàn bộ kết quả và độ chính xác"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <!-- Nút Thêm Thẻ Từ Vựng Mới -->
                 <LinearLayout
                     android:id="@+id/itemAddVocab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:padding="12dp"
                     android:background="@drawable/bg_card_rounded_quizlet"
                     android:gravity="center_vertical"
@@ -237,7 +747,7 @@
                             android:layout_height="wrap_content"
                             android:text="Thêm mới thẻ từ vựng"
                             android:textColor="#4F46E5"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -248,194 +758,25 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Playlist Item 1 -->
-                <LinearLayout
-                    android:id="@+id/itemVocab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_card_rounded"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_blue"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Học từ vựng"
-                            android:textColor="#1F2937"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Flashcard từ vựng To Be"
-                            android:textColor="#6B7280"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Playlist Item 2 -->
-                <LinearLayout
-                    android:id="@+id/itemGrammar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_card_rounded"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_blue"
-                        android:gravity="center"
-                        android:text="2"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Luyện ngữ pháp"
-                            android:textColor="#1F2937"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bài tập trắc nghiệm"
-                            android:textColor="#6B7280"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Playlist Item 3 -->
-                <LinearLayout
-                    android:id="@+id/itemSummary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_card_rounded"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_blue"
-                        android:gravity="center"
-                        android:text="3"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tổng kết bài học"
-                            android:textColor="#1F2937"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Xem lại kết quả"
-                            android:textColor="#6B7280"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Playlist Item 4: Kiểm tra từ vựng -->
-                <LinearLayout
+                <!-- Hidden legacy item -->
+                <View
                     android:id="@+id/itemVocabQuiz"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_card_rounded"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
 
-                    <TextView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_circle_blue"
-                        android:gravity="center"
-                        android:text="4"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kiem tra tu vung"
-                            android:textColor="#1F2937"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Chon nghia dung"
-                            android:textColor="#6B7280"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
-
-            <!-- Spacer -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="80dp" />
         </LinearLayout>
     </ScrollView>
 
-    <!-- Continue Learning Button -->
+    <!-- Nút Hành động Tiếp tục (Dưới đáy màn hình) -->
     <Button
         android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
         android:background="@drawable/bg_button_blue"
-        android:text="Continue Learning"
+        android:text="Bắt đầu học"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"

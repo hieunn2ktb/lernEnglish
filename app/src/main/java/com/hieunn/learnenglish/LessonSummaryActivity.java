@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.hieunn.learnenglish.db.AppDatabase;
+import com.hieunn.learnenglish.db.LessonEntity;
 
 public class LessonSummaryActivity extends AppCompatActivity {
 
@@ -28,8 +32,37 @@ public class LessonSummaryActivity extends AppCompatActivity {
         // Back
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
-        
+
         int lessonId = getIntent().getIntExtra("lessonId", -1);
+        if (lessonId > 0) {
+            AppDatabase db = AppDatabase.getInstance(this);
+            LessonEntity lesson = db.lessonDao().getLessonById(lessonId);
+            if (lesson != null) {
+                TextView tvTitle = findViewById(R.id.tvSummaryLessonTitle);
+                if (tvTitle != null) tvTitle.setText(lesson.title);
+            }
+
+            int percent = LessonProgressManager.getDayProgressPercent(this, lessonId);
+            int accuracy = LessonProgressManager.getAccuracyPercent(this, lessonId);
+            int vocabMastered = LessonProgressManager.getVocabMastered(this, lessonId);
+            int vocabTotal = LessonProgressManager.getVocabTotal(this, lessonId);
+            int grammarMastered = LessonProgressManager.getGrammarMastered(this, lessonId);
+            int grammarTotal = LessonProgressManager.getGrammarTotal(this, lessonId);
+
+            TextView tvStatus = findViewById(R.id.tvSummaryStatus);
+            if (tvStatus != null) {
+                tvStatus.setText("Tiến độ: " + percent + "% • " + (percent >= 100 ? "Hoàn thành xuất sắc" : "Đang học"));
+            }
+
+            TextView tvAccuracy = findViewById(R.id.tvSummaryAccuracy);
+            if (tvAccuracy != null) tvAccuracy.setText(accuracy + "%");
+
+            TextView tvVocab = findViewById(R.id.tvSummaryVocabCount);
+            if (tvVocab != null) tvVocab.setText(vocabMastered + "/" + vocabTotal);
+
+            TextView tvGrammar = findViewById(R.id.tvSummaryGrammarCount);
+            if (tvGrammar != null) tvGrammar.setText(grammarMastered + "/" + grammarTotal);
+        }
 
         // On lai tu vung -> mo UnitDetailActivity
         Button btnReviewVocab = findViewById(R.id.btnReviewVocab);

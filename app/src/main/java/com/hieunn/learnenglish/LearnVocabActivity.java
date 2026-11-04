@@ -51,6 +51,9 @@ public class LearnVocabActivity extends AppCompatActivity {
     private boolean isWriteMode = false;
     private boolean starOnlyMode = false;  // Chỉ học từ gắn sao
     private TextToSpeech tts;
+    private int lessonId = -1;
+    private int sessionCorrect = 0;
+    private int sessionWrong = 0;
 
     // UI
     private CardView[] cards;
@@ -175,6 +178,8 @@ public class LearnVocabActivity extends AppCompatActivity {
         correctStreak.clear();
         answeredByMC.clear();
         answeredByWrite.clear();
+        sessionCorrect = 0;
+        sessionWrong = 0;
 
         List<VocabItem> source = starOnlyMode ? new ArrayList<>(starredWords) : allVocab;
 
@@ -221,7 +226,7 @@ public class LearnVocabActivity extends AppCompatActivity {
     // ======================== DATA ========================
 
     private void loadData() {
-        int lessonId = getIntent().getIntExtra("lessonId", -1);
+        lessonId = getIntent().getIntExtra("lessonId", -1);
         boolean learnAll = getIntent().getBooleanExtra("learnAll", false);
         ArrayList<Integer> selectedLessonIds = getIntent().getIntegerArrayListExtra("selectedLessonIds");
         
@@ -278,7 +283,11 @@ public class LearnVocabActivity extends AppCompatActivity {
         tvMasteredCount.setText(String.valueOf(masteredCount));
 
         progressBar.setProgress(masteredCount);
-        tvCount.setText("Nắm vững: " + masteredCount + " / " + source.size());
+        String countStr = "Nắm vững: " + masteredCount + " / " + source.size();
+        if (sessionCorrect + sessionWrong > 0) {
+            countStr += " • Đúng: " + sessionCorrect + " | Sai: " + sessionWrong;
+        }
+        tvCount.setText(countStr);
     }
 
     // ======================== PICK NEXT WORD ========================
@@ -427,18 +436,22 @@ public class LearnVocabActivity extends AppCompatActivity {
         }
 
         if (idx == correctPosition) {
+            sessionCorrect++;
             cards[idx].setCardBackgroundColor(0xFFD1FAE5);
             titles[idx].setTextColor(0xFF065F46);
 
             onCorrectAnswer(false);
+            recordVocabAnswer(true);
             tvWord.postDelayed(this::nextQuestion, 800);
         } else {
+            sessionWrong++;
             cards[idx].setCardBackgroundColor(0xFFFEE2E2);
             titles[idx].setTextColor(0xFF991B1B);
             cards[correctPosition].setCardBackgroundColor(0xFFD1FAE5);
             titles[correctPosition].setTextColor(0xFF065F46);
 
             onWrongAnswer();
+            recordVocabAnswer(false);
             btnContinue.setVisibility(View.VISIBLE);
         }
     }
@@ -456,18 +469,22 @@ public class LearnVocabActivity extends AppCompatActivity {
         tvWriteFeedback.setVisibility(View.VISIBLE);
 
         if (answer.equalsIgnoreCase(currentWord.getEnglishWord())) {
+            sessionCorrect++;
             tvWriteFeedback.setText("Chính xác!");
             tvWriteFeedback.setTextColor(0xFF065F46);
             if (tts != null) tts.speak(currentWord.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
 
             onCorrectAnswer(true);
+            recordVocabAnswer(true);
             tvWord.postDelayed(this::nextQuestion, 800);
         } else {
+            sessionWrong++;
             tvWriteFeedback.setText("Chưa đúng. Đáp án đúng là:\n" + currentWord.getEnglishWord());
             tvWriteFeedback.setTextColor(0xFF991B1B);
             if (tts != null) tts.speak(currentWord.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
 
             onWrongAnswer();
+            recordVocabAnswer(false);
             btnContinue.setVisibility(View.VISIBLE);
         }
     }
@@ -513,13 +530,36 @@ public class LearnVocabActivity extends AppCompatActivity {
         queue.add(insertPos, currentWord);
     }
 
+    private void recordVocabAnswer(boolean isCorrect) {
+        if (lessonId > 0) {
+            LessonProgressManager.recordVocabAnswer(this, lessonId, isCorrect, getMasteredCount());
+        }
+    }
+
+    private int getMasteredCount() {
+        int count = 0;
+        for (VocabItem item : allVocab) {
+            Integer state = wordState.get(item);
+            if (state != null && state == STATE_MASTERED) count++;
+        }
+        return count;
+    }
+
     // ======================== COMPLETION ========================
 
     private void showCompletionDialog() {
         updateStatusCounts();
+        int total = sessionCorrect + sessionWrong;
+        int accuracy = total > 0 ? (sessionCorrect * 100) / total : 100;
+
+        String msg = "Bạn đã nắm vững tất cả từ vựng trong bộ thẻ này!\n\n"
+                + "✅ Số lần làm đúng: " + sessionCorrect + "\n"
+                + "❌ Số lần làm sai: " + sessionWrong + "\n"
+                + "🎯 Độ chính xác: " + accuracy + "%";
+
         new AlertDialog.Builder(this)
                 .setTitle("🎉 Chúc mừng!")
-                .setMessage("Bạn đã nắm vững tất cả từ vựng trong bộ thẻ này!")
+                .setMessage(msg)
                 .setPositiveButton("Học lại", (d, w) -> restartLearn())
                 .setNegativeButton("Hoàn tất", (d, w) -> finish())
                 .setCancelable(false)
