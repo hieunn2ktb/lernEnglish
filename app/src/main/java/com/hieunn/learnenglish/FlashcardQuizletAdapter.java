@@ -37,7 +37,14 @@ public class FlashcardQuizletAdapter extends RecyclerView.Adapter<FlashcardQuizl
                 holder.tvWord.setText(item.getEnglishWord());
                 holder.tvWord.setTextColor(0xFF1F2937); // Near Black
                 if (tts != null) {
-                    tts.speak(item.getEnglishWord(), android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, null);
+                    String word = item.getEnglishWord();
+                    if (VocabItem.isJapaneseText(word)) {
+                        tts.setLanguage(java.util.Locale.JAPANESE);
+                        word = VocabItem.getCleanSpeechText(word);
+                    } else {
+                        tts.setLanguage(java.util.Locale.US);
+                    }
+                    tts.speak(word, android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             }
         });

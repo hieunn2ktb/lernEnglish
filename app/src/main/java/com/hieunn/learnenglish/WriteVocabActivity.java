@@ -98,12 +98,16 @@ public class WriteVocabActivity extends AppCompatActivity {
 
         isShowingCorrection = false;
         etAnswer.setText("");
-        etAnswer.setHint("Gõ tiếng Anh");
+        currentWord = learningList.get(0);
+        if (VocabItem.isJapaneseText(currentWord.getEnglishWord())) {
+            etAnswer.setHint("Gõ tiếng Nhật (Kana, Kanji hoặc Romaji)");
+        } else {
+            etAnswer.setHint("Gõ tiếng Anh");
+        }
         etAnswer.setBackgroundResource(R.drawable.bg_card_rounded_quizlet);
         llFeedback.setVisibility(View.GONE);
         btnSubmit.setText("Kiểm tra");
 
-        currentWord = learningList.get(0);
         tvVietnameseMeaning.setText(currentWord.getVietnameseMeaning());
 
         tvQuestionCount.setText(totalMastered + " / " + originalVocab.size());
@@ -119,7 +123,7 @@ public class WriteVocabActivity extends AppCompatActivity {
         String expected = currentWord.getEnglishWord().trim();
 
         if (isShowingCorrection) {
-            if (answer.equalsIgnoreCase(expected)) {
+            if (VocabItem.isAnswerMatching(answer, expected, currentWord.getPhonetic())) {
                 learningList.remove(0);
                 learningList.add(currentWord);
                 etAnswer.setBackgroundColor(0xFFD1FAE5);
@@ -130,7 +134,7 @@ public class WriteVocabActivity extends AppCompatActivity {
             return;
         }
 
-        if (answer.equalsIgnoreCase(expected)) {
+        if (VocabItem.isAnswerMatching(answer, expected, currentWord.getPhonetic())) {
             learningList.remove(0);
             totalMastered++;
             LessonProgressManager.recordVocabAnswer(this, lessonId, true, totalMastered);

@@ -12,6 +12,7 @@ public class DatabaseSeeder {
     private static final String KEY_ENRICHED = "lesson_enriched_v1";
     private static final String KEY_LESSON2_DEMONSTRATIVES = "lesson2_demonstratives_v1";
     private static final String KEY_MAPPED_PRACTICE = "mapped_practice_v1";
+    private static final String KEY_JAPANESE_SEEDED = "japanese_seeded_v1";
     private static final String DAY_1_VIDEO_ID = "x4F1npn2g8Q";
 
     public static void seedIfNeeded(Context context) {
@@ -55,6 +56,69 @@ public class DatabaseSeeder {
         if (!prefs.getBoolean(KEY_MAPPED_PRACTICE, false)) {
             MappedPracticeData.seed(db);
             prefs.edit().putBoolean(KEY_MAPPED_PRACTICE, true).apply();
+        }
+
+        seedJapaneseIfNeeded(context, db, prefs);
+    }
+
+    public static void seedJapaneseIfNeeded(Context context, AppDatabase db, SharedPreferences prefs) {
+        boolean hasJapanese = false;
+        List<LessonEntity> allLessons = db.lessonDao().getAllLessons();
+        for (LessonEntity l : allLessons) {
+            if ("ja".equalsIgnoreCase(l.videoUrl) || (l.title != null && l.title.startsWith("Bài "))) {
+                hasJapanese = true;
+                break;
+            }
+        }
+
+        if (hasJapanese && prefs.getBoolean(KEY_JAPANESE_SEEDED, false)) {
+            return;
+        }
+
+        try {
+            android.content.res.AssetManager am = context.getAssets();
+            java.io.InputStream is = am.open("japanese_lessons.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonStr = new String(buffer, java.nio.charset.StandardCharsets.UTF_8);
+            org.json.JSONArray lessonsArray = new org.json.JSONArray(jsonStr);
+
+            db.runInTransaction(() -> {
+                for (int i = 0; i < lessonsArray.length(); i++) {
+                    try {
+                        org.json.JSONObject lObj = lessonsArray.getJSONObject(i);
+                        String title = lObj.getString("title");
+                        String desc = lObj.getString("description");
+                        String lang = lObj.optString("language", "ja");
+
+                        LessonEntity lesson = new LessonEntity(title, desc, lang);
+                        long lessonId = db.lessonDao().insertLesson(lesson);
+
+                        org.json.JSONArray vocabs = lObj.getJSONArray("vocabularies");
+                        List<VocabEntity> vocabEntities = new java.util.ArrayList<>();
+                        for (int j = 0; j < vocabs.length(); j++) {
+                            org.json.JSONObject vObj = vocabs.getJSONObject(j);
+                            String word = vObj.getString("word");
+                            String vietnamese = vObj.getString("vietnamese");
+                            String romaji = vObj.optString("romaji", "");
+                            String wordType = vObj.optString("wordType", "Từ vựng");
+
+                            vocabEntities.add(new VocabEntity((int) lessonId, word, vietnamese, romaji, wordType));
+                        }
+                        if (!vocabEntities.isEmpty()) {
+                            db.vocabDao().insertAllVocab(vocabEntities);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            prefs.edit().putBoolean(KEY_JAPANESE_SEEDED, true).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

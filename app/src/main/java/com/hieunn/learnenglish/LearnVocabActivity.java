@@ -129,9 +129,7 @@ public class LearnVocabActivity extends AppCompatActivity {
 
         if (btnAudio != null) {
             btnAudio.setOnClickListener(v -> {
-                if (currentWord != null && tts != null) {
-                    tts.speak(currentWord.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
-                }
+                speakCurrentWord();
             });
         }
 
@@ -371,12 +369,31 @@ public class LearnVocabActivity extends AppCompatActivity {
 
     // ======================== SHOW MODES ========================
 
+    private void speakCurrentWord() {
+        if (currentWord == null || tts == null) return;
+        String word = currentWord.getEnglishWord();
+        if (VocabItem.isJapaneseText(word)) {
+            tts.setLanguage(Locale.JAPANESE);
+            word = VocabItem.getCleanSpeechText(word);
+        } else {
+            tts.setLanguage(Locale.US);
+        }
+        tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
     private void showWriteMode() {
         layoutMultipleChoice.setVisibility(View.GONE);
         layoutWriteMode.setVisibility(View.VISIBLE);
 
-        tvQuestionLabel.setText("Định nghĩa");
-        tvInstruction.setText("Gõ thuật ngữ tiếng Anh tương ứng");
+        if (VocabItem.isJapaneseText(currentWord.getEnglishWord())) {
+            tvQuestionLabel.setText("Ý nghĩa tiếng Việt");
+            tvInstruction.setText("Gõ từ tiếng Nhật (Kana, Kanji hoặc Romaji)");
+            etWriteAnswer.setHint("Nhập Kana, Kanji hoặc Romaji");
+        } else {
+            tvQuestionLabel.setText("Định nghĩa");
+            tvInstruction.setText("Gõ thuật ngữ tiếng Anh tương ứng");
+            etWriteAnswer.setHint("Nhập câu trả lời");
+        }
         tvWord.setText(currentWord.getVietnameseMeaning());
 
         if (btnAudio != null) btnAudio.setVisibility(View.GONE);
@@ -388,14 +405,17 @@ public class LearnVocabActivity extends AppCompatActivity {
         layoutMultipleChoice.setVisibility(View.VISIBLE);
         layoutWriteMode.setVisibility(View.GONE);
 
-        tvQuestionLabel.setText("Thuật ngữ");
-        tvInstruction.setText("Chọn định nghĩa đúng");
+        if (VocabItem.isJapaneseText(currentWord.getEnglishWord())) {
+            tvQuestionLabel.setText("Tiếng Nhật");
+            tvInstruction.setText("Chọn định nghĩa tiếng Việt đúng");
+        } else {
+            tvQuestionLabel.setText("Thuật ngữ");
+            tvInstruction.setText("Chọn định nghĩa đúng");
+        }
         tvWord.setText(currentWord.getEnglishWord());
 
         if (btnAudio != null) btnAudio.setVisibility(View.VISIBLE);
-        if (tts != null) {
-            tts.speak(currentWord.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
-        }
+        speakCurrentWord();
 
         for (int i = 0; i < 4; i++) {
             cards[i].setCardBackgroundColor(0xFFFFFFFF);
@@ -468,11 +488,11 @@ public class LearnVocabActivity extends AppCompatActivity {
         String answer = etWriteAnswer.getText().toString().trim();
         tvWriteFeedback.setVisibility(View.VISIBLE);
 
-        if (answer.equalsIgnoreCase(currentWord.getEnglishWord())) {
+        if (VocabItem.isAnswerMatching(answer, currentWord.getEnglishWord(), currentWord.getPhonetic())) {
             sessionCorrect++;
             tvWriteFeedback.setText("Chính xác!");
             tvWriteFeedback.setTextColor(0xFF065F46);
-            if (tts != null) tts.speak(currentWord.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
+            speakCurrentWord();
 
             onCorrectAnswer(true);
             recordVocabAnswer(true);
@@ -481,7 +501,7 @@ public class LearnVocabActivity extends AppCompatActivity {
             sessionWrong++;
             tvWriteFeedback.setText("Chưa đúng. Đáp án đúng là:\n" + currentWord.getEnglishWord());
             tvWriteFeedback.setTextColor(0xFF991B1B);
-            if (tts != null) tts.speak(currentWord.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
+            speakCurrentWord();
 
             onWrongAnswer();
             recordVocabAnswer(false);

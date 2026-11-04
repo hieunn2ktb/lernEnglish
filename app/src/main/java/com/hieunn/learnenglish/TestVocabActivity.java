@@ -836,7 +836,9 @@ public class TestVocabActivity extends AppCompatActivity {
             if (type == QuestionType.WRITTEN && revealedByDontKnow) {
                 return false;
             }
-            return userAnswer != null && userAnswer.trim().equalsIgnoreCase(correctAnswer.trim());
+            if (userAnswer == null) return false;
+            String phonetic = !relatedItems.isEmpty() ? relatedItems.get(0).getPhonetic() : "";
+            return VocabItem.isAnswerMatching(userAnswer, correctAnswer, phonetic);
         }
 
         String getTypeLabel() {

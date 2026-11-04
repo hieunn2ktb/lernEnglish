@@ -30,6 +30,7 @@ public class UnitDetailActivity extends AppCompatActivity {
     private TextView tvIndicator;
     private RecyclerView rvVocabList;
     private TextView tvTermCount;
+    private TextView tvUnitTitle;
     private TextToSpeech tts;
     private int lessonId = -1;
 
@@ -51,6 +52,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         tvIndicator = findViewById(R.id.tvIndicator);
         rvVocabList = findViewById(R.id.rvVocabList);
         tvTermCount = findViewById(R.id.tvTermCount);
+        tvUnitTitle = findViewById(R.id.tvUnitTitle);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
@@ -104,6 +106,11 @@ public class UnitDetailActivity extends AppCompatActivity {
     private void loadData() {
         if (lessonId > 0) {
             AppDatabase db = AppDatabase.getInstance(this);
+            com.hieunn.learnenglish.db.LessonEntity lesson = db.lessonDao().getLessonById(lessonId);
+            if (lesson != null && tvUnitTitle != null) {
+                tvUnitTitle.setText(lesson.title);
+            }
+
             List<VocabEntity> dbItems = db.vocabDao().getVocabByLessonId(lessonId);
             List<VocabItem> items = new ArrayList<>();
             for (VocabEntity e : dbItems) {
@@ -126,7 +133,14 @@ public class UnitDetailActivity extends AppCompatActivity {
                 public void onPageSelected(int position) {
                     tvIndicator.setText((position + 1) + " / " + items.size());
                     if (tts != null) {
-                        tts.speak(items.get(position).getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
+                        String word = items.get(position).getEnglishWord();
+                        if (VocabItem.isJapaneseText(word)) {
+                            tts.setLanguage(Locale.JAPANESE);
+                            word = VocabItem.getCleanSpeechText(word);
+                        } else {
+                            tts.setLanguage(Locale.US);
+                        }
+                        tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
                     }
                 }
             });

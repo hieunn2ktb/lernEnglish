@@ -37,7 +37,14 @@ public class VocabListQuizletAdapter extends RecyclerView.Adapter<VocabListQuizl
 
         holder.btnPronounce.setOnClickListener(v -> {
             if (tts != null) {
-                tts.speak(item.getEnglishWord(), TextToSpeech.QUEUE_FLUSH, null, null);
+                String word = item.getEnglishWord();
+                if (VocabItem.isJapaneseText(word)) {
+                    tts.setLanguage(java.util.Locale.JAPANESE);
+                    word = VocabItem.getCleanSpeechText(word);
+                } else {
+                    tts.setLanguage(java.util.Locale.US);
+                }
+                tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
             } else {
                 Toast.makeText(holder.itemView.getContext(), "TextToSpeech chưa sẵn sàng", Toast.LENGTH_SHORT).show();
             }
