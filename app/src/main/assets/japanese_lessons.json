@@ -766,10 +766,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "ベトナム語",
-        "kana": "ベトナム語",
-        "kanji": "",
-        "romaji": "betonamu",
+        "word": "ベトナムご (ベトナム語)",
+        "kana": "ベトナムご",
+        "kanji": "ベトナム語",
+        "romaji": "betonamugo",
         "vietnamese": "Tiếng Việt",
         "wordType": "Danh từ"
       },
@@ -790,10 +790,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "お願いします。",
-        "kana": "お願いします。",
-        "kanji": "",
-        "romaji": "oishimasu",
+        "word": "おねがいします (お願いします)",
+        "kana": "おねがいします",
+        "kanji": "お願いします",
+        "romaji": "onegaishimasu",
         "vietnamese": "Xin nhờ (ông, bà, anh , chị)",
         "wordType": "Danh từ"
       },
@@ -830,18 +830,18 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "待ってください。",
-        "kana": "待ってください。",
-        "kanji": "",
-        "romaji": "ttekudasai",
+        "word": "まってください (待ってください)",
+        "kana": "まってください",
+        "kanji": "待ってください",
+        "romaji": "mattekudasai",
         "vietnamese": "Xin anh (chị) hãy chờ",
         "wordType": "Danh từ"
       },
       {
-        "word": "違います",
-        "kana": "違います",
-        "kanji": "",
-        "romaji": "imasu",
+        "word": "ちがいます (違います)",
+        "kana": "ちがいます",
+        "kanji": "違います",
+        "romaji": "chigaimasu",
         "vietnamese": "Sai rồi, không phải",
         "wordType": "Động từ"
       },
@@ -854,10 +854,10 @@
         "wordType": "Đại từ"
       },
       {
-        "word": "これから お世話になります。",
-        "kana": "これから お世話になります。",
-        "kanji": "",
-        "romaji": "korekaraoninarimasu",
+        "word": "これから おせわになります (これから お世話になります)",
+        "kana": "これから おせわになります",
+        "kanji": "これから お世話になります",
+        "romaji": "korekara osewani narimasu",
         "vietnamese": "Hi vọng sẽ được anh quan tâm, giúp đỡ.",
         "wordType": "Danh từ"
       },
@@ -950,10 +950,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "お手洗い",
-        "kana": "お手洗い",
-        "kanji": "",
-        "romaji": "oi",
+        "word": "おてあらい (お手洗い)",
+        "kana": "おてあらい",
+        "kanji": "お手洗い",
+        "romaji": "otearai",
         "vietnamese": "(トイレ） Nhà vệ sinh",
         "wordType": "Danh từ"
       },
@@ -1038,10 +1038,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "ワイン売り場",
-        "kana": "ワイン売り場",
-        "kanji": "",
-        "romaji": "wainri",
+        "word": "ワインうりば (ワイン売り場)",
+        "kana": "ワインうりば",
+        "kanji": "ワイン売り場",
+        "romaji": "wain uriba",
         "vietnamese": "Quầy bán rượu vang",
         "wordType": "Danh từ"
       },
@@ -1078,10 +1078,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "地下一階",
-        "kana": "地下一階",
-        "kanji": "",
-        "romaji": "",
+        "word": "ちかいっかい (地下一階)",
+        "kana": "ちかいっかい",
+        "kanji": "地下一階",
+        "romaji": "chikaikkai",
         "vietnamese": "Tầng ngầm (dưới đất)",
         "wordType": "Danh từ"
       },
@@ -1574,10 +1574,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "大 変 ですね。",
-        "kana": "大 変 ですね。",
-        "kanji": "",
-        "romaji": "sune",
+        "word": "たいへんですね (大変ですね)",
+        "kana": "たいへんですね",
+        "kanji": "大変ですね",
+        "romaji": "taihendesune",
         "vietnamese": "Gay nhỉ!, căng nhỉ!",
         "wordType": "Danh từ"
       },
@@ -1638,10 +1638,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "やまと美 術 館",
-        "kana": "やまと美 術 館",
-        "kanji": "",
-        "romaji": "yamato",
+        "word": "やまとびじゅつかん (やまと美術館)",
+        "kana": "やまとびじゅつかん",
+        "kanji": "やまと美術館",
+        "romaji": "yamato bijutsukan",
         "vietnamese": "(tên tưởng tượng, không có thực)",
         "wordType": "Danh từ"
       },
@@ -1654,10 +1654,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "大 阪 デパート",
-        "kana": "大 阪 デパート",
-        "kanji": "",
-        "romaji": "pa-to",
+        "word": "おおさかデパート (大阪デパート)",
+        "kana": "おおさかデパート",
+        "kanji": "大阪デパート",
+        "romaji": "oosaka depa-to",
         "vietnamese": "(tên tưởng tượng, không có thực)",
         "wordType": "Danh từ"
       },
@@ -1670,10 +1670,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "みどり図 書 館",
-        "kana": "みどり図 書 館",
-        "kanji": "",
-        "romaji": "midori",
+        "word": "みどりとしょかん (みどり図書館)",
+        "kana": "みどりとしょかん",
+        "kanji": "みどり図書館",
+        "romaji": "midori toshokan",
         "vietnamese": "(tên tưởng tượng, không có thực)",
         "wordType": "Danh từ"
       }
@@ -1766,10 +1766,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "さかな屋",
-        "kana": "さかな屋",
-        "kanji": "",
-        "romaji": "sakana",
+        "word": "さかなや (さかな屋)",
+        "kana": "さかなや",
+        "kanji": "さかな屋",
+        "romaji": "sakanaya",
         "vietnamese": "Cửa hàng cá",
         "wordType": "Danh từ"
       },
@@ -2062,10 +2062,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "次の駅",
-        "kana": "次の駅",
-        "kanji": "",
-        "romaji": "no",
+        "word": "つぎのえき (次の駅)",
+        "kana": "つぎのえき",
+        "kanji": "次の駅",
+        "romaji": "tsugino eki",
         "vietnamese": "Ga tiếp theo",
         "wordType": "Danh từ"
       },
@@ -2078,34 +2078,34 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "博多（はかた）",
-        "kana": "博多（はかた）",
-        "kanji": "",
+        "word": "はかた (博多)",
+        "kana": "はかた",
+        "kanji": "博多",
         "romaji": "hakata",
         "vietnamese": "Thị trấn Hakata ở Kyushu",
         "wordType": "Danh từ"
       },
       {
-        "word": "伏見 (（ふしみ）)",
-        "kana": "伏見",
-        "kanji": "（ふしみ）",
-        "romaji": "",
+        "word": "ふしみ (伏見)",
+        "kana": "ふしみ",
+        "kanji": "伏見",
+        "romaji": "fushimi",
         "vietnamese": "Thị trấn Fushimi ở Kyoto",
         "wordType": "Danh từ"
       },
       {
-        "word": "甲子園 (（こうしえん）)",
-        "kana": "甲子園",
-        "kanji": "（こうしえん）",
-        "romaji": "",
+        "word": "こうしえん (甲子園)",
+        "kana": "こうしえん",
+        "kanji": "甲子園",
+        "romaji": "koushien",
         "vietnamese": "Thị trấn Koshien gần Osaka",
         "wordType": "Danh từ"
       },
       {
-        "word": "大阪城 (（おおさかじょう）)",
-        "kana": "大阪城",
-        "kanji": "（おおさかじょう）",
-        "romaji": "",
+        "word": "おおさかじょう (大阪城)",
+        "kana": "おおさかじょう",
+        "kanji": "大阪城",
+        "romaji": "oosakajou",
         "vietnamese": "Thành cổ Osaka, thành cổ nổi tiếng ở Osaka",
         "wordType": "Danh từ"
       }
@@ -2142,10 +2142,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「たばこを～」吸います",
-        "kana": "「たばこを～」吸います",
-        "kanji": "",
-        "romaji": "tabakooimasu",
+        "word": "「たばこを～」すいます (吸います)",
+        "kana": "「たばこを～」すいます",
+        "kanji": "吸います",
+        "romaji": "tabako o suimasu",
         "vietnamese": "Hút thuốc lá",
         "wordType": "Động từ"
       },
@@ -2198,10 +2198,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「 写 真 を～」撮ります",
-        "kana": "「 写 真 を～」撮ります",
-        "kanji": "",
-        "romaji": "orimasu",
+        "word": "「しゃしんを～」とります (撮ります)",
+        "kana": "「しゃしんを～」とります",
+        "kanji": "撮ります",
+        "romaji": "shashin o torimasu",
         "vietnamese": "Chụp ảnh",
         "wordType": "Động từ"
       },
@@ -2214,10 +2214,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "じっしゅう（をします） 実習",
-        "kana": "じっしゅう（をします） 実習",
-        "kanji": "",
-        "romaji": "jisshuuoshimasu",
+        "word": "じっしゅうをします (実習)",
+        "kana": "じっしゅうをします",
+        "kanji": "実習",
+        "romaji": "jisshuu o shimasu",
         "vietnamese": "Thực tập",
         "wordType": "Danh từ"
       },
@@ -2230,10 +2230,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「 友 達 に～」会います",
-        "kana": "「 友 達 に～」会います",
-        "kanji": "",
-        "romaji": "niimasu",
+        "word": "「ともだちに～」あいます (会います)",
+        "kana": "「ともだちに～」あいます",
+        "kanji": "会います",
+        "romaji": "tomodachi ni aimasu",
         "vietnamese": "Gặp gỡ bạn",
         "wordType": "Động từ"
       },
@@ -2326,10 +2326,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "牛 (乳 ／ミルク)",
-        "kana": "牛",
-        "kanji": "乳 ／ミルク",
-        "romaji": "",
+        "word": "ぎゅうにゅう／ミルク (牛乳／ミルク)",
+        "kana": "ぎゅうにゅう／ミルク",
+        "kanji": "牛乳／ミルク",
+        "romaji": "gyuunyuu / miruku",
         "vietnamese": "Sữa",
         "wordType": "Danh từ"
       },
@@ -2534,18 +2534,18 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「お」 花 見",
-        "kana": "「お」 花 見",
-        "kanji": "",
-        "romaji": "o",
+        "word": "おはなみ (お花見)",
+        "kana": "おはなみ",
+        "kanji": "お花見",
+        "romaji": "ohanami",
         "vietnamese": "Ngắm hoa Anh Đào (danh từ)",
         "wordType": "Danh từ"
       },
       {
-        "word": "「お」 花 見をします",
-        "kana": "「お」 花 見をします",
-        "kanji": "",
-        "romaji": "ooshimasu",
+        "word": "おはなみをします (お花見をします)",
+        "kana": "おはなみをします",
+        "kanji": "お花見をします",
+        "romaji": "ohanami o shimasu",
         "vietnamese": "Ngắm hoa Anh Đào (động từ)",
         "wordType": "Động từ"
       },
@@ -2686,10 +2686,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「電話を～」",
-        "kana": "「電話を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "でんわをかけます (電話をかけます)",
+        "kana": "でんわをかけます",
+        "kanji": "電話をかけます",
+        "romaji": "denwa o kakemasu",
         "vietnamese": "Gọi điện thoại",
         "wordType": "Danh từ"
       },
@@ -3118,10 +3118,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "お誕生日 (おめでとうございます。)",
-        "kana": "お誕生日",
-        "kanji": "おめでとうございます。",
-        "romaji": "o",
+        "word": "おたんじょうび おめでとうございます (お誕生日)",
+        "kana": "おたんじょうび おめでとうございます",
+        "kanji": "お誕生日",
+        "romaji": "otanjoubi omedetou gozaimasu",
         "vietnamese": "Chúc mừng sinh nhật!",
         "wordType": "Danh từ"
       },
@@ -4454,18 +4454,18 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "おとこの人 (男の人)",
-        "kana": "おとこの人",
+        "word": "おとこのひと (男の人)",
+        "kana": "おとconohito",
         "kanji": "男の人",
-        "romaji": "otokono",
+        "romaji": "otokonohito",
         "vietnamese": "Người đàn ông, người con trai",
         "wordType": "Từ để hỏi"
       },
       {
-        "word": "おんなの人 (女の人)",
-        "kana": "おんなの人",
+        "word": "おんなのひと (女の人)",
+        "kana": "おんなのひと",
         "kanji": "女の人",
-        "romaji": "onnano",
+        "romaji": "onnanohito",
         "vietnamese": "Người phụ nữ, người con gái",
         "wordType": "Danh từ"
       },
@@ -4542,10 +4542,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "神奈川県",
-        "kana": "神奈川県",
-        "kanji": "",
-        "romaji": "",
+        "word": "かながわけん (神奈川県)",
+        "kana": "かながわけん",
+        "kanji": "神奈川県",
+        "romaji": "kanagawaken",
         "vietnamese": "Tỉnh Kanagawa",
         "wordType": "Danh từ"
       },
@@ -4558,10 +4558,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "一段目",
-        "kana": "一段目",
-        "kanji": "",
-        "romaji": "",
+        "word": "いちだんめ (一段目)",
+        "kana": "いちだんめ",
+        "kanji": "一段目",
+        "romaji": "ichidanme",
         "vietnamese": "Cái giá hàng thứ nhất",
         "wordType": "Danh từ"
       },
@@ -4782,10 +4782,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "いい「お」天気ですね。",
-        "kana": "いい「お」天気ですね。",
-        "kanji": "",
-        "romaji": "iiosune",
+        "word": "いいおてんきですね (いいお天気ですね)",
+        "kana": "いいおてんきですね",
+        "kanji": "いいお天気ですね",
+        "romaji": "ii otenki desune",
         "vietnamese": "Thời tiết đẹp nhỉ!",
         "wordType": "Danh từ"
       },
@@ -5318,10 +5318,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「荷物を～」",
-        "kana": "「荷物を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "にもつをおくります (荷物を送ります)",
+        "kana": "にもつをおくります",
+        "kanji": "荷物を送ります",
+        "romaji": "nimotsu o okurimasu",
         "vietnamese": "Gửi hàng hóa",
         "wordType": "Danh từ"
       },
@@ -5366,18 +5366,18 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「手紙を～」",
-        "kana": "「手紙を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "てがみをだします (手紙を出します)",
+        "kana": "てがみをだします",
+        "kanji": "手紙を出します",
+        "romaji": "tegami o dashimasu",
         "vietnamese": "Gửi thư",
         "wordType": "Danh từ"
       },
       {
-        "word": "「 宿 題 を～」",
-        "kana": "「 宿 題 を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "しゅくだいをだします (宿題を出します)",
+        "kana": "しゅくだいをだします",
+        "kanji": "宿題を出します",
+        "romaji": "shukudai o dashimasu",
         "vietnamese": "Nộp bài tập về nhà",
         "wordType": "Danh từ"
       },
@@ -5414,10 +5414,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「公園を～」",
-        "kana": "「公園を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "こうえんをさんぽします (公園を散歩します)",
+        "kana": "こうえんをさんぽします",
+        "kanji": "公園を散歩します",
+        "romaji": "kouen o sanpomashimasu",
         "vietnamese": "Đi bộ trong công viên",
         "wordType": "Danh từ"
       },
@@ -5430,10 +5430,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「町を～」",
-        "kana": "「町を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "まちをけんぶつします (町を見物します)",
+        "kana": "まちをけんぶつします",
+        "kanji": "町を見物します",
+        "romaji": "machi o kenbutsu shimasu",
         "vietnamese": "Xem phố",
         "wordType": "Danh từ"
       },
@@ -5446,10 +5446,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「工場を～」",
-        "kana": "「工場を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "こうじょうをけんがくします (工場を見学します)",
+        "kana": "こうじょうをけんがくします",
+        "kanji": "工場を見学します",
+        "romaji": "koujou o kengaku shimasu",
         "vietnamese": "Kiến tập ở nhà máy",
         "wordType": "Danh từ"
       },
@@ -5462,10 +5462,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「部屋に～」",
-        "kana": "「部屋に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "へやにはいります (部屋に入ります)",
+        "kana": "へやにはいります",
+        "kanji": "部屋に入ります",
+        "romaji": "heya ni hairimasu",
         "vietnamese": "Vào phòng",
         "wordType": "Danh từ"
       },
@@ -5726,18 +5726,18 @@
         "wordType": "Từ để hỏi"
       },
       {
-        "word": "ご 注 文 は？",
-        "kana": "ご 注 文 は？",
-        "kanji": "",
-        "romaji": "goha",
+        "word": "ごちゅうもんは (ご注文は？)",
+        "kana": "ごちゅうもんは",
+        "kanji": "ご注文は？",
+        "romaji": "gochuumon wa",
         "vietnamese": "Quý khách gọi món gì ạ?",
         "wordType": "Danh từ"
       },
       {
-        "word": "定食",
-        "kana": "定食",
-        "kanji": "",
-        "romaji": "",
+        "word": "ていしょく (定食)",
+        "kana": "ていしょく",
+        "kanji": "定食",
+        "romaji": "teishoku",
         "vietnamese": "Suất ăn cố định",
         "wordType": "Danh từ"
       },
@@ -5750,18 +5750,18 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「 少 々 」お待ちください。",
-        "kana": "「 少 々 」お待ちください。",
-        "kanji": "",
-        "romaji": "ochikudasai",
+        "word": "しょうしょう おまちください (少々 お待ちください)",
+        "kana": "しょうしょう おまちください",
+        "kanji": "少々 お待ちください",
+        "romaji": "shoushou omachi kudasai",
         "vietnamese": "Xin chờ một chút ạ.",
         "wordType": "Danh từ"
       },
       {
-        "word": "別々に",
-        "kana": "別々に",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "べつべつに (別々に)",
+        "kana": "べつべつに",
+        "kanji": "別々に",
+        "romaji": "betsubetsu ni",
         "vietnamese": "Riêng rẽ, từng phần",
         "wordType": "Danh từ"
       },
@@ -5854,10 +5854,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「 住 所 を～」",
-        "kana": "「 住 所 を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "じゅうしょをおしえます (住所を教えます)",
+        "kana": "じゅうしょをおしえます",
+        "kanji": "住所を教えます",
+        "romaji": "juusho o oshiemasu",
         "vietnamese": "Cho biết địa chỉ",
         "wordType": "Danh từ"
       },
@@ -5878,10 +5878,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「雨が～」",
-        "kana": "「雨が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "あめがやみます (雨が止みます)",
+        "kana": "あめがやみます",
+        "kanji": "雨が止みます",
+        "romaji": "ame ga yamimasu",
         "vietnamese": "Mưa rơi",
         "wordType": "Danh từ"
       },
@@ -5934,10 +5934,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「右へ～」",
-        "kana": "「右へ～」",
-        "kanji": "",
-        "romaji": "he",
+        "word": "みぎへまがります (右へ曲がります)",
+        "kana": "みぎへまがります",
+        "kanji": "右へ曲がります",
+        "romaji": "migi e magarimasu",
         "vietnamese": "Rẽ phải",
         "wordType": "Danh từ"
       },
@@ -6158,10 +6158,10 @@
         "wordType": "Đại từ"
       },
       {
-        "word": "信号を右へ曲がってください。",
-        "kana": "信号を右へ曲がってください。",
-        "kanji": "",
-        "romaji": "ohegattekudasai",
+        "word": "しんごうをみぎへまがってください (信号を右へ曲がってください)",
+        "kana": "しんごうをみぎへまがってください",
+        "kanji": "信号を右へ曲がってください",
+        "romaji": "shingou o migi e magatte kudasai",
         "vietnamese": "Hãy rẽ phải ở chỗ đèn giao thông.",
         "wordType": "Danh từ"
       },
@@ -6182,18 +6182,18 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "お釣り",
-        "kana": "お釣り",
-        "kanji": "",
-        "romaji": "ori",
+        "word": "おつり (お釣り)",
+        "kana": "おつり",
+        "kanji": "お釣り",
+        "romaji": "otsuri",
         "vietnamese": "Tiền thừa, tiền trả lại",
         "wordType": "Danh từ"
       },
       {
-        "word": "梅田",
-        "kana": "梅田",
-        "kanji": "",
-        "romaji": "",
+        "word": "うめだ (梅田)",
+        "kana": "うめだ",
+        "kanji": "梅田",
+        "romaji": "umeda",
         "vietnamese": "Tên 1 thị trấn ở Osaka",
         "wordType": "Danh từ"
       }
@@ -6222,10 +6222,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「椅子に～」",
-        "kana": "「椅子に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "いすにすわります (椅子に座ります)",
+        "kana": "いすにすわります",
+        "kanji": "椅子に座ります",
+        "romaji": "isu ni suwarimasu",
         "vietnamese": "Ngồi vào ghế",
         "wordType": "Danh từ"
       },
@@ -6318,10 +6318,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「 東 京 に～」",
-        "kana": "「 東 京 に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "とうきょうにすみます (東京に住みます)",
+        "kana": "とうきょうにすみます",
+        "kanji": "東京に住みます",
+        "romaji": "toukyou ni sumimasu",
         "vietnamese": "Sống ở Tokyo",
         "wordType": "Danh từ"
       },
@@ -6478,10 +6478,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "日本橋",
-        "kana": "日本橋",
-        "kanji": "",
-        "romaji": "",
+        "word": "にほんばし (日本橋)",
+        "kana": "にほんばし",
+        "kanji": "日本橋",
+        "romaji": "nihonbashi",
         "vietnamese": "Tên 1 quận mua sắm ở Osaka",
         "wordType": "Danh từ"
       }
@@ -6510,10 +6510,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「電車に～」",
-        "kana": "「電車に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "でんしゃにのります (電車に乗ります)",
+        "kana": "でんしゃにのります",
+        "kanji": "電車に乗ります",
+        "romaji": "densha ni norimasu",
         "vietnamese": "Lên tàu điện",
         "wordType": "Danh từ"
       },
@@ -6526,10 +6526,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「電車を～」",
-        "kana": "「電車を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "でんしゃをおります (電車を降ります)",
+        "kana": "でんしゃをおります",
+        "kanji": "電車を降ります",
+        "romaji": "densha o orimasu",
         "vietnamese": "Xuống khỏi tàu điện",
         "wordType": "Danh từ"
       },
@@ -6598,10 +6598,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「大学に～」",
-        "kana": "「大学に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "だいがくににゅうがくします (大学に入学します)",
+        "kana": "だいがくににゅうがくします",
+        "kanji": "大学に入学します",
+        "romaji": "daigaku ni nyuugaku shimasu",
         "vietnamese": "Vào đại học",
         "wordType": "Danh từ"
       },
@@ -6614,10 +6614,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「大学を～」",
-        "kana": "「大学を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "だいがくをでます (大学を出ます)",
+        "kana": "だいがくをでます",
+        "kanji": "大学を出ます",
+        "romaji": "daigaku o demasu",
         "vietnamese": "Ra trường",
         "wordType": "Danh từ"
       },
@@ -6630,10 +6630,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「会社を～」",
-        "kana": "「会社を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "かいしゃをやめます (会社を辞めます)",
+        "kana": "かいしゃをやめます",
+        "kanji": "会社を辞めます",
+        "romaji": "kaisha o yamemasu",
         "vietnamese": "Thôi việc",
         "wordType": "Danh từ"
       },
@@ -6958,10 +6958,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "お引き出しですか。",
-        "kana": "お引き出しですか。",
-        "kanji": "",
-        "romaji": "okishisuka",
+        "word": "おひきだしですか (お引き出しですか)",
+        "kana": "おひきだしですか",
+        "kanji": "お引き出しですか",
+        "romaji": "ohikidashi desuka",
         "vietnamese": "(Ngài) Rút tiền ạ?",
         "wordType": "Danh từ"
       },
@@ -6982,34 +6982,34 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "暗証番号",
-        "kana": "暗証番号",
-        "kanji": "",
-        "romaji": "",
+        "word": "あんしょうばんごう (暗証番号)",
+        "kana": "あんしょうばんごう",
+        "kanji": "暗証番号",
+        "romaji": "anshou bangou",
         "vietnamese": "Mã Pin",
         "wordType": "Danh từ"
       },
       {
-        "word": "次に",
-        "kana": "次に",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "つぎに (次に)",
+        "kana": "つぎに",
+        "kanji": "次に",
+        "romaji": "tsugini",
         "vietnamese": "Tiếp theo",
         "wordType": "Danh từ"
       },
       {
-        "word": "金額",
-        "kana": "金額",
-        "kanji": "",
-        "romaji": "",
+        "word": "きんがく (金額)",
+        "kana": "きんがく",
+        "kanji": "金額",
+        "romaji": "kingaku",
         "vietnamese": "Số tiền",
         "wordType": "Danh từ"
       },
       {
-        "word": "確認「～します」",
-        "kana": "確認「～します」",
-        "kanji": "",
-        "romaji": "shimasu",
+        "word": "かくにんします (確認します)",
+        "kana": "かくにんします",
+        "kanji": "確認します",
+        "romaji": "kakunin shimasu",
         "vietnamese": "Sự xác nhận (danh từ) [Xác nhận]",
         "wordType": "Danh từ"
       },
@@ -7102,10 +7102,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「車に～」",
-        "kana": "「車に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "くるまにきをつけます (車に気をつけます)",
+        "kana": "くるまにきをつけます",
+        "kanji": "車に気をつけます",
+        "romaji": "kuruma ni ki o tsukemasu",
         "vietnamese": "Cẩn thận với xe ô tô",
         "wordType": "Danh từ"
       },
@@ -7150,10 +7150,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「機械に～」",
-        "kana": "「機械に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "きかいにさわります (機械に触ります)",
+        "kana": "きかいにさわります",
+        "kanji": "機械に触ります",
+        "romaji": "kikai ni sawarimasu",
         "vietnamese": "Chạm vào máy",
         "wordType": "Danh từ"
       },
@@ -7326,10 +7326,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「お」風呂に (入る)",
-        "kana": "「お」風呂に",
-        "kanji": "入る",
-        "romaji": "oni",
+        "word": "おふろにはいる (お風呂に入る)",
+        "kana": "おふろにはいる",
+        "kanji": "お風呂に入る",
+        "romaji": "ofuro ni hairu",
         "vietnamese": "Đi tắm",
         "wordType": "Danh từ"
       },
@@ -7382,10 +7382,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「～が」痛いです。",
-        "kana": "「～が」痛いです。",
-        "kanji": "",
-        "romaji": "gaisu",
+        "word": "いたい (痛い)",
+        "kana": "いたい",
+        "kanji": "痛い",
+        "romaji": "itai",
         "vietnamese": "Đau [ ～]",
         "wordType": "Danh từ"
       },
@@ -7630,10 +7630,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "もっと「練習し」ないと…",
-        "kana": "もっと「練習し」ないと…",
-        "kanji": "",
-        "romaji": "mottoshinaito",
+        "word": "もっとれんしゅうしないと (もっと練習しないと)",
+        "kana": "もっとれんしゅうしないと",
+        "kanji": "もっと練習しないと",
+        "romaji": "motto renshuu shinaito",
         "vietnamese": "Tôi còn phải cố gắng [tập] hơn nữa.",
         "wordType": "Đại từ"
       },
@@ -7654,10 +7654,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "それは 面白いね。",
-        "kana": "それは 面白いね。",
-        "kanji": "",
-        "romaji": "sorehaine",
+        "word": "それはおもしろいね (それは面白いね)",
+        "kana": "それはおもしろいね",
+        "kanji": "それは面白いね",
+        "romaji": "sore wa omoshiroi ne",
         "vietnamese": "Ôi hay quá nhỉ! Mãi mà (dùng với động từ ở dạng phủ định)",
         "wordType": "Danh từ"
       },
@@ -7750,10 +7750,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「山に～」",
-        "kana": "「山に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "やまにのぼります (山に登ります)",
+        "kana": "やまにのぼります",
+        "kanji": "山に登ります",
+        "romaji": "yama ni noborimasu",
         "vietnamese": "Leo núi",
         "wordType": "Danh từ"
       },
@@ -7854,10 +7854,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「～を習います」",
-        "kana": "「～を習います」",
-        "kanji": "",
-        "romaji": "oimasu",
+        "word": "ならいます (習います)",
+        "kana": "ならいます",
+        "kanji": "習います",
+        "romaji": "naraimasu",
         "vietnamese": "Học trà đạo",
         "wordType": "Danh từ"
       },
@@ -7958,10 +7958,10 @@
         "wordType": "Tính từ đuôi な"
       },
       {
-        "word": "体に (いい)",
-        "kana": "体に",
-        "kanji": "いい",
-        "romaji": "ni",
+        "word": "からだにいい (体にいい)",
+        "kana": "からだにいい",
+        "kanji": "体にいい",
+        "romaji": "karada ni ii",
         "vietnamese": "Tốt cho sức khỏe",
         "wordType": "Danh từ"
       },
@@ -7990,10 +7990,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「辞書が」",
-        "kana": "「辞書が」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "じしょがいります (辞書が要ります)",
+        "kana": "じしょがいります",
+        "kanji": "辞書が要ります",
+        "romaji": "jisho ga irimasu",
         "vietnamese": "Cần từ điển",
         "wordType": "Danh từ"
       },
@@ -8142,18 +8142,18 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "待っているよ。",
-        "kana": "待っているよ。",
-        "kanji": "",
-        "romaji": "tteiruyo",
+        "word": "まっているよ (待っているよ)",
+        "kana": "まっているよ",
+        "kanji": "待っているよ",
+        "romaji": "matteiruyo",
         "vietnamese": "Tớ chờ cậu nhé. Mình sẽ chờ đấy!",
         "wordType": "Danh từ"
       },
       {
-        "word": "国へ 帰るの？",
-        "kana": "国へ 帰るの？",
-        "kanji": "",
-        "romaji": "heruno",
+        "word": "くにへかえるの (国へ帰るの)",
+        "kana": "くにへかえるの",
+        "kanji": "国へ帰るの",
+        "romaji": "kuni e kaeru no",
         "vietnamese": "Bạn về nước à?",
         "wordType": "Đại từ"
       },
@@ -8462,18 +8462,18 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "～でも 飲みませんか。",
-        "kana": "～でも 飲みませんか。",
-        "kanji": "",
-        "romaji": "momimasenka",
+        "word": "のみませんか (飲みませんか)",
+        "kana": "のみませんか",
+        "kanji": "飲みませんか",
+        "romaji": "nomimasenka",
         "vietnamese": "Bạn có uống… không?",
         "wordType": "Đại từ"
       },
       {
-        "word": "ぜひ見ないと……。",
-        "kana": "ぜひ見ないと……。",
-        "kanji": "",
-        "romaji": "zehinaito",
+        "word": "ぜひみないと (ぜひ見ないと)",
+        "kana": "ぜひみないと",
+        "kanji": "ぜひ見ないと",
+        "romaji": "zehi minaito",
         "vietnamese": "Nhất định tôi phải xem…",
         "wordType": "Đại từ"
       },
@@ -8670,26 +8670,26 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "また 今度 (お願いします。)",
-        "kana": "また 今度",
-        "kanji": "お願いします。",
-        "romaji": "mata",
+        "word": "またこんどおねがいします (また今度お願いします)",
+        "kana": "またこんどおねがいします",
+        "kanji": "また今度お願いします",
+        "romaji": "mata kondo onegaishimasu",
         "vietnamese": "Xin để lần khác (cách từ chối gián tiếp)",
         "wordType": "Danh từ"
       },
       {
-        "word": "お先に 失礼します",
-        "kana": "お先に 失礼します",
-        "kanji": "",
-        "romaji": "onishimasu",
+        "word": "おさきにしつれいします (お先に失礼します)",
+        "kana": "おさきにしつれいします",
+        "kanji": "お先に失礼します",
+        "romaji": "osaki ni shitsurei shimasu",
         "vietnamese": "Xin phép tôi về trước (dùng khi về sớm hơn người khác) Cảm ơn nhé. Anh về nhé. (dùng khi người khác làm việc",
         "wordType": "Động từ"
       },
       {
-        "word": "お疲れさまでした。",
-        "kana": "お疲れさまでした。",
-        "kanji": "",
-        "romaji": "oresamashita",
+        "word": "おつかれさまでした (お疲れ様でした)",
+        "kana": "おつかれさまでした",
+        "kanji": "お疲れ様でした",
+        "romaji": "otsukaresama deshita",
         "vietnamese": "cho mình xong. Hoặc khi người cùng làm trong cơ quan về sớm hơn mình thì nói câu này để chào.) Từ o vưng tham kha",
         "wordType": "Danh từ"
       },
@@ -8766,10 +8766,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "レジャー白書",
-        "kana": "レジャー白書",
-        "kanji": "",
-        "romaji": "reja-",
+        "word": "レジャーはくしょ (レジャー白書)",
+        "kana": "レジャーはくしょ",
+        "kanji": "レジャー白書",
+        "romaji": "reja- hakusho",
         "vietnamese": "Sách trắng giải trí",
         "wordType": "Danh từ"
       },
@@ -8798,10 +8798,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「先生に～」",
-        "kana": "「先生に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "せんせいにききます (先生に聞きます)",
+        "kana": "せんせいにききます",
+        "kanji": "先生に聞きます",
+        "romaji": "sensei ni kikimasu",
         "vietnamese": "Hỏi thầy cô giáo",
         "wordType": "Danh từ"
       },
@@ -8862,10 +8862,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「きっぷが～」 「切符が～」",
-        "kana": "「きっぷが～」 「切符が～」",
-        "kanji": "",
-        "romaji": "kippugaga",
+        "word": "きっぷがでます (切符が出ます)",
+        "kana": "きっぷがでます",
+        "kanji": "切符が出ます",
+        "romaji": "kippu ga demasu",
         "vietnamese": "Vé ra Thắc mắc, không ổn, phiền, khó khăn",
         "wordType": "Danh từ"
       },
@@ -9158,10 +9158,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「人を～」",
-        "kana": "「人を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "ひとをおくります (人を送ります)",
+        "kana": "ひとをおくります",
+        "kanji": "人を送ります",
+        "romaji": "hito o okurimasu",
         "vietnamese": "Tiễn người",
         "wordType": "Danh từ"
       },
@@ -9286,10 +9286,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "がんばって下さい (頑張ってください)",
-        "kana": "がんばって下さい",
+        "word": "がんばってください (頑張ってください)",
+        "kana": "がんばってください",
         "kanji": "頑張ってください",
-        "romaji": "ganbattesai",
+        "romaji": "ganbatte kudasai",
         "vietnamese": "Cố gắng lên Từ o vưng tham kha",
         "wordType": "Danh từ"
       },
@@ -9646,10 +9646,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「時間・かいぎに～」",
-        "kana": "「時間・かいぎに～」",
-        "kanji": "",
-        "romaji": "kaigini",
+        "word": "じかん・かいぎにおくれます (時間に遅れます)",
+        "kana": "じかん・かいぎにおくれます",
+        "kanji": "時間に遅れます",
+        "romaji": "okuremasu",
         "vietnamese": "Muộn giờ",
         "wordType": "Danh từ"
       },
@@ -9686,10 +9686,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「電気・エアコンが～」",
-        "kana": "「電気・エアコンが～」",
-        "kanji": "",
-        "romaji": "eakonga",
+        "word": "でんき・エアコンがつきます / きえます",
+        "kana": "でんき・エアコンがつきます / きえます",
+        "kanji": "電気・エアコンがつきます / 消えます",
+        "romaji": "tsukimasu / kiemasu",
         "vietnamese": "Đèn sáng / Máy điều hòa chạy",
         "wordType": "Danh từ"
       },
@@ -9702,10 +9702,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「電気・エアコンが～」",
-        "kana": "「電気・エアコンが～」",
-        "kanji": "",
-        "romaji": "eakonga",
+        "word": "でんき・エアコンがつきます / きえます",
+        "kana": "でんき・エアコンがつきます / きえます",
+        "kanji": "電気・エアコンがつきます / 消えます",
+        "romaji": "tsukimasu / kiemasu",
         "vietnamese": "Đèn tắt / Máy điều hòa tắt",
         "wordType": "Danh từ"
       },
@@ -9750,10 +9750,10 @@
         "wordType": "Động từ [Nhóm 3]"
       },
       {
-        "word": "「会社・友だちに～」",
-        "kana": "「会社・友だちに～」",
-        "kanji": "",
-        "romaji": "dachini",
+        "word": "かいしゃ・ともだちにれんらくします",
+        "kana": "かいしゃ・ともだちにれんらくします",
+        "kanji": "会社・友達に連絡します",
+        "romaji": "renraku shimasu",
         "vietnamese": "Liên lạc với công ty / bạn bè",
         "wordType": "Đại từ"
       },
@@ -10142,10 +10142,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "～会社",
-        "kana": "～会社",
-        "kanji": "",
-        "romaji": "",
+        "word": "～がいしゃ (～会社)",
+        "kana": "～がいしゃ",
+        "kanji": "～会社",
+        "romaji": "gaisha",
         "vietnamese": "Công ty…",
         "wordType": "Danh từ"
       },
@@ -10414,10 +10414,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "日本語しかわかりません",
-        "kana": "日本語しかわかりません",
-        "kanji": "",
-        "romaji": "shikawakarimasen",
+        "word": "にほんごしかわかりません (日本語しか分かりません)",
+        "kana": "にほんごしかわかりません",
+        "kanji": "日本語しか分かりません",
+        "romaji": "nihongo shika wakarimasen",
         "vietnamese": "(Tôi) chỉ biết tiếng Nhật Từ o vưng tham kha",
         "wordType": "Đại từ"
       },
@@ -10438,10 +10438,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「道を～」",
-        "kana": "「道を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "みちをはしります (道を走ります)",
+        "kana": "みちをはしります",
+        "kanji": "道を走ります",
+        "romaji": "michi o hashirimasu",
         "vietnamese": "Chạy trên đường",
         "wordType": "Danh từ"
       },
@@ -10454,10 +10454,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「休み／きょかを～」",
-        "kana": "「休み／きょかを～」",
-        "kanji": "",
-        "romaji": "mikyokao",
+        "word": "きょかをとります (許可を取ります)",
+        "kana": "きょかをとります",
+        "kanji": "許可を取ります",
+        "romaji": "kyoka o torimasu",
         "vietnamese": "Xin nghỉ/phép",
         "wordType": "Danh từ"
       },
@@ -10774,10 +10774,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「花が～」",
-        "kana": "「花が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "はながさきます (花が咲きます)",
+        "kana": "はながさきます",
+        "kanji": "花が咲きます",
+        "romaji": "hana ga sakimasu",
         "vietnamese": "Hoa nở",
         "wordType": "Danh từ"
       },
@@ -11094,10 +11094,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「大学・会社に～」",
-        "kana": "「大学・会社に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "かよいます (通います)",
+        "kana": "かよいます",
+        "kanji": "通います",
+        "romaji": "kayoimasu",
         "vietnamese": "Đi học đại học / Đi làm",
         "wordType": "Danh từ"
       },
@@ -11238,10 +11238,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「ちょっと」お願 いがあるんですが",
-        "kana": "「ちょっと」お願 いがあるんですが",
-        "kanji": "",
-        "romaji": "chottooigaarunsuga",
+        "word": "ちょっとおねがいがあるんですが (ちょっとお願いがあるんですが)",
+        "kana": "ちょっとおねがいがあるんですが",
+        "kanji": "ちょっとお願いがあるんですが",
+        "romaji": "chotto onegai ga arundesuga",
         "vietnamese": "Tôi có việc muốn nhờ anh một chút",
         "wordType": "Đại từ"
       },
@@ -11302,10 +11302,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「道／電車が～」",
-        "kana": "「道／電車が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "こみます / すきます (込みます / すきます)",
+        "kana": "こみます / すきます",
+        "kanji": "込みます / すきます",
+        "romaji": "komimasu / sukimasu",
         "vietnamese": "Đường / Xe đông",
         "wordType": "Danh từ"
       },
@@ -11318,10 +11318,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「道／電車が～」",
-        "kana": "「道／電車が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "こみます / すきます (込みます / すきます)",
+        "kana": "こみます / すきます",
+        "kanji": "込みます / すきます",
+        "romaji": "komimasu / sukimasu",
         "vietnamese": "Đường / Xe vắng",
         "wordType": "Danh từ"
       },
@@ -11366,10 +11366,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「木／ほねが～」",
-        "kana": "「木／ほねが～」",
-        "kanji": "",
-        "romaji": "honega",
+        "word": "おれます (折れます)",
+        "kana": "おれます",
+        "kanji": "折れます",
+        "romaji": "oremasu",
         "vietnamese": "Cây / Xương bị gãy",
         "wordType": "Danh từ"
       },
@@ -11574,10 +11574,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "いまの電車",
-        "kana": "いまの電車",
-        "kanji": "",
-        "romaji": "imano",
+        "word": "いまのでんしゃ (今の電車)",
+        "kana": "いまのでんしゃ",
+        "kanji": "今の電車",
+        "romaji": "ima no densha",
         "vietnamese": "Chuyến tàu vừa rồi",
         "wordType": "Danh từ"
       },
@@ -12206,10 +12206,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "なにかご希望がありますか",
-        "kana": "なにかご希望がありますか",
-        "kanji": "",
-        "romaji": "nanikagogaarimasuka",
+        "word": "なにかごきぼうがありますか (何かご希望がありますか)",
+        "kana": "なにかごきぼうがありますか",
+        "kanji": "何かご希望がありますか",
+        "romaji": "nanika gokibou ga arimasuka",
         "vietnamese": "Anh có nguyện vọng gì không?",
         "wordType": "Danh từ"
       },
@@ -12302,10 +12302,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「大学を～」",
-        "kana": "「大学を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "だいがくをでます (大学を出ます)",
+        "kana": "だいがくをでます",
+        "kanji": "大学を出ます",
+        "romaji": "daigaku o demasu",
         "vietnamese": "Tốt nghiệp đại học",
         "wordType": "Danh từ"
       },
@@ -12470,10 +12470,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "こんどの日曜日",
-        "kana": "こんどの日曜日",
-        "kanji": "",
-        "romaji": "kondono",
+        "word": "こんどのにちようび (今度の日曜日)",
+        "kana": "こんどのにちようび",
+        "kanji": "今度の日曜日",
+        "romaji": "kondo no nichiyoubi",
         "vietnamese": "Chủ Nhật tới",
         "wordType": "Danh từ"
       },
@@ -12630,10 +12630,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「大学に～」",
-        "kana": "「大学に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "だいがくににゅうがくします (大学に入学します)",
+        "kana": "だいがくににゅうがくします",
+        "kanji": "大学に入学します",
+        "romaji": "daigaku ni nyuugaku shimasu",
         "vietnamese": "Vào đại học",
         "wordType": "Danh từ"
       },
@@ -12694,9 +12694,9 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "［お］そうしき (［お］葬式)",
-        "kana": "［お］そうしき",
-        "kanji": "［お］葬式",
+        "word": "おそうしき (お葬式)",
+        "kana": "おそうしき",
+        "kanji": "お葬式",
         "romaji": "osoushiki",
         "vietnamese": "Đám tang, lễ tang",
         "wordType": "Danh từ"
@@ -12902,10 +12902,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「雨が～」",
-        "kana": "「雨が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "あめがやみます (雨が止みます)",
+        "kana": "あめがやみます",
+        "kanji": "雨が止みます",
+        "romaji": "ame ga yamimasu",
         "vietnamese": "Mưa tạnh",
         "wordType": "Danh từ"
       },
@@ -12942,10 +12942,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「薬を～」",
-        "kana": "「薬を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "くすりをつけます (薬をつけます)",
+        "kana": "くすりをつけます",
+        "kanji": "薬をつけます",
+        "romaji": "kusuri o tsukemasu",
         "vietnamese": "Bôi thuốc, thoa thuốc",
         "wordType": "Danh từ"
       },
@@ -12990,10 +12990,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「病気～」",
-        "kana": "「病気～」",
-        "kanji": "",
-        "romaji": "",
+        "word": "びょうきがなおります (病気が治ります)",
+        "kana": "びょうきがなおります",
+        "kanji": "病気が治ります",
+        "romaji": "byouki ga naorimasu",
         "vietnamese": "Khỏi ốm",
         "wordType": "Danh từ"
       },
@@ -13446,9 +13446,9 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "［お］かねもち (［お］金持ち)",
-        "kana": "［お］かねもち",
-        "kanji": "［お］金持ち",
+        "word": "おかねもち (お金持ち)",
+        "kana": "おかねもち",
+        "kanji": "お金持ち",
         "romaji": "okanemochi",
         "vietnamese": "Giàu có",
         "wordType": "Danh từ"
@@ -13478,10 +13478,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「道を～」",
-        "kana": "「道を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "みちをはしります (道を走ります)",
+        "kana": "みちをはしります",
+        "kanji": "道を走ります",
+        "romaji": "michi o hashirimasu",
         "vietnamese": "Chạy trên đường",
         "wordType": "Danh từ"
       },
@@ -13542,10 +13542,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "「車に～」",
-        "kana": "「車に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "くるまにきをつけます (車に気をつけます)",
+        "kana": "くるまにきをつけます",
+        "kanji": "車に気をつけます",
+        "romaji": "kuruma ni ki o tsukemasu",
         "vietnamese": "Chú ý ô tô",
         "wordType": "Danh từ"
       },
@@ -13998,9 +13998,9 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "［お］いわい (［お］祝い)",
-        "kana": "［お］いわい",
-        "kanji": "［お］祝い",
+        "word": "おいわい (お祝い)",
+        "kana": "おいわい",
+        "kanji": "お祝い",
         "romaji": "oiwai",
         "vietnamese": "Chúc mừng",
         "wordType": "Danh từ"
@@ -14558,10 +14558,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「本が～」",
-        "kana": "「本が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "ほんがうれます (本が売れます)",
+        "kana": "ほんがうれます",
+        "kanji": "本が売れます",
+        "romaji": "hon ga uremasu",
         "vietnamese": "Sách bán chạy",
         "wordType": "Danh từ"
       },
@@ -14710,10 +14710,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「花が～」",
-        "kana": "「花が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "はながさきます (花が咲きます)",
+        "kana": "はながさきます",
+        "kanji": "花が咲きます",
+        "romaji": "hana ga sakimasu",
         "vietnamese": "Hoa nở",
         "wordType": "Danh từ"
       },
@@ -14726,10 +14726,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「色が～」",
-        "kana": "「色が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "いろがかわります (色が変わります)",
+        "kana": "いろがかわります",
+        "kanji": "色が変わります",
+        "romaji": "iro ga kawarimasu",
         "vietnamese": "Đổi màu",
         "wordType": "Danh từ"
       },
@@ -15038,10 +15038,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「生活に～」",
-        "kana": "「生活に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "せいかつになれます (生活に慣れます)",
+        "kana": "せいかつになれます",
+        "kanji": "生活に慣れます",
+        "romaji": "seikatsu ni naremasu",
         "vietnamese": "quen (đời sống)",
         "wordType": "Danh từ"
       },
@@ -15238,10 +15238,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「荷物が～」",
-        "kana": "「荷物が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "にもつがとどきます (荷物が届きます)",
+        "kana": "にもつがとどきます",
+        "kanji": "荷物が届きます",
+        "romaji": "nimotsu ga todokimasu",
         "vietnamese": "Hàng hóa được chuyển tới",
         "wordType": "Danh từ"
       },
@@ -15254,10 +15254,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「試合に～」",
-        "kana": "「試合に～」",
-        "kanji": "",
-        "romaji": "ni",
+        "word": "しあいにでます (試合に出ます)",
+        "kana": "しあいにでます",
+        "kanji": "試合に出ます",
+        "romaji": "shiai ni demasu",
         "vietnamese": "Tham gia trận đấu",
         "wordType": "Danh từ"
       },
@@ -15286,10 +15286,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「７時を～」",
-        "kana": "「７時を～」",
-        "kanji": "",
-        "romaji": "o",
+        "word": "しちじをすぎます (７時を過ぎます)",
+        "kana": "しちじをすぎます",
+        "kanji": "７時を過ぎます",
+        "romaji": "shichiji o sugimasu",
         "vietnamese": "Quá 7 giờ",
         "wordType": "Danh từ"
       },
@@ -16390,10 +16390,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「家が～」",
-        "kana": "「家が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "いえがやけます (家が焼けます)",
+        "kana": "いえがやけます",
+        "kanji": "家が焼けます",
+        "romaji": "ie ga yakemasu",
         "vietnamese": "Cháy nhà",
         "wordType": "Danh từ"
       },
@@ -16406,10 +16406,10 @@
         "wordType": "Động từ"
       },
       {
-        "word": "「木が～」",
-        "kana": "「木が～」",
-        "kanji": "",
-        "romaji": "ga",
+        "word": "きがたおれます (木が倒れます)",
+        "kana": "きがたおれます",
+        "kanji": "木が倒れます",
+        "romaji": "ki ga taoremasu",
         "vietnamese": "Cây đổ",
         "wordType": "Danh từ"
       },
@@ -16462,10 +16462,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "気分が悪い",
-        "kana": "気分が悪い",
-        "kanji": "",
-        "romaji": "gai",
+        "word": "きぶんがわるい (気分が悪い)",
+        "kana": "きぶんがわるい",
+        "kanji": "気分が悪い",
+        "romaji": "kibun ga warui",
         "vietnamese": "Khó chịu trong người",
         "wordType": "Danh từ"
       },
@@ -16790,12 +16790,12 @@
         "wordType": "Động từ"
       },
       {
-        "word": "かんけいが あります 《関係がある、～あって》",
-        "kana": "かんけいが あります 《関係がある、～あって》",
-        "kanji": "",
-        "romaji": "kankeigaarimasugaaruatte",
+        "word": "かんけいがあります (関係があります)",
+        "kana": "かんけいがあります",
+        "kanji": "関係があります",
+        "romaji": "kankei ga arimasu",
         "vietnamese": "Có liên quan",
-        "wordType": "Danh từ"
+        "wordType": "Động từ"
       },
       {
         "word": "「せんもんと～」",
@@ -18382,10 +18382,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "本当に (きて)",
-        "kana": "本当に",
-        "kanji": "きて",
-        "romaji": "ni",
+        "word": "ほんとうにきて (本当に来て)",
+        "kana": "ほんとうにきて",
+        "kanji": "本当に来て",
+        "romaji": "hontou ni kite",
         "vietnamese": "t hà i lò ng khi đến đây. Thâ",
         "wordType": "Danh từ"
       },
@@ -18502,10 +18502,10 @@
         "wordType": "Tính từ đuôi な"
       },
       {
-        "word": "幸せ「な」 (幸せ)",
-        "kana": "幸せ「な」",
+        "word": "しあわせ (幸せ)",
+        "kana": "しあわせ",
         "kanji": "幸せ",
-        "romaji": "sena",
+        "romaji": "shiawase",
         "vietnamese": "Hạnh phúc",
         "wordType": "Tính từ đuôi な"
       },
@@ -20214,12 +20214,12 @@
     "language": "ja",
     "vocabularies": [
       {
-        "word": "《出席します、出席する、出席して》",
-        "kana": "《出席します、出席する、出席して》",
-        "kanji": "",
-        "romaji": "shimasusurushite",
+        "word": "しゅっせきします (出席します)",
+        "kana": "しゅっせきします",
+        "kanji": "出席します",
+        "romaji": "shusseki shimasu",
         "vietnamese": "Tham dự, có mặt 【III】",
-        "wordType": "Danh từ"
+        "wordType": "Động từ"
       },
       {
         "word": "とどけます【Ⅱ】 (届けます)",
@@ -20286,10 +20286,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "会社の者",
-        "kana": "会社の者",
-        "kanji": "",
-        "romaji": "no",
+        "word": "かいしゃのもの (会社の者)",
+        "kana": "かいしゃのもの",
+        "kanji": "会社の者",
+        "romaji": "kaisha no mono",
         "vietnamese": "Người của công ty",
         "wordType": "Danh từ"
       },
@@ -20318,10 +20318,10 @@
         "wordType": "Danh từ"
       },
       {
-        "word": "お待たせました。",
-        "kana": "お待たせました。",
-        "kanji": "",
-        "romaji": "otasemashita",
+        "word": "おまたせしました (お待たせしました)",
+        "kana": "おまたせしました",
+        "kanji": "お待たせしました",
+        "romaji": "omatase shimashita",
         "vietnamese": "Xin lỗi đã để(ông, bà) đợi lâu.",
         "wordType": "Mẫu câu giao tiếp"
       },
@@ -20774,10 +20774,10 @@
         "wordType": "Động từ [Nhóm 2]"
       },
       {
-        "word": "「かいしゃに～」 「会社に～」",
-        "kana": "「かいしゃに～」 「会社に～」",
-        "kanji": "",
-        "romaji": "kaishanini",
+        "word": "かいしゃにつとめます (会社に勤めます)",
+        "kana": "かいしゃにつとめます",
+        "kanji": "会社に勤めます",
+        "romaji": "kaisha ni tsutomemasu",
         "vietnamese": "Làm việc ởcông ty",
         "wordType": "Danh từ"
       },
@@ -20798,10 +20798,10 @@
         "wordType": "Động từ [Nhóm 1]"
       },
       {
-        "word": "「ぎんこうに～」 「銀行に～」",
-        "kana": "「ぎんこうに～」 「銀行に～」",
-        "kanji": "",
-        "romaji": "ginkounini",
+        "word": "ぎんこうによります (銀行に寄ります)",
+        "kana": "ぎんこうによります",
+        "kanji": "銀行に寄ります",
+        "romaji": "ginkou ni yorimasu",
         "vietnamese": "Ghé vào ngân hàng",
         "wordType": "Danh từ"
       },

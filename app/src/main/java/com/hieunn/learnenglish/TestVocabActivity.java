@@ -183,6 +183,26 @@ public class TestVocabActivity extends AppCompatActivity {
                 findViewById(R.id.tvChoice4)
         };
 
+        RomajiHelper.attachRomajiConverter(etWrittenAnswer, new RomajiHelper.ActiveCheck() {
+            @Override
+            public boolean isJapaneseActive() {
+                if (currentIndex >= 0 && currentIndex < questions.size()) {
+                    TestQuestion q = questions.get(currentIndex);
+                    return q.type == QuestionType.WRITTEN && VocabItem.isJapaneseText(q.correctAnswer);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean isKatakanaExpected() {
+                if (currentIndex >= 0 && currentIndex < questions.size()) {
+                    TestQuestion q = questions.get(currentIndex);
+                    return RomajiHelper.isKatakanaWord(q.correctAnswer);
+                }
+                return false;
+            }
+        });
+
         tvScore = findViewById(R.id.tvScore);
         tvScoreDetail = findViewById(R.id.tvScoreDetail);
         btnRetakeFull = findViewById(R.id.btnRetakeFull);
@@ -565,7 +585,11 @@ public class TestVocabActivity extends AppCompatActivity {
                 etWrittenAnswer.removeTextChangedListener(writtenWatcher);
             }
             etWrittenAnswer.setText(question.userAnswer != null ? question.userAnswer : "");
-            etWrittenAnswer.setHint("Nhập đáp án");
+            if (VocabItem.isJapaneseText(question.correctAnswer)) {
+                etWrittenAnswer.setHint("Gõ Romaji (vd: se -> せ) hoặc tiếng Nhật");
+            } else {
+                etWrittenAnswer.setHint("Nhập đáp án");
+            }
             writtenWatcher = new WrittenAnswerWatcher(question);
             etWrittenAnswer.addTextChangedListener(writtenWatcher);
         }
@@ -688,6 +712,13 @@ public class TestVocabActivity extends AppCompatActivity {
     private void onNextClicked() {
         if (currentIndex < 0 || currentIndex >= questions.size()) return;
         TestQuestion question = questions.get(currentIndex);
+
+        if (question.type == QuestionType.WRITTEN) {
+            boolean isKatakana = RomajiHelper.isKatakanaWord(question.correctAnswer);
+            String finalized = RomajiHelper.getFinalizedAnswer(etWrittenAnswer, isKatakana);
+            question.userAnswer = finalized;
+        }
+
         if (!question.isAnswered()) {
             Toast.makeText(this, "Hãy hoàn thành câu hỏi này trước", Toast.LENGTH_SHORT).show();
             return;

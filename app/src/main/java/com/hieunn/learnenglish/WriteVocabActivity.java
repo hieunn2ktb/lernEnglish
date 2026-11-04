@@ -64,6 +64,18 @@ public class WriteVocabActivity extends AppCompatActivity {
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         btnSubmit.setOnClickListener(v -> onSubmitClicked());
 
+        RomajiHelper.attachRomajiConverter(etAnswer, new RomajiHelper.ActiveCheck() {
+            @Override
+            public boolean isJapaneseActive() {
+                return currentWord != null && VocabItem.isJapaneseText(currentWord.getEnglishWord());
+            }
+
+            @Override
+            public boolean isKatakanaExpected() {
+                return currentWord != null && RomajiHelper.isKatakanaWord(currentWord.getEnglishWord());
+            }
+        });
+
         loadData();
     }
 
@@ -100,7 +112,7 @@ public class WriteVocabActivity extends AppCompatActivity {
         etAnswer.setText("");
         currentWord = learningList.get(0);
         if (VocabItem.isJapaneseText(currentWord.getEnglishWord())) {
-            etAnswer.setHint("Gõ tiếng Nhật (Kana, Kanji hoặc Romaji)");
+            etAnswer.setHint("Gõ Romaji (vd: se -> せ) hoặc tiếng Nhật");
         } else {
             etAnswer.setHint("Gõ tiếng Anh");
         }
@@ -119,7 +131,8 @@ public class WriteVocabActivity extends AppCompatActivity {
     }
 
     private void onSubmitClicked() {
-        String answer = etAnswer.getText().toString().trim();
+        boolean isKatakana = currentWord != null && RomajiHelper.isKatakanaWord(currentWord.getEnglishWord());
+        String answer = RomajiHelper.getFinalizedAnswer(etAnswer, isKatakana);
         String expected = currentWord.getEnglishWord().trim();
 
         if (isShowingCorrection) {

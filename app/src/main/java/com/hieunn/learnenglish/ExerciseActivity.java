@@ -517,6 +517,9 @@ public class ExerciseActivity extends AppCompatActivity {
         // 1. Khớp chính xác không phân biệt hoa thường
         if (cleanInput.equalsIgnoreCase(cleanExpected)) return true;
 
+        // Khớp thông qua logic VocabItem (tự động bỏ ngoặc đơn, kanji, biến thể)
+        if (VocabItem.isAnswerMatching(userInput, expected, null)) return true;
+
         // 2. So sánh không tính dấu câu cuối câu (. ! ?)
         String stripInput = stripTrailingPunctuation(cleanInput);
         String stripExpected = stripTrailingPunctuation(cleanExpected);

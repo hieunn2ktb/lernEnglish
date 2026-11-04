@@ -12,7 +12,7 @@ public class DatabaseSeeder {
     private static final String KEY_ENRICHED = "lesson_enriched_v1";
     private static final String KEY_LESSON2_DEMONSTRATIVES = "lesson2_demonstratives_v1";
     private static final String KEY_MAPPED_PRACTICE = "mapped_practice_v1";
-    private static final String KEY_JAPANESE_SEEDED = "japanese_seeded_v1";
+    private static final String KEY_JAPANESE_SEEDED = "japanese_seeded_v2";
     private static final String DAY_1_VIDEO_ID = "x4F1npn2g8Q";
 
     public static void seedIfNeeded(Context context) {
@@ -62,17 +62,17 @@ public class DatabaseSeeder {
     }
 
     public static void seedJapaneseIfNeeded(Context context, AppDatabase db, SharedPreferences prefs) {
-        boolean hasJapanese = false;
+        if (prefs.getBoolean(KEY_JAPANESE_SEEDED, false)) {
+            return;
+        }
+
+        // Clean up previously seeded Japanese lessons to reload latest standardized items
         List<LessonEntity> allLessons = db.lessonDao().getAllLessons();
         for (LessonEntity l : allLessons) {
             if ("ja".equalsIgnoreCase(l.videoUrl) || (l.title != null && l.title.startsWith("Bài "))) {
-                hasJapanese = true;
-                break;
+                db.vocabDao().deleteByLessonId(l.id);
+                db.lessonDao().deleteLesson(l);
             }
-        }
-
-        if (hasJapanese && prefs.getBoolean(KEY_JAPANESE_SEEDED, false)) {
-            return;
         }
 
         try {
