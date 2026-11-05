@@ -76,18 +76,57 @@ public class VocabItem {
                 .replace('”', '"')
                 .replace('–', '-')
                 .replace('—', '-')
+                .replace('？', '?')
+                .replace('！', '!')
+                .replace('：', ':')
+                .replace('；', ';')
+                .replace('，', ',')
+                .replace('、', ',')
+                .replace('。', '.')
+                .replace('．', '.')
+                .replace('～', '~')
+                .replace('〜', '~')
+                .replace('〰', '~')
+                .replace('＊', '*')
+                .replace('／', '/')
+                .replace('（', '(')
+                .replace('）', ')')
+                .replace('［', '[')
+                .replace('］', ']')
+                .replace('【', '[')
+                .replace('】', ']')
+                .replace('《', '<')
+                .replace('》', '>')
+                .replace('「', '"')
+                .replace('」', '"')
+                .replace('『', '"')
+                .replace('』', '"')
                 .replaceAll("\\s+", " ")
                 .trim();
     }
 
     public static String stripPunctuation(String s) {
         if (s == null) return "";
-        return s.replaceAll("[.。、,!?:;~～*＊]+$", "").replaceAll("^[~～*＊]+", "").trim();
+        return s.replaceAll("[.。、,!?:;~～〜*＊？！：；，．・…'\"`\\p{Punct}]+$", "")
+                .replaceAll("^[.。、,!?:;~～〜*＊？！：；，．・…'\"`\\p{Punct}]+", "")
+                .trim();
+    }
+
+    public static String stripAllPunctuation(String s) {
+        if (s == null) return "";
+        return s.replaceAll("[.。、,!?:;~～〜*＊？！：；，．・…'\"`\\^\\-_/\\\\|()\\[\\]{}（）［］【】《》「」『』\\p{Punct}]+", "")
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 
     public static String stripSymbols(String s) {
         if (s == null) return "";
-        return s.replace("~", "").replace("～", "").replace("*", "").replace("＊", "").trim();
+        return s.replace("~", "").replace("～", "").replace("〜", "")
+                .replace("*", "").replace("＊", "")
+                .replace("?", "").replace("？", "")
+                .replace("!", "").replace("！", "")
+                .replace(".", "").replace("。", "")
+                .trim();
     }
 
     public static String stripKanji(String s) {
@@ -212,6 +251,7 @@ public class VocabItem {
             allCandidates.add(stripPunctuation(c));
             allCandidates.add(stripSymbols(c));
             allCandidates.add(stripPunctuation(stripSymbols(c)));
+            allCandidates.add(stripAllPunctuation(c));
         }
 
         return allCandidates;
@@ -225,11 +265,19 @@ public class VocabItem {
         String uStrip = stripPunctuation(stripSymbols(cleanInput));
         String uNoSpace = cleanInput.replace(" ", "");
         String uStripNoSpace = uStrip.replace(" ", "");
+        String uAllStrip = stripAllPunctuation(cleanInput);
+        String uAllStripNoSpace = uAllStrip.replace(" ", "");
 
         String hiraInput = RomajiHelper.toHiragana(cleanInput, true);
         String hiraStrip = stripPunctuation(stripSymbols(hiraInput));
         String hiraNoSpace = hiraInput.replace(" ", "");
         String hiraStripNoSpace = hiraStrip.replace(" ", "");
+        String hiraAllStrip = stripAllPunctuation(hiraInput);
+        String hiraAllStripNoSpace = hiraAllStrip.replace(" ", "");
+
+        String kataInput = RomajiHelper.hiraganaToKatakana(hiraInput);
+        String kataAllStrip = stripAllPunctuation(kataInput);
+        String kataAllStripNoSpace = kataAllStrip.replace(" ", "");
 
         Set<String> candidates = getCandidates(expected, phonetic);
         for (String candidate : candidates) {
@@ -242,14 +290,41 @@ public class VocabItem {
             if (cleanInput.equalsIgnoreCase(clStrip) || uStrip.equalsIgnoreCase(clStrip)) return true;
             if (hiraInput.equalsIgnoreCase(clStrip) || hiraStrip.equalsIgnoreCase(clStrip)) return true;
 
+            String clAllStrip = stripAllPunctuation(cl);
+            String clAllStripNoSpace = clAllStrip.replace(" ", "");
+
             if (uNoSpace.equalsIgnoreCase(cl.replace(" ", "")) || uStripNoSpace.equalsIgnoreCase(clStrip.replace(" ", ""))) {
                 return true;
             }
             if (hiraNoSpace.equalsIgnoreCase(cl.replace(" ", "")) || hiraStripNoSpace.equalsIgnoreCase(clStrip.replace(" ", ""))) {
                 return true;
             }
+
+            // Punctuation-free matches
+            if (!uAllStrip.isEmpty() && uAllStrip.equalsIgnoreCase(clAllStrip)) return true;
+            if (!uAllStripNoSpace.isEmpty() && uAllStripNoSpace.equalsIgnoreCase(clAllStripNoSpace)) return true;
+            if (!hiraAllStrip.isEmpty() && hiraAllStrip.equalsIgnoreCase(clAllStrip)) return true;
+            if (!hiraAllStripNoSpace.isEmpty() && hiraAllStripNoSpace.equalsIgnoreCase(clAllStripNoSpace)) return true;
+            if (!kataAllStrip.isEmpty() && kataAllStrip.equalsIgnoreCase(clAllStrip)) return true;
+            if (!kataAllStripNoSpace.isEmpty() && kataAllStripNoSpace.equalsIgnoreCase(clAllStripNoSpace)) return true;
+
+            // Particle wa (わ) <-> ha (は) tolerance
+            if (matchWithParticleTolerance(uAllStripNoSpace, clAllStripNoSpace)) return true;
+            if (matchWithParticleTolerance(hiraAllStripNoSpace, clAllStripNoSpace)) return true;
         }
 
+        return false;
+    }
+
+    private static boolean matchWithParticleTolerance(String a, String b) {
+        if (a == null || b == null || a.isEmpty() || b.isEmpty()) return false;
+        if (a.equalsIgnoreCase(b)) return true;
+        if (a.endsWith("わ") && b.endsWith("は")) {
+            if (a.substring(0, a.length() - 1).equalsIgnoreCase(b.substring(0, b.length() - 1))) return true;
+        }
+        if (a.endsWith("は") && b.endsWith("わ")) {
+            if (a.substring(0, a.length() - 1).equalsIgnoreCase(b.substring(0, b.length() - 1))) return true;
+        }
         return false;
     }
 }

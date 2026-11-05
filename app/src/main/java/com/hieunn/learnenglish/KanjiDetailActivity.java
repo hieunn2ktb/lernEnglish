@@ -393,6 +393,8 @@ public class KanjiDetailActivity extends AppCompatActivity {
 
     private boolean checkWritingMatch(String userInput, String targetPrompt) {
         if (userInput == null || targetPrompt == null) return false;
+        if (VocabItem.isAnswerMatching(userInput, targetPrompt, null)) return true;
+
         String cleanUser = userInput.trim().toLowerCase();
         String cleanTarget = targetPrompt.trim().toLowerCase();
 
@@ -401,8 +403,11 @@ public class KanjiDetailActivity extends AppCompatActivity {
         // Split tokens in target prompt: e.g. "ひとり 人" -> accepts "ひとり" or "人"
         String[] parts = cleanTarget.split("[\\s()（）]+");
         for (String part : parts) {
-            if (!part.isEmpty() && (cleanUser.equals(part) || cleanUser.contains(part) || part.contains(cleanUser))) {
-                return true;
+            if (!part.isEmpty()) {
+                if (VocabItem.isAnswerMatching(cleanUser, part, null)) return true;
+                if (cleanUser.equals(part) || cleanUser.contains(part) || part.contains(cleanUser)) {
+                    return true;
+                }
             }
         }
 
