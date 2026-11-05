@@ -178,6 +178,20 @@
                     android:textColor="#1F2937"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnOptionGrammar"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_rounded_quizlet"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:text="⛩️ Ngữ pháp bài này"
+                    android:textColor="#EF4444"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!-- List Header -->

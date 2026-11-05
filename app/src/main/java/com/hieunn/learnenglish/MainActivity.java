@@ -27,13 +27,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int SUBTAB_VOCAB = 0;
+    public static final int SUBTAB_GRAMMAR = 1;
+    public static final int SUBTAB_KANJI = 2;
+
     private boolean isJapaneseTab = false;
-    private boolean isKanjiSubTab = false;
+    private int japaneseSubTab = SUBTAB_VOCAB;
     private TextView tvHeaderTitle;
     private TextView tabEnglish;
     private TextView tabJapanese;
     private View layoutJapaneseSubTabs;
     private TextView subTabVocab;
+    private TextView subTabGrammar;
     private TextView subTabKanji;
     private Button btnCreateLesson;
     private Button btnLearnAll;
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         tabJapanese = findViewById(R.id.tabJapanese);
         layoutJapaneseSubTabs = findViewById(R.id.layoutJapaneseSubTabs);
         subTabVocab = findViewById(R.id.subTabVocab);
+        subTabGrammar = findViewById(R.id.subTabGrammar);
         subTabKanji = findViewById(R.id.subTabKanji);
         btnCreateLesson = findViewById(R.id.btnCreateLesson);
         btnLearnAll = findViewById(R.id.btnLearnAll);
@@ -64,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
         tabEnglish.setOnClickListener(v -> switchTab(false));
         tabJapanese.setOnClickListener(v -> switchTab(true));
 
-        if (subTabVocab != null) subTabVocab.setOnClickListener(v -> switchJapaneseSubTab(false));
-        if (subTabKanji != null) subTabKanji.setOnClickListener(v -> switchJapaneseSubTab(true));
+        if (subTabVocab != null) subTabVocab.setOnClickListener(v -> switchJapaneseSubTab(SUBTAB_VOCAB));
+        if (subTabGrammar != null) subTabGrammar.setOnClickListener(v -> switchJapaneseSubTab(SUBTAB_GRAMMAR));
+        if (subTabKanji != null) subTabKanji.setOnClickListener(v -> switchJapaneseSubTab(SUBTAB_KANJI));
 
         // Nút tạo bài học mới
         btnCreateLesson.setOnClickListener(v -> {
@@ -89,31 +96,47 @@ public class MainActivity extends AppCompatActivity {
         loadLessons();
     }
 
-    private void switchJapaneseSubTab(boolean toKanji) {
-        if (isKanjiSubTab == toKanji) return;
-        isKanjiSubTab = toKanji;
+    private void switchJapaneseSubTab(int subTab) {
+        if (japaneseSubTab == subTab) return;
+        japaneseSubTab = subTab;
         updateSubTabUI();
         loadLessons();
     }
 
     private void updateSubTabUI() {
-        if (subTabVocab == null || subTabKanji == null) return;
-        if (!isKanjiSubTab) {
-            subTabVocab.setBackgroundResource(R.drawable.bg_tab_active_red);
-            subTabVocab.setTextColor(0xFFFFFFFF);
-            subTabKanji.setBackgroundColor(0);
-            subTabKanji.setTextColor(0xFF4B5563);
+        if (subTabVocab == null || subTabGrammar == null || subTabKanji == null) return;
 
-            if (tvHeaderTitle != null) tvHeaderTitle.setText("Tiếng Nhật Minna");
+        int activeBg = R.drawable.bg_tab_active_red;
+        int activeText = 0xFFFFFFFF;
+        int inactiveText = 0xFF4B5563;
+
+        subTabVocab.setBackgroundColor(0);
+        subTabVocab.setTextColor(inactiveText);
+        subTabGrammar.setBackgroundColor(0);
+        subTabGrammar.setTextColor(inactiveText);
+        subTabKanji.setBackgroundColor(0);
+        subTabKanji.setTextColor(inactiveText);
+
+        if (japaneseSubTab == SUBTAB_VOCAB) {
+            subTabVocab.setBackgroundResource(activeBg);
+            subTabVocab.setTextColor(activeText);
+
+            if (tvHeaderTitle != null) tvHeaderTitle.setText("Tiếng Nhật Minna (Từ vựng)");
             if (btnLearnAll != null) {
                 btnLearnAll.setVisibility(View.VISIBLE);
                 btnLearnAll.setText("Ôn tập từ");
             }
+        } else if (japaneseSubTab == SUBTAB_GRAMMAR) {
+            subTabGrammar.setBackgroundResource(activeBg);
+            subTabGrammar.setTextColor(activeText);
+
+            if (tvHeaderTitle != null) tvHeaderTitle.setText("Ngữ pháp Minna (50 bài)");
+            if (btnLearnAll != null) {
+                btnLearnAll.setVisibility(View.GONE);
+            }
         } else {
-            subTabKanji.setBackgroundResource(R.drawable.bg_tab_active_red);
-            subTabKanji.setTextColor(0xFFFFFFFF);
-            subTabVocab.setBackgroundColor(0);
-            subTabVocab.setTextColor(0xFF4B5563);
+            subTabKanji.setBackgroundResource(activeBg);
+            subTabKanji.setTextColor(activeText);
 
             if (tvHeaderTitle != null) tvHeaderTitle.setText("Chữ Hán Kanji (20 bài)");
             if (btnLearnAll != null) {
@@ -251,9 +274,14 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout layoutLessons = findViewById(R.id.layoutLessons);
         layoutLessons.removeAllViews();
 
-        if (isJapaneseTab && isKanjiSubTab) {
-            loadKanjiLessons(layoutLessons);
-            return;
+        if (isJapaneseTab) {
+            if (japaneseSubTab == SUBTAB_GRAMMAR) {
+                loadJapaneseGrammarLessons(layoutLessons);
+                return;
+            } else if (japaneseSubTab == SUBTAB_KANJI) {
+                loadKanjiLessons(layoutLessons);
+                return;
+            }
         }
 
         AppDatabase db = AppDatabase.getInstance(this);
@@ -550,6 +578,32 @@ public class MainActivity extends AppCompatActivity {
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(this, KanjiDetailActivity.class);
                 intent.putExtra("lessonId", lesson.getId());
+                startActivity(intent);
+            });
+
+            layoutLessons.addView(itemView);
+        }
+    }
+
+    private void loadJapaneseGrammarLessons(LinearLayout layoutLessons) {
+        layoutLessons.removeAllViews();
+        List<JapaneseGrammarLesson> grammarLessons = JapaneseGrammarDataManager.getAllLessons(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        for (JapaneseGrammarLesson lesson : grammarLessons) {
+            View itemView = inflater.inflate(R.layout.item_japanese_grammar_lesson, layoutLessons, false);
+
+            TextView tvBadge = itemView.findViewById(R.id.tvGrammarBadge);
+            TextView tvTitle = itemView.findViewById(R.id.tvGrammarTitle);
+            TextView tvSummary = itemView.findViewById(R.id.tvGrammarSummary);
+
+            tvBadge.setText(String.valueOf(lesson.getLessonNumber()));
+            tvTitle.setText(lesson.getTitle());
+            tvSummary.setText(lesson.getSummary());
+
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(this, JapaneseGrammarDetailActivity.class);
+                intent.putExtra("lessonNumber", lesson.getLessonNumber());
                 startActivity(intent);
             });
 

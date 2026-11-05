@@ -101,6 +101,37 @@ public class UnitDetailActivity extends AppCompatActivity {
             intent.putExtra("lessonId", lessonId);
             startActivity(intent);
         });
+
+        TextView btnOptionGrammar = findViewById(R.id.btnOptionGrammar);
+        if (btnOptionGrammar != null && lessonId > 0) {
+            AppDatabase db = AppDatabase.getInstance(this);
+            com.hieunn.learnenglish.db.LessonEntity lesson = db.lessonDao().getLessonById(lessonId);
+            if (lesson != null && MainActivity.isJapaneseLesson(lesson)) {
+                int lessonNum = extractLessonNumber(lesson.title);
+                if (lessonNum > 0 && lessonNum <= 50) {
+                    btnOptionGrammar.setVisibility(android.view.View.VISIBLE);
+                    btnOptionGrammar.setText("⛩️ Ngữ pháp Bài " + lessonNum);
+                    btnOptionGrammar.setOnClickListener(v -> {
+                        Intent intent = new Intent(this, JapaneseGrammarDetailActivity.class);
+                        intent.putExtra("lessonNumber", lessonNum);
+                        startActivity(intent);
+                    });
+                }
+            }
+        }
+    }
+
+    private int extractLessonNumber(String title) {
+        if (title != null) {
+            String lower = title.toLowerCase().trim();
+            if (lower.startsWith("bài ")) {
+                try {
+                    String numStr = lower.substring(4).split("[:\\s]")[0].trim();
+                    return Integer.parseInt(numStr);
+                } catch (Exception e) {}
+            }
+        }
+        return -1;
     }
 
     private void loadData() {

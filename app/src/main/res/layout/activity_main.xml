@@ -98,7 +98,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Japanese Sub-tabs (Từ vựng 50 bài vs Chữ Hán Kanji 20 bài) -->
+    <!-- Japanese Sub-tabs (Từ vựng, Ngữ pháp, Kanji) -->
     <LinearLayout
         android:id="@+id/layoutJapaneseSubTabs"
         android:layout_width="match_parent"
@@ -109,37 +109,58 @@
         android:paddingBottom="12dp"
         android:visibility="gone">
 
-        <LinearLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:background="@drawable/bg_tab_container"
-            android:orientation="horizontal"
-            android:padding="2dp">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
-            <TextView
-                android:id="@+id/subTabVocab"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="📖 Từ vựng (50 bài)"
-                android:textColor="@android:color/white"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:background="@drawable/bg_tab_active_red" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_tab_container"
+                android:orientation="horizontal"
+                android:padding="2dp">
 
-            <TextView
-                android:id="@+id/subTabKanji"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="🈸 Kanji (20 bài)"
-                android:textColor="#4B5563"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/subTabVocab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="📖 Từ vựng (50)"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/bg_tab_active_red" />
+
+                <TextView
+                    android:id="@+id/subTabGrammar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="⛩️ Ngữ pháp (50)"
+                    android:textColor="#4B5563"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:background="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/subTabKanji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="🈸 Kanji (20)"
+                    android:textColor="#4B5563"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 
     <ScrollView
