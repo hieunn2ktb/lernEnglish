@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class LearnVocabActivity extends AppCompatActivity {
     private EditText etWriteAnswer;
     private TextView tvWriteFeedback;
     private Button btnSubmitWrite;
+    private RomajiHelper.ImeController imeController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,17 +120,18 @@ public class LearnVocabActivity extends AppCompatActivity {
         btnAudio = findViewById(R.id.btnAudio);
         btnStarWord = findViewById(R.id.btnStarWord);
 
-        RomajiHelper.attachRomajiConverter(etWriteAnswer, new RomajiHelper.ActiveCheck() {
-            @Override
-            public boolean isJapaneseActive() {
-                return currentWord != null && VocabItem.isJapaneseText(currentWord.getEnglishWord());
-            }
+        View layoutImeBar = findViewById(R.id.layoutImeBar);
+        Button btnImeMode = findViewById(R.id.btnImeMode);
+        LinearLayout layoutCandidates = findViewById(R.id.layoutCandidates);
 
-            @Override
-            public boolean isKatakanaExpected() {
-                return currentWord != null && RomajiHelper.isKatakanaWord(currentWord.getEnglishWord());
-            }
-        });
+        imeController = new RomajiHelper.ImeController(
+                this,
+                etWriteAnswer,
+                layoutImeBar,
+                btnImeMode,
+                layoutCandidates,
+                () -> currentWord != null && VocabItem.isJapaneseText(currentWord.getEnglishWord())
+        );
 
         // Listeners
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
@@ -399,12 +402,15 @@ public class LearnVocabActivity extends AppCompatActivity {
 
         if (VocabItem.isJapaneseText(currentWord.getEnglishWord())) {
             tvQuestionLabel.setText("Ý nghĩa tiếng Việt");
-            tvInstruction.setText("Gõ Romaji (tự động đổi sang Kana) hoặc tiếng Nhật");
-            etWriteAnswer.setHint("Gõ Romaji (vd: se -> せ) hoặc tiếng Nhật");
+            tvInstruction.setText("Gõ Romaji hoặc tiếng Nhật");
+            etWriteAnswer.setHint("Gõ Romaji hoặc tiếng Nhật");
         } else {
             tvQuestionLabel.setText("Định nghĩa");
             tvInstruction.setText("Gõ thuật ngữ tiếng Anh tương ứng");
             etWriteAnswer.setHint("Nhập câu trả lời");
+        }
+        if (imeController != null) {
+            imeController.refreshVisibility();
         }
         tvWord.setText(currentWord.getVietnameseMeaning());
 
@@ -497,8 +503,7 @@ public class LearnVocabActivity extends AppCompatActivity {
             wordState.put(currentWord, STATE_LEARNING);
         }
 
-        boolean isKatakana = currentWord != null && RomajiHelper.isKatakanaWord(currentWord.getEnglishWord());
-        String answer = RomajiHelper.getFinalizedAnswer(etWriteAnswer, isKatakana);
+        String answer = (imeController != null) ? imeController.finalizeAnswer() : etWriteAnswer.getText().toString().trim();
         tvWriteFeedback.setVisibility(View.VISIBLE);
 
         if (VocabItem.isAnswerMatching(answer, currentWord.getEnglishWord(), currentWord.getPhonetic())) {

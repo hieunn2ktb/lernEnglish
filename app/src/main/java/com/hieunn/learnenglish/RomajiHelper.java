@@ -1,15 +1,34 @@
 package com.hieunn.learnenglish;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class RomajiHelper {
 
+    public static final int MODE_HIRAGANA = 0; // "あ"
+    public static final int MODE_KATAKANA = 1; // "ア"
+    public static final int MODE_ROMAJI = 2;   // "A"
+
     private static final Map<String, String> ROMAJI_TABLE = new HashMap<>();
+    private static Map<String, List<String>> kanjiDict = null;
 
     static {
         // Yoon (3-char combinations)
@@ -80,11 +99,12 @@ public class RomajiHelper {
         ROMAJI_TABLE.put("ya", "や"); ROMAJI_TABLE.put("yu", "ゆ"); ROMAJI_TABLE.put("yo", "よ");
         ROMAJI_TABLE.put("ra", "ら"); ROMAJI_TABLE.put("ri", "り"); ROMAJI_TABLE.put("ru", "る"); ROMAJI_TABLE.put("re", "れ"); ROMAJI_TABLE.put("ro", "ろ");
         ROMAJI_TABLE.put("wa", "わ"); ROMAJI_TABLE.put("wo", "を");
+        ROMAJI_TABLE.put("wi", "うぃ"); ROMAJI_TABLE.put("we", "うぇ");
 
         // Dakuten
         ROMAJI_TABLE.put("ga", "が"); ROMAJI_TABLE.put("gi", "ぎ"); ROMAJI_TABLE.put("gu", "ぐ"); ROMAJI_TABLE.put("ge", "げ"); ROMAJI_TABLE.put("go", "ご");
-        ROMAJI_TABLE.put("za", "ざ"); ROMAJI_TABLE.put("zi", "じ"); ROMAJI_TABLE.put("zu", "ず"); ROMAJI_TABLE.put("ze", "ぜ"); ROMAJI_TABLE.put("zo", "ぞ");
-        ROMAJI_TABLE.put("da", "だ"); ROMAJI_TABLE.put("di", "ぢ"); ROMAJI_TABLE.put("du", "づ"); ROMAJI_TABLE.put("de", "で"); ROMAJI_TABLE.put("do", "ど");
+        ROMAJI_TABLE.put("za", "ざ"); ROMAJI_TABLE.put("zi", "じ"); ROMAJI_TABLE.put("ji", "じ"); ROMAJI_TABLE.put("zu", "ず"); ROMAJI_TABLE.put("ze", "ぜ"); ROMAJI_TABLE.put("zo", "ぞ");
+        ROMAJI_TABLE.put("da", "だ"); ROMAJI_TABLE.put("di", "ぢ"); ROMAJI_TABLE.put("dji", "ぢ"); ROMAJI_TABLE.put("du", "づ"); ROMAJI_TABLE.put("dzu", "づ"); ROMAJI_TABLE.put("de", "で"); ROMAJI_TABLE.put("do", "ど");
         ROMAJI_TABLE.put("ba", "ば"); ROMAJI_TABLE.put("bi", "び"); ROMAJI_TABLE.put("bu", "ぶ"); ROMAJI_TABLE.put("be", "べ"); ROMAJI_TABLE.put("bo", "ぼ");
 
         // Handakuten
@@ -109,6 +129,32 @@ public class RomajiHelper {
         ROMAJI_TABLE.put("lya", "ゃ"); ROMAJI_TABLE.put("lyu", "ゅ"); ROMAJI_TABLE.put("lyo", "ょ");
     }
 
+    public static synchronized void initDictionaryIfNeeded(Context context) {
+        if (kanjiDict != null) return;
+        kanjiDict = new HashMap<>();
+        if (context == null) return;
+        try {
+            InputStream is = context.getAssets().open("japanese_kanji_dict.json");
+            byte[] buf = new byte[is.available()];
+            is.read(buf);
+            is.close();
+            String jsonStr = new String(buf, StandardCharsets.UTF_8);
+            JSONObject json = new JSONObject(jsonStr);
+            Iterator<String> keys = json.keys();
+            while (keys.hasNext()) {
+                String k = keys.next();
+                JSONArray arr = json.getJSONArray(k);
+                List<String> list = new ArrayList<>();
+                for (int i = 0; i < arr.length(); i++) {
+                    list.add(arr.getString(i));
+                }
+                kanjiDict.put(k, list);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String toHiragana(String romaji, boolean isFinal) {
         if (romaji == null || romaji.isEmpty()) return "";
         StringBuilder sb = new StringBuilder();
@@ -118,7 +164,7 @@ public class RomajiHelper {
         while (i < n) {
             char c = romaji.charAt(i);
 
-            // If non-ASCII (already Kana, Kanji, fullwidth, etc.) or space, keep as-is
+            // If non-ASCII or space, keep as-is
             if (c > 127) {
                 sb.append(c);
                 i++;
@@ -139,7 +185,7 @@ public class RomajiHelper {
                 continue;
             }
 
-            // Check double consonants: kk, ss, tt, pp, dd, gg, etc. (excluding n)
+            // Check double consonants: kk, ss, tt, pp, dd, gg, etc.
             if (i + 1 < n) {
                 char nextC = Character.toLowerCase(romaji.charAt(i + 1));
                 if (cLower == nextC && "bcdfghjklmpqrstvwxyz".indexOf(cLower) >= 0 && cLower != 'n') {
@@ -221,73 +267,254 @@ public class RomajiHelper {
         return sb.toString();
     }
 
-    public static boolean isKatakanaWord(String text) {
-        if (text == null) return false;
-        boolean hasKata = false;
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (c >= 0x3040 && c <= 0x309F) return false;
-            if (c >= 0x30A0 && c <= 0x30FF) hasKata = true;
+    public static boolean isAllUpper(String s) {
+        if (s == null || s.isEmpty()) return false;
+        boolean hasLetter = false;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isLetter(c)) {
+                hasLetter = true;
+                if (!Character.isUpperCase(c)) return false;
+            }
         }
-        return hasKata;
+        return hasLetter;
     }
 
-    public static String convertRomaji(String romaji, boolean isFinal, boolean isKatakanaMode) {
+    public static String convertRomaji(String romaji, boolean isFinal, int mode) {
+        if (mode == MODE_ROMAJI) {
+            return romaji;
+        }
+
+        // If user typed in UPPERCASE (e.g. ENJINIA, SE), automatically convert to Katakana
+        boolean forceKatakana = (mode == MODE_KATAKANA) || isAllUpper(romaji);
+
         String hira = toHiragana(romaji, isFinal);
-        if (isKatakanaMode) {
+        if (forceKatakana) {
             return hiraganaToKatakana(hira);
         }
         return hira;
     }
 
-    public interface ActiveCheck {
-        boolean isJapaneseActive();
-        boolean isKatakanaExpected();
-    }
+    public static List<String> getCandidates(Context context, String text) {
+        List<String> results = new ArrayList<>();
+        if (text == null || text.trim().isEmpty()) return results;
+        String clean = text.trim();
 
-    public static void attachRomajiConverter(EditText editText, ActiveCheck activeCheck) {
-        if (editText == null || activeCheck == null) return;
+        // 1. Current text as-is
+        results.add(clean);
 
-        editText.addTextChangedListener(new TextWatcher() {
-            private boolean isUpdating = false;
+        // 2. Hiragana <-> Katakana conversion
+        String hira = katakanaToHiragana(clean);
+        String kata = hiraganaToKatakana(clean);
+        if (!kata.equals(clean) && !results.contains(kata)) {
+            results.add(kata);
+        }
+        if (!hira.equals(clean) && !results.contains(hira)) {
+            results.add(hira);
+        }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (isUpdating) return;
-                if (!activeCheck.isJapaneseActive()) return;
-
-                String original = s.toString();
-                boolean katakanaMode = activeCheck.isKatakanaExpected();
-                String converted = convertRomaji(original, false, katakanaMode);
-
-                if (!converted.equals(original)) {
-                    isUpdating = true;
-                    int selStart = editText.getSelectionStart();
-                    int lengthDiff = converted.length() - original.length();
-
-                    editText.setText(converted);
-                    int newCursor = Math.max(0, Math.min(converted.length(), selStart + lengthDiff));
-                    editText.setSelection(newCursor);
-                    isUpdating = false;
+        // 3. Kanji lookups for hira
+        initDictionaryIfNeeded(context);
+        if (kanjiDict != null) {
+            List<String> kanjis = kanjiDict.get(hira);
+            if (kanjis != null) {
+                for (String k : kanjis) {
+                    if (!results.contains(k)) {
+                        results.add(1, k); // Insert Kanji near the front
+                    }
                 }
             }
-        });
+        }
+
+        return results;
     }
 
-    public static String getFinalizedAnswer(EditText editText, boolean isKatakanaMode) {
-        if (editText == null) return "";
-        String text = editText.getText().toString();
-        String finalized = convertRomaji(text, true, isKatakanaMode).trim();
-        if (!finalized.equals(text)) {
-            editText.setText(finalized);
-            editText.setSelection(finalized.length());
+    public interface ActiveCheck {
+        boolean isJapaneseActive();
+    }
+
+    /**
+     * Convenience wrapper for screens that create several independent writing fields.
+     * The returned controller is retained by the EditText through its TextWatcher.
+     */
+    public static ImeController attach(Context context, EditText editText, View layoutImeBar,
+                                       Button btnImeMode, LinearLayout layoutCandidates,
+                                       ActiveCheck activeCheck) {
+        return new ImeController(context, editText, layoutImeBar, btnImeMode,
+                layoutCandidates, activeCheck);
+    }
+
+    public static ImeController attach(Context context, EditText editText, View layoutImeBar,
+                                       LinearLayout layoutCandidates, ActiveCheck activeCheck) {
+        return new ImeController(context, editText, layoutImeBar, null, layoutCandidates, activeCheck);
+    }
+
+    public static class ImeController {
+        private int currentMode = MODE_HIRAGANA;
+        private final Context context;
+        private final EditText editText;
+        private final View layoutImeBar;
+        private final Button btnImeMode;
+        private final LinearLayout layoutCandidates;
+        private final ActiveCheck activeCheck;
+        private boolean isUpdating = false;
+
+        public ImeController(Context context, EditText editText, View layoutImeBar,
+                             Button btnImeMode, LinearLayout layoutCandidates, ActiveCheck activeCheck) {
+            this.context = context;
+            this.editText = editText;
+            this.layoutImeBar = layoutImeBar;
+            this.btnImeMode = btnImeMode;
+            this.layoutCandidates = layoutCandidates;
+            this.activeCheck = activeCheck;
+
+            init();
         }
-        return finalized;
+
+        private void init() {
+            if (btnImeMode != null) {
+                updateModeButtonText();
+                btnImeMode.setOnClickListener(v -> {
+                    // Cycle: あ -> ア -> A -> あ
+                    if (currentMode == MODE_HIRAGANA) currentMode = MODE_KATAKANA;
+                    else if (currentMode == MODE_KATAKANA) currentMode = MODE_ROMAJI;
+                    else currentMode = MODE_HIRAGANA;
+
+                    updateModeButtonText();
+
+                    // Convert current text if switching between あ and ア
+                    String curr = editText.getText().toString();
+                    if (!curr.isEmpty()) {
+                        if (currentMode == MODE_KATAKANA) {
+                            editText.setText(hiraganaToKatakana(curr));
+                            editText.setSelection(editText.getText().length());
+                        } else if (currentMode == MODE_HIRAGANA) {
+                            editText.setText(katakanaToHiragana(curr));
+                            editText.setSelection(editText.getText().length());
+                        }
+                    }
+                });
+            }
+
+            if (editText != null) {
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (isUpdating) return;
+                        if (activeCheck != null && !activeCheck.isJapaneseActive()) {
+                            if (layoutImeBar != null) layoutImeBar.setVisibility(View.GONE);
+                            return;
+                        }
+
+                        if (layoutImeBar != null) layoutImeBar.setVisibility(View.VISIBLE);
+
+                        String original = s.toString();
+                        String converted = convertRomaji(original, false, currentMode);
+
+                        if (!converted.equals(original)) {
+                            isUpdating = true;
+                            int selStart = editText.getSelectionStart();
+                            int lengthDiff = converted.length() - original.length();
+
+                            editText.setText(converted);
+                            int newCursor = Math.max(0, Math.min(converted.length(), selStart + lengthDiff));
+                            editText.setSelection(newCursor);
+                            isUpdating = false;
+                        }
+
+                        updateCandidates(editText.getText().toString());
+                    }
+                });
+            }
+        }
+
+        private void updateModeButtonText() {
+            if (btnImeMode == null) return;
+            switch (currentMode) {
+                case MODE_HIRAGANA:
+                    btnImeMode.setText("あ");
+                    break;
+                case MODE_KATAKANA:
+                    btnImeMode.setText("ア");
+                    break;
+                case MODE_ROMAJI:
+                    btnImeMode.setText("A");
+                    break;
+            }
+        }
+
+        public void updateCandidates(String text) {
+            if (layoutCandidates == null) return;
+            layoutCandidates.removeAllViews();
+
+            if (text == null || text.trim().isEmpty() || currentMode == MODE_ROMAJI) {
+                return;
+            }
+
+            List<String> candidates = getCandidates(context, text);
+            if (candidates.isEmpty()) return;
+
+            int dp4 = (int) (4 * context.getResources().getDisplayMetrics().density);
+            int dp8 = (int) (8 * context.getResources().getDisplayMetrics().density);
+            int dp12 = (int) (12 * context.getResources().getDisplayMetrics().density);
+
+            for (String c : candidates) {
+                TextView chip = new TextView(context);
+                chip.setText(c);
+                chip.setTextSize(16);
+                chip.setTextColor(0xFF1E1B4B);
+                chip.setGravity(Gravity.CENTER);
+                chip.setBackgroundResource(R.drawable.bg_ime_candidate);
+                chip.setPadding(dp12, dp4, dp12, dp4);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                lp.setMarginEnd(dp8);
+                chip.setLayoutParams(lp);
+
+                chip.setOnClickListener(v -> {
+                    isUpdating = true;
+                    editText.setText(c);
+                    editText.setSelection(c.length());
+                    isUpdating = false;
+                    layoutCandidates.removeAllViews();
+                });
+
+                layoutCandidates.addView(chip);
+            }
+        }
+
+        public String finalizeAnswer() {
+            if (editText == null) return "";
+            String text = editText.getText().toString();
+            String finalized = convertRomaji(text, true, currentMode).trim();
+            if (!finalized.equals(text)) {
+                isUpdating = true;
+                editText.setText(finalized);
+                editText.setSelection(finalized.length());
+                isUpdating = false;
+            }
+            if (layoutCandidates != null) {
+                layoutCandidates.removeAllViews();
+            }
+            return finalized;
+        }
+
+        public void refreshVisibility() {
+            if (layoutImeBar == null) return;
+            if (activeCheck != null && activeCheck.isJapaneseActive()) {
+                layoutImeBar.setVisibility(View.VISIBLE);
+            } else {
+                layoutImeBar.setVisibility(View.GONE);
+            }
+        }
     }
 }

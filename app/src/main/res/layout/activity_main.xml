@@ -90,9 +90,53 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="🇯🇵 Tiếng Nhật (50 bài)"
+                android:text="🇯🇵 Tiếng Nhật"
                 android:textColor="#4B5563"
                 android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@android:color/transparent" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Japanese Sub-tabs (Từ vựng 50 bài vs Chữ Hán Kanji 20 bài) -->
+    <LinearLayout
+        android:id="@+id/layoutJapaneseSubTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/bg_tab_container"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/subTabVocab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="📖 Từ vựng (50 bài)"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_tab_active_red" />
+
+            <TextView
+                android:id="@+id/subTabKanji"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="🈸 Kanji (20 bài)"
+                android:textColor="#4B5563"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:background="@android:color/transparent" />
         </LinearLayout>

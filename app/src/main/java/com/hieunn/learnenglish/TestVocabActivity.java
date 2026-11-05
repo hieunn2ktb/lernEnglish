@@ -98,6 +98,7 @@ public class TestVocabActivity extends AppCompatActivity {
     private TextView tvWrittenLabel;
     private TextView tvDontKnow;
     private Button btnNext;
+    private RomajiHelper.ImeController imeController;
 
     private TextView tvScore;
     private TextView tvScoreDetail;
@@ -183,25 +184,24 @@ public class TestVocabActivity extends AppCompatActivity {
                 findViewById(R.id.tvChoice4)
         };
 
-        RomajiHelper.attachRomajiConverter(etWrittenAnswer, new RomajiHelper.ActiveCheck() {
-            @Override
-            public boolean isJapaneseActive() {
-                if (currentIndex >= 0 && currentIndex < questions.size()) {
-                    TestQuestion q = questions.get(currentIndex);
-                    return q.type == QuestionType.WRITTEN && VocabItem.isJapaneseText(q.correctAnswer);
-                }
-                return false;
-            }
+        View layoutImeBar = findViewById(R.id.layoutImeBar);
+        Button btnImeMode = findViewById(R.id.btnImeMode);
+        LinearLayout layoutCandidates = findViewById(R.id.layoutCandidates);
 
-            @Override
-            public boolean isKatakanaExpected() {
-                if (currentIndex >= 0 && currentIndex < questions.size()) {
-                    TestQuestion q = questions.get(currentIndex);
-                    return RomajiHelper.isKatakanaWord(q.correctAnswer);
+        imeController = new RomajiHelper.ImeController(
+                this,
+                etWrittenAnswer,
+                layoutImeBar,
+                btnImeMode,
+                layoutCandidates,
+                () -> {
+                    if (currentIndex >= 0 && currentIndex < questions.size()) {
+                        TestQuestion q = questions.get(currentIndex);
+                        return q.type == QuestionType.WRITTEN && VocabItem.isJapaneseText(q.correctAnswer);
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+        );
 
         tvScore = findViewById(R.id.tvScore);
         tvScoreDetail = findViewById(R.id.tvScoreDetail);
@@ -594,6 +594,10 @@ public class TestVocabActivity extends AppCompatActivity {
             etWrittenAnswer.addTextChangedListener(writtenWatcher);
         }
 
+        if (imeController != null) {
+            imeController.refreshVisibility();
+        }
+
         boolean isLast = currentIndex == questions.size() - 1;
         btnNext.setText(isLast ? "Gửi bài" : "Lưu và tiếp tục");
         updateNextButtonState();
@@ -714,8 +718,7 @@ public class TestVocabActivity extends AppCompatActivity {
         TestQuestion question = questions.get(currentIndex);
 
         if (question.type == QuestionType.WRITTEN) {
-            boolean isKatakana = RomajiHelper.isKatakanaWord(question.correctAnswer);
-            String finalized = RomajiHelper.getFinalizedAnswer(etWrittenAnswer, isKatakana);
+            String finalized = (imeController != null) ? imeController.finalizeAnswer() : etWrittenAnswer.getText().toString().trim();
             question.userAnswer = finalized;
         }
 

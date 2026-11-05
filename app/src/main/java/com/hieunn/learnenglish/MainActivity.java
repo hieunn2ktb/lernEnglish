@@ -2,6 +2,7 @@ package com.hieunn.learnenglish;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +28,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private boolean isJapaneseTab = false;
+    private boolean isKanjiSubTab = false;
     private TextView tvHeaderTitle;
     private TextView tabEnglish;
     private TextView tabJapanese;
+    private View layoutJapaneseSubTabs;
+    private TextView subTabVocab;
+    private TextView subTabKanji;
     private Button btnCreateLesson;
     private Button btnLearnAll;
 
@@ -50,11 +55,17 @@ public class MainActivity extends AppCompatActivity {
         tvHeaderTitle = findViewById(R.id.tvHeaderTitle);
         tabEnglish = findViewById(R.id.tabEnglish);
         tabJapanese = findViewById(R.id.tabJapanese);
+        layoutJapaneseSubTabs = findViewById(R.id.layoutJapaneseSubTabs);
+        subTabVocab = findViewById(R.id.subTabVocab);
+        subTabKanji = findViewById(R.id.subTabKanji);
         btnCreateLesson = findViewById(R.id.btnCreateLesson);
         btnLearnAll = findViewById(R.id.btnLearnAll);
 
         tabEnglish.setOnClickListener(v -> switchTab(false));
         tabJapanese.setOnClickListener(v -> switchTab(true));
+
+        if (subTabVocab != null) subTabVocab.setOnClickListener(v -> switchJapaneseSubTab(false));
+        if (subTabKanji != null) subTabKanji.setOnClickListener(v -> switchJapaneseSubTab(true));
 
         // Nút tạo bài học mới
         btnCreateLesson.setOnClickListener(v -> {
@@ -78,6 +89,39 @@ public class MainActivity extends AppCompatActivity {
         loadLessons();
     }
 
+    private void switchJapaneseSubTab(boolean toKanji) {
+        if (isKanjiSubTab == toKanji) return;
+        isKanjiSubTab = toKanji;
+        updateSubTabUI();
+        loadLessons();
+    }
+
+    private void updateSubTabUI() {
+        if (subTabVocab == null || subTabKanji == null) return;
+        if (!isKanjiSubTab) {
+            subTabVocab.setBackgroundResource(R.drawable.bg_tab_active_red);
+            subTabVocab.setTextColor(0xFFFFFFFF);
+            subTabKanji.setBackgroundColor(0);
+            subTabKanji.setTextColor(0xFF4B5563);
+
+            if (tvHeaderTitle != null) tvHeaderTitle.setText("Tiếng Nhật Minna");
+            if (btnLearnAll != null) {
+                btnLearnAll.setVisibility(View.VISIBLE);
+                btnLearnAll.setText("Ôn tập từ");
+            }
+        } else {
+            subTabKanji.setBackgroundResource(R.drawable.bg_tab_active_red);
+            subTabKanji.setTextColor(0xFFFFFFFF);
+            subTabVocab.setBackgroundColor(0);
+            subTabVocab.setTextColor(0xFF4B5563);
+
+            if (tvHeaderTitle != null) tvHeaderTitle.setText("Chữ Hán Kanji (20 bài)");
+            if (btnLearnAll != null) {
+                btnLearnAll.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void updateTabUI() {
         if (!isJapaneseTab) {
             tabEnglish.setBackgroundResource(R.drawable.bg_tab_active_blue);
@@ -85,18 +129,23 @@ public class MainActivity extends AppCompatActivity {
             tabJapanese.setBackgroundColor(0x00000000);
             tabJapanese.setTextColor(0xFF4B5563);
 
+            if (layoutJapaneseSubTabs != null) layoutJapaneseSubTabs.setVisibility(View.GONE);
             if (tvHeaderTitle != null) tvHeaderTitle.setText("Lộ Trình Tiếng Anh");
             if (btnCreateLesson != null) btnCreateLesson.setVisibility(View.VISIBLE);
-            if (btnLearnAll != null) btnLearnAll.setText("Học tất cả");
+            if (btnLearnAll != null) {
+                btnLearnAll.setVisibility(View.VISIBLE);
+                btnLearnAll.setText("Học tất cả");
+            }
         } else {
             tabJapanese.setBackgroundResource(R.drawable.bg_tab_active_red);
             tabJapanese.setTextColor(0xFFFFFFFF);
             tabEnglish.setBackgroundColor(0x00000000);
             tabEnglish.setTextColor(0xFF4B5563);
 
-            if (tvHeaderTitle != null) tvHeaderTitle.setText("Tiếng Nhật Minna");
+            if (layoutJapaneseSubTabs != null) layoutJapaneseSubTabs.setVisibility(View.VISIBLE);
             if (btnCreateLesson != null) btnCreateLesson.setVisibility(View.GONE);
-            if (btnLearnAll != null) btnLearnAll.setText("Ôn tập từ");
+
+            updateSubTabUI();
         }
     }
 
@@ -201,6 +250,11 @@ public class MainActivity extends AppCompatActivity {
     private void loadLessons() {
         LinearLayout layoutLessons = findViewById(R.id.layoutLessons);
         layoutLessons.removeAllViews();
+
+        if (isJapaneseTab && isKanjiSubTab) {
+            loadKanjiLessons(layoutLessons);
+            return;
+        }
 
         AppDatabase db = AppDatabase.getInstance(this);
         List<LessonEntity> allLessons = db.lessonDao().getAllLessons();
@@ -440,5 +494,66 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return -1;
+    }
+
+    private void loadKanjiLessons(LinearLayout layoutLessons) {
+        layoutLessons.removeAllViews();
+        List<KanjiLesson> kanjiLessons = KanjiDataManager.getAllLessons(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        for (KanjiLesson lesson : kanjiLessons) {
+            View itemView = inflater.inflate(R.layout.item_kanji_lesson, layoutLessons, false);
+
+            TextView tvBadge = itemView.findViewById(R.id.tvLessonBadge);
+            TextView tvTitle = itemView.findViewById(R.id.tvLessonTitle);
+            TextView tvDesc = itemView.findViewById(R.id.tvLessonDesc);
+            TextView tvCountBadge = itemView.findViewById(R.id.tvCountBadge);
+            LinearLayout layoutChips = itemView.findViewById(R.id.layoutKanjiChips);
+            View scrollChips = itemView.findViewById(R.id.scrollKanjiChips);
+
+            tvTitle.setText(lesson.getTitle());
+
+            if (lesson.isTest()) {
+                tvBadge.setText("TEST");
+                tvBadge.setTextSize(10);
+                tvDesc.setText("Kiểm tra 30 câu ôn tập tổng hợp (Bài 1 - 10)");
+                tvCountBadge.setText("30 câu hỏi");
+                if (scrollChips != null) scrollChips.setVisibility(View.GONE);
+            } else {
+                tvBadge.setText(String.valueOf(lesson.getLessonNumber()));
+                tvBadge.setTextSize(17);
+                tvDesc.setText(lesson.getDescription());
+                tvCountBadge.setText(lesson.getTotalKanji() + " chữ");
+
+                // Preview chips for Kanji
+                if (layoutChips != null) {
+                    layoutChips.removeAllViews();
+                    for (KanjiItem k : lesson.getKanjis()) {
+                        TextView chip = new TextView(this);
+                        chip.setText(k.getKanji() + "\n" + k.getHanViet());
+                        chip.setTextSize(11);
+                        chip.setTypeface(null, android.graphics.Typeface.BOLD);
+                        chip.setGravity(Gravity.CENTER);
+                        chip.setTextColor(0xFF1E293B);
+                        chip.setBackgroundResource(R.drawable.bg_ime_candidate);
+                        chip.setPadding(dpToPx(10), dpToPx(5), dpToPx(10), dpToPx(5));
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+                        lp.rightMargin = dpToPx(8);
+                        chip.setLayoutParams(lp);
+                        layoutChips.addView(chip);
+                    }
+                }
+            }
+
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(this, KanjiDetailActivity.class);
+                intent.putExtra("lessonId", lesson.getId());
+                startActivity(intent);
+            });
+
+            layoutLessons.addView(itemView);
+        }
     }
 }

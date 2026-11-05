@@ -78,11 +78,50 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
+        <!-- Japanese IME Candidate & Mode Bar -->
+        <LinearLayout
+            android:id="@+id/layoutImeBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnImeMode"
+                android:layout_width="44dp"
+                android:layout_height="36dp"
+                android:text="あ"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#4F46E5"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <HorizontalScrollView
+                android:id="@+id/scrollCandidates"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/layoutCandidates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
         <EditText
             android:id="@+id/etAnswer"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/bg_card_rounded_quizlet"
             android:hint="Gõ tiếng Anh"
             android:padding="16dp"
