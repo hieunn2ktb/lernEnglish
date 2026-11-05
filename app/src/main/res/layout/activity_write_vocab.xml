@@ -151,12 +151,24 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
             <TextView
+                android:id="@+id/tvCorrectionHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Hãy gõ lại để tiếp tục!"
                 android:textColor="#4B5563"
                 android:textSize="14sp" />
+            <TextView
+                android:id="@+id/btnSkipQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Bỏ qua câu này để tiếp tục →"
+                android:textColor="#4F46E5"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp" />
         </LinearLayout>
         
     </LinearLayout>

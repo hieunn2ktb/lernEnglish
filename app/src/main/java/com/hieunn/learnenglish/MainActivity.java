@@ -465,6 +465,7 @@ public class MainActivity extends AppCompatActivity {
                                 LessonProgressManager.resetProgress(this, lesson.id);
                                 loadLessons();
                             } else {
+                                LessonProgressManager.resetProgress(this, lesson.id);
                                 db.vocabDao().deleteByLessonId(lesson.id);
                                 db.grammarQuizDao().deleteByLessonId(lesson.id);
                                 db.vocabQuizDao().deleteByLessonId(lesson.id);

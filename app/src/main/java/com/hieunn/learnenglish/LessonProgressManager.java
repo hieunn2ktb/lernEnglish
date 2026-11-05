@@ -10,6 +10,7 @@ public class LessonProgressManager {
     private static final String PREF_NAME = "lesson_learning_progress";
 
     private static final String KEY_VOCAB_MASTERED = "vocab_mastered_";
+    private static final String KEY_VOCAB_LEARNING = "vocab_learning_";
     private static final String KEY_VOCAB_CORRECT = "vocab_correct_";
     private static final String KEY_VOCAB_WRONG = "vocab_wrong_";
 
@@ -50,6 +51,10 @@ public class LessonProgressManager {
     }
 
     public static void recordVocabAnswer(Context context, int lessonId, boolean isCorrect, int currentMasteredCount) {
+        recordVocabAnswer(context, lessonId, isCorrect, currentMasteredCount, 0);
+    }
+
+    public static void recordVocabAnswer(Context context, int lessonId, boolean isCorrect, int currentMasteredCount, int currentLearningCount) {
         if (lessonId <= 0) return;
         SharedPreferences prefs = getPrefs(context);
         SharedPreferences.Editor editor = prefs.edit();
@@ -66,6 +71,9 @@ public class LessonProgressManager {
         if (currentMasteredCount > oldMastered) {
             editor.putInt(KEY_VOCAB_MASTERED + lessonId, currentMasteredCount);
         }
+        if (currentLearningCount > 0) {
+            editor.putInt(KEY_VOCAB_LEARNING + lessonId, currentLearningCount);
+        }
 
         editor.apply();
     }
@@ -73,6 +81,16 @@ public class LessonProgressManager {
     public static void setVocabMastered(Context context, int lessonId, int masteredCount) {
         if (lessonId <= 0) return;
         getPrefs(context).edit().putInt(KEY_VOCAB_MASTERED + lessonId, masteredCount).apply();
+    }
+
+    public static void setVocabLearning(Context context, int lessonId, int learningCount) {
+        if (lessonId <= 0) return;
+        getPrefs(context).edit().putInt(KEY_VOCAB_LEARNING + lessonId, learningCount).apply();
+    }
+
+    public static int getVocabLearning(Context context, int lessonId) {
+        if (lessonId <= 0) return 0;
+        return getPrefs(context).getInt(KEY_VOCAB_LEARNING + lessonId, 0);
     }
 
     public static void recordVideoWatched(Context context, int lessonId) {
@@ -141,7 +159,15 @@ public class LessonProgressManager {
         int total = getVocabTotal(context, lessonId);
         if (total <= 0) return 100;
         int mastered = getVocabMastered(context, lessonId);
-        return Math.min(100, (mastered * 100) / total);
+        int learning = getVocabLearning(context, lessonId);
+        if (mastered >= total) return 100;
+
+        // Trọng số: Đã nắm vững 100%, Đang học 45%
+        int percent = (mastered * 100 + learning * 45) / total;
+        if (percent == 0 && (mastered > 0 || learning > 0)) {
+            percent = 1;
+        }
+        return Math.min(99, percent);
     }
 
     public static int getGrammarProgressPercent(Context context, int lessonId) {
@@ -161,13 +187,21 @@ public class LessonProgressManager {
         }
 
         int mastered = getVocabMastered(context, lessonId) + getGrammarMastered(context, lessonId);
-        return Math.min(100, (mastered * 100) / totalItems);
+        int learning = getVocabLearning(context, lessonId);
+        if (mastered >= totalItems) return 100;
+
+        int percent = (mastered * 100 + learning * 45) / totalItems;
+        if (percent == 0 && (mastered > 0 || learning > 0)) {
+            percent = 1;
+        }
+        return Math.min(99, percent);
     }
 
     public static void resetProgress(Context context, int lessonId) {
         if (lessonId <= 0) return;
         getPrefs(context).edit()
                 .remove(KEY_VOCAB_MASTERED + lessonId)
+                .remove(KEY_VOCAB_LEARNING + lessonId)
                 .remove(KEY_VOCAB_CORRECT + lessonId)
                 .remove(KEY_VOCAB_WRONG + lessonId)
                 .remove(KEY_GRAMMAR_MASTERED + lessonId)
@@ -175,5 +209,8 @@ public class LessonProgressManager {
                 .remove(KEY_GRAMMAR_WRONG + lessonId)
                 .remove(KEY_VIDEO_WATCHED + lessonId)
                 .apply();
+
+        LearnVocabSessionManager.clearSession(context, lessonId);
+        ExerciseSessionManager.clearSession(context, lessonId);
     }
 }

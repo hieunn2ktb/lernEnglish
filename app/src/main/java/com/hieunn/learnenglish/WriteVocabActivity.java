@@ -40,6 +40,9 @@ public class WriteVocabActivity extends AppCompatActivity {
     private Button btnSubmit;
     private LinearLayout llFeedback;
     private TextView tvCorrectAnswer;
+    private TextView tvCorrectionHint;
+    private TextView btnSkipQuestion;
+    private int correctionAttempts = 0;
     private RomajiHelper.ImeController imeController;
 
     @Override
@@ -61,6 +64,12 @@ public class WriteVocabActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         llFeedback = findViewById(R.id.llFeedback);
         tvCorrectAnswer = findViewById(R.id.tvCorrectAnswer);
+        tvCorrectionHint = findViewById(R.id.tvCorrectionHint);
+        btnSkipQuestion = findViewById(R.id.btnSkipQuestion);
+
+        if (btnSkipQuestion != null) {
+            btnSkipQuestion.setOnClickListener(v -> skipCurrentQuestion());
+        }
 
         View layoutImeBar = findViewById(R.id.layoutImeBar);
         Button btnImeMode = findViewById(R.id.btnImeMode);
@@ -111,6 +120,7 @@ public class WriteVocabActivity extends AppCompatActivity {
         }
 
         isShowingCorrection = false;
+        correctionAttempts = 0;
         etAnswer.setText("");
         currentWord = learningList.get(0);
         if (VocabItem.isJapaneseText(currentWord.getEnglishWord())) {
@@ -123,6 +133,13 @@ public class WriteVocabActivity extends AppCompatActivity {
         }
         etAnswer.setBackgroundResource(R.drawable.bg_card_rounded_quizlet);
         llFeedback.setVisibility(View.GONE);
+        if (btnSkipQuestion != null) {
+            btnSkipQuestion.setVisibility(View.GONE);
+        }
+        if (tvCorrectionHint != null) {
+            tvCorrectionHint.setText("Hãy gõ lại để tiếp tục!");
+            tvCorrectionHint.setTextColor(0xFF4B5563);
+        }
         btnSubmit.setText("Kiểm tra");
 
         tvVietnameseMeaning.setText(currentWord.getVietnameseMeaning());
@@ -133,6 +150,14 @@ public class WriteVocabActivity extends AppCompatActivity {
         etAnswer.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(etAnswer, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void skipCurrentQuestion() {
+        if (!learningList.isEmpty()) {
+            VocabItem skipped = learningList.remove(0);
+            learningList.add(skipped);
+        }
+        nextQuestion();
     }
 
     private void onSubmitClicked() {
@@ -146,7 +171,23 @@ public class WriteVocabActivity extends AppCompatActivity {
                 etAnswer.setBackgroundColor(0xFFD1FAE5);
                 etAnswer.postDelayed(this::nextQuestion, 300);
             } else {
-                Toast.makeText(this, "Hãy chép lại thật cẩn thận: " + expected, Toast.LENGTH_SHORT).show();
+                correctionAttempts++;
+                if (answer.isEmpty() || correctionAttempts >= 2) {
+                    skipCurrentQuestion();
+                } else {
+                    String hint = "Hãy gõ đúng: " + expected;
+                    if (currentWord.getPhonetic() != null && !currentWord.getPhonetic().isEmpty()) {
+                        hint += " (Romaji: " + currentWord.getPhonetic() + ")";
+                    }
+                    if (tvCorrectionHint != null) {
+                        tvCorrectionHint.setText(hint + "\n(Hoặc bấm \"Bỏ qua\" bên dưới để tiếp tục)");
+                        tvCorrectionHint.setTextColor(0xFFDC2626);
+                    }
+                    if (btnSkipQuestion != null) {
+                        btnSkipQuestion.setVisibility(View.VISIBLE);
+                    }
+                    Toast.makeText(this, hint, Toast.LENGTH_SHORT).show();
+                }
             }
             return;
         }
@@ -160,8 +201,23 @@ public class WriteVocabActivity extends AppCompatActivity {
         } else {
             LessonProgressManager.recordVocabAnswer(this, lessonId, false, totalMastered);
             isShowingCorrection = true;
+            correctionAttempts = 0;
             llFeedback.setVisibility(View.VISIBLE);
-            tvCorrectAnswer.setText(expected);
+
+            String displayExpected = expected;
+            if (currentWord.getPhonetic() != null && !currentWord.getPhonetic().isEmpty()) {
+                displayExpected += "  [" + currentWord.getPhonetic() + "]";
+            }
+            tvCorrectAnswer.setText(displayExpected);
+
+            if (tvCorrectionHint != null) {
+                tvCorrectionHint.setText("Hãy gõ lại từ trên để tiếp tục!");
+                tvCorrectionHint.setTextColor(0xFF4B5563);
+            }
+            if (btnSkipQuestion != null) {
+                btnSkipQuestion.setVisibility(View.VISIBLE);
+            }
+
             btnSubmit.setText("Tiếp tục (Chép lại từ)");
             etAnswer.setText("");
             etAnswer.setHint("Hãy chép lại từ trên");

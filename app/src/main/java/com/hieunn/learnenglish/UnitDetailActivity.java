@@ -186,6 +186,44 @@ public class UnitDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateStudyButtons();
+    }
+
+    private void updateStudyButtons() {
+        Button btnStudyAll = findViewById(R.id.btnStudyAll);
+        TextView btnOptionLearn = findViewById(R.id.btnOptionLearn);
+        if (lessonId > 0 && LearnVocabSessionManager.hasSavedSession(this, lessonId)) {
+            int mastered = LessonProgressManager.getVocabMastered(this, lessonId);
+            int total = LessonProgressManager.getVocabTotal(this, lessonId);
+            if (btnStudyAll != null) {
+                btnStudyAll.setText("Tiếp tục học (" + mastered + "/" + total + " từ)");
+                btnStudyAll.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, LearnVocabActivity.class);
+                    intent.putExtra("lessonId", lessonId);
+                    startActivity(intent);
+                });
+            }
+            if (btnOptionLearn != null) {
+                btnOptionLearn.setText("Học (Tiếp tục: " + mastered + "/" + total + " từ)");
+            }
+        } else {
+            if (btnStudyAll != null) {
+                btnStudyAll.setText("Học bộ học phần này");
+                btnStudyAll.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, LearnVocabActivity.class);
+                    intent.putExtra("lessonId", lessonId);
+                    startActivity(intent);
+                });
+            }
+            if (btnOptionLearn != null) {
+                btnOptionLearn.setText("Học");
+            }
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         if (tts != null) {
             tts.stop();

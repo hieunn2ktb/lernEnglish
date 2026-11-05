@@ -186,6 +186,9 @@ public class LearnVocabActivity extends AppCompatActivity {
     }
 
     private void restartLearn() {
+        if (lessonId > 0) {
+            LearnVocabSessionManager.clearSession(this, lessonId);
+        }
         queue.clear();
         wordState.clear();
         correctStreak.clear();
@@ -234,6 +237,7 @@ public class LearnVocabActivity extends AppCompatActivity {
             starredWords.add(currentWord);
             btnStarWord.setColorFilter(0xFFFBBF24); // Gold
         }
+        saveCurrentSession(false);
     }
 
     // ======================== DATA ========================
@@ -264,6 +268,36 @@ public class LearnVocabActivity extends AppCompatActivity {
             Toast.makeText(this, "Không có từ vựng để học", Toast.LENGTH_SHORT).show();
             finish();
             return;
+        }
+
+        // Kiểm tra xem có phiên học trước đó chưa hoàn thành không để tiếp tục đúng vị trí
+        if (lessonId > 0 && LearnVocabSessionManager.hasSavedSession(this, lessonId)) {
+            LearnVocabSessionManager.SessionData data = LearnVocabSessionManager.restoreSession(
+                    this,
+                    lessonId,
+                    allVocab,
+                    wordState,
+                    correctStreak,
+                    answeredByMC,
+                    answeredByWrite,
+                    starredWords,
+                    queue
+            );
+            if (data != null) {
+                sessionCorrect = data.sessionCorrect;
+                sessionWrong = data.sessionWrong;
+                starOnlyMode = data.starOnlyMode;
+                progressBar.setMax(allVocab.size());
+                updateStatusCounts();
+
+                if (queue.isEmpty()) {
+                    showCompletionDialog();
+                } else {
+                    Toast.makeText(this, "Tiếp tục bài học: Đã nắm vững " + data.masteredCount + "/" + allVocab.size() + " từ", Toast.LENGTH_SHORT).show();
+                    nextQuestion();
+                }
+                return;
+            }
         }
 
         // Initialize all words as NEW
@@ -517,7 +551,11 @@ public class LearnVocabActivity extends AppCompatActivity {
             tvWord.postDelayed(this::nextQuestion, 800);
         } else {
             sessionWrong++;
-            tvWriteFeedback.setText("Chưa đúng. Đáp án đúng là:\n" + currentWord.getEnglishWord());
+            String feedback = "Chưa đúng. Đáp án đúng là:\n" + currentWord.getEnglishWord();
+            if (currentWord.getPhonetic() != null && !currentWord.getPhonetic().isEmpty()) {
+                feedback += " [" + currentWord.getPhonetic() + "]";
+            }
+            tvWriteFeedback.setText(feedback);
             tvWriteFeedback.setTextColor(0xFF991B1B);
             speakCurrentWord();
 
@@ -570,7 +608,37 @@ public class LearnVocabActivity extends AppCompatActivity {
 
     private void recordVocabAnswer(boolean isCorrect) {
         if (lessonId > 0) {
-            LessonProgressManager.recordVocabAnswer(this, lessonId, isCorrect, getMasteredCount());
+            LessonProgressManager.recordVocabAnswer(this, lessonId, isCorrect, getMasteredCount(), getLearningCount());
+            saveCurrentSession(false);
+        }
+    }
+
+    private int getLearningCount() {
+        int count = 0;
+        for (VocabItem item : allVocab) {
+            Integer state = wordState.get(item);
+            if (state != null && state == STATE_LEARNING) count++;
+        }
+        return count;
+    }
+
+    private void saveCurrentSession(boolean isCompleted) {
+        if (lessonId > 0 && !allVocab.isEmpty()) {
+            LearnVocabSessionManager.saveSession(
+                    this,
+                    lessonId,
+                    allVocab,
+                    wordState,
+                    correctStreak,
+                    answeredByMC,
+                    answeredByWrite,
+                    starredWords,
+                    queue,
+                    sessionCorrect,
+                    sessionWrong,
+                    starOnlyMode,
+                    isCompleted
+            );
         }
     }
 
@@ -586,6 +654,7 @@ public class LearnVocabActivity extends AppCompatActivity {
     // ======================== COMPLETION ========================
 
     private void showCompletionDialog() {
+        saveCurrentSession(true);
         updateStatusCounts();
         int total = sessionCorrect + sessionWrong;
         int accuracy = total > 0 ? (sessionCorrect * 100) / total : 100;
@@ -605,6 +674,12 @@ public class LearnVocabActivity extends AppCompatActivity {
     }
 
     // ======================== LIFECYCLE ========================
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveCurrentSession(false);
+    }
 
     @Override
     protected void onDestroy() {

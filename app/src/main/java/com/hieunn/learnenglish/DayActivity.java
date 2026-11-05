@@ -38,11 +38,13 @@ public class DayActivity extends AppCompatActivity {
 
     private View layoutTimelineVocab;
     private TextView tvTimelineNode2, tvVocabProgress, tvBadgeVocab;
+    private TextView tvBtnResumeVocab, tvBtnOpenVocabHub;
     private ProgressBar progressVocabMini;
     private View itemVocab;
 
     private View layoutTimelineGrammar;
     private TextView tvTimelineNode3, tvGrammarProgress, tvBadgeGrammar;
+    private TextView tvBtnResumeGrammar;
     private ProgressBar progressGrammarMini;
     private View itemGrammar;
 
@@ -93,6 +95,8 @@ public class DayActivity extends AppCompatActivity {
         tvVocabProgress = findViewById(R.id.tvVocabProgress);
         progressVocabMini = findViewById(R.id.progressVocabMini);
         tvBadgeVocab = findViewById(R.id.tvBadgeVocab);
+        tvBtnResumeVocab = findViewById(R.id.tvBtnResumeVocab);
+        tvBtnOpenVocabHub = findViewById(R.id.tvBtnOpenVocabHub);
         itemVocab = findViewById(R.id.itemVocab);
 
         // Timeline Step 3 (Ngữ pháp)
@@ -101,6 +105,7 @@ public class DayActivity extends AppCompatActivity {
         tvGrammarProgress = findViewById(R.id.tvGrammarProgress);
         progressGrammarMini = findViewById(R.id.progressGrammarMini);
         tvBadgeGrammar = findViewById(R.id.tvBadgeGrammar);
+        tvBtnResumeGrammar = findViewById(R.id.tvBtnResumeGrammar);
         itemGrammar = findViewById(R.id.itemGrammar);
 
         // Timeline Step 4 (Tổng kết)
@@ -258,12 +263,19 @@ public class DayActivity extends AppCompatActivity {
 
         // Step 2: Từ vựng
         int vocabMastered = LessonProgressManager.getVocabMastered(this, lessonId);
+        int vocabLearning = LessonProgressManager.getVocabLearning(this, lessonId);
         int vocabPercent = LessonProgressManager.getVocabProgressPercent(this, lessonId);
         if (layoutTimelineVocab != null) {
             if (vocabTotal > 0) {
                 layoutTimelineVocab.setVisibility(View.VISIBLE);
                 if (tvVocabProgress != null) {
-                    tvVocabProgress.setText("Đã nắm vững: " + vocabMastered + "/" + vocabTotal + " từ (" + vocabPercent + "%)");
+                    if (vocabPercent >= 100) {
+                        tvVocabProgress.setText("Đã nắm vững toàn bộ: " + vocabTotal + "/" + vocabTotal + " từ (100%)");
+                    } else if (vocabMastered > 0 || vocabLearning > 0) {
+                        tvVocabProgress.setText("Nắm vững: " + vocabMastered + "/" + vocabTotal + " từ • Đang học: " + vocabLearning + " từ (" + vocabPercent + "%)");
+                    } else {
+                        tvVocabProgress.setText("Chưa học (" + vocabTotal + " từ)");
+                    }
                 }
                 if (progressVocabMini != null) {
                     progressVocabMini.setProgress(vocabPercent);
@@ -272,7 +284,7 @@ public class DayActivity extends AppCompatActivity {
                     if (vocabPercent >= 100) {
                         tvTimelineNode2.setBackgroundResource(R.drawable.bg_circle_green);
                         tvTimelineNode2.setText("✓");
-                    } else if (vocabPercent > 0) {
+                    } else if (vocabPercent > 0 || vocabMastered > 0 || vocabLearning > 0) {
                         tvTimelineNode2.setBackgroundResource(R.drawable.bg_circle_blue);
                         tvTimelineNode2.setText("2");
                     } else {
@@ -285,7 +297,7 @@ public class DayActivity extends AppCompatActivity {
                         tvBadgeVocab.setText("Đã xong ✓");
                         tvBadgeVocab.setBackgroundResource(R.drawable.bg_badge_green);
                         tvBadgeVocab.setTextColor(0xFF065F46);
-                    } else if (vocabPercent > 0) {
+                    } else if (vocabPercent > 0 || vocabMastered > 0 || vocabLearning > 0) {
                         tvBadgeVocab.setText("Đang học (" + vocabPercent + "%)");
                         tvBadgeVocab.setBackgroundResource(R.drawable.bg_badge_blue);
                         tvBadgeVocab.setTextColor(0xFF2563EB);
@@ -295,12 +307,24 @@ public class DayActivity extends AppCompatActivity {
                         tvBadgeVocab.setTextColor(0xFF6B7280);
                     }
                 }
+
+                if (tvBtnResumeVocab != null) {
+                    if (vocabPercent >= 100) {
+                        tvBtnResumeVocab.setText("Học lại / Ôn tập →");
+                    } else if (vocabMastered > 0 || vocabLearning > 0) {
+                        tvBtnResumeVocab.setText("Tiếp tục học đúng chỗ (" + vocabMastered + "/" + vocabTotal + ") →");
+                    } else {
+                        tvBtnResumeVocab.setText("Bắt đầu học →");
+                    }
+                    tvBtnResumeVocab.setOnClickListener(v -> openLearnVocab());
+                }
+
+                if (tvBtnOpenVocabHub != null) {
+                    tvBtnOpenVocabHub.setOnClickListener(v -> openVocabHub());
+                }
+
                 if (itemVocab != null) {
-                    itemVocab.setOnClickListener(v -> {
-                        Intent intent = new Intent(this, UnitDetailActivity.class);
-                        intent.putExtra("lessonId", lessonId);
-                        startActivity(intent);
-                    });
+                    itemVocab.setOnClickListener(v -> openLearnVocab());
                 }
             } else {
                 layoutTimelineVocab.setVisibility(View.GONE);
@@ -323,7 +347,7 @@ public class DayActivity extends AppCompatActivity {
                     if (grammarPercent >= 100) {
                         tvTimelineNode3.setBackgroundResource(R.drawable.bg_circle_green);
                         tvTimelineNode3.setText("✓");
-                    } else if (grammarPercent > 0) {
+                    } else if (grammarPercent > 0 || grammarMastered > 0) {
                         tvTimelineNode3.setBackgroundResource(R.drawable.bg_circle_blue);
                         tvTimelineNode3.setText("3");
                     } else {
@@ -336,7 +360,7 @@ public class DayActivity extends AppCompatActivity {
                         tvBadgeGrammar.setText("Đã xong ✓");
                         tvBadgeGrammar.setBackgroundResource(R.drawable.bg_badge_green);
                         tvBadgeGrammar.setTextColor(0xFF065F46);
-                    } else if (grammarPercent > 0) {
+                    } else if (grammarPercent > 0 || grammarMastered > 0) {
                         tvBadgeGrammar.setText("Đang học (" + grammarPercent + "%)");
                         tvBadgeGrammar.setBackgroundResource(R.drawable.bg_badge_blue);
                         tvBadgeGrammar.setTextColor(0xFF2563EB);
@@ -346,12 +370,20 @@ public class DayActivity extends AppCompatActivity {
                         tvBadgeGrammar.setTextColor(0xFF6B7280);
                     }
                 }
+
+                if (tvBtnResumeGrammar != null) {
+                    if (grammarPercent >= 100) {
+                        tvBtnResumeGrammar.setText("Luyện lại / Ôn tập →");
+                    } else if (grammarMastered > 0) {
+                        tvBtnResumeGrammar.setText("Tiếp tục luyện (" + grammarMastered + "/" + grammarTotal + ") →");
+                    } else {
+                        tvBtnResumeGrammar.setText("Bắt đầu luyện →");
+                    }
+                    tvBtnResumeGrammar.setOnClickListener(v -> openExercise());
+                }
+
                 if (itemGrammar != null) {
-                    itemGrammar.setOnClickListener(v -> {
-                        Intent intent = new Intent(this, ExerciseActivity.class);
-                        intent.putExtra("lessonId", lessonId);
-                        startActivity(intent);
-                    });
+                    itemGrammar.setOnClickListener(v -> openExercise());
                 }
             } else {
                 layoutTimelineGrammar.setVisibility(View.GONE);
@@ -398,19 +430,19 @@ public class DayActivity extends AppCompatActivity {
         // Cập nhật nút Hành động tiếp tục dưới đáy màn hình
         if (btnContinue != null) {
             if (vocabTotal > 0 && vocabPercent < 100) {
-                btnContinue.setText("Tiếp tục: Bước 2 - Học từ vựng");
-                btnContinue.setOnClickListener(v -> {
-                    Intent intent = new Intent(this, UnitDetailActivity.class);
-                    intent.putExtra("lessonId", lessonId);
-                    startActivity(intent);
-                });
+                if (vocabMastered > 0 || vocabLearning > 0) {
+                    btnContinue.setText("Tiếp tục học: Bước 2 - Từ vựng (" + vocabMastered + "/" + vocabTotal + ")");
+                } else {
+                    btnContinue.setText("Bắt đầu học: Bước 2 - Từ vựng");
+                }
+                btnContinue.setOnClickListener(v -> openLearnVocab());
             } else if (grammarTotal > 0 && grammarPercent < 100) {
-                btnContinue.setText("Tiếp tục: Bước 3 - Luyện ngữ pháp");
-                btnContinue.setOnClickListener(v -> {
-                    Intent intent = new Intent(this, ExerciseActivity.class);
-                    intent.putExtra("lessonId", lessonId);
-                    startActivity(intent);
-                });
+                if (grammarMastered > 0) {
+                    btnContinue.setText("Tiếp tục: Bước 3 - Luyện ngữ pháp (" + grammarMastered + "/" + grammarTotal + ")");
+                } else {
+                    btnContinue.setText("Bắt đầu: Bước 3 - Luyện ngữ pháp");
+                }
+                btnContinue.setOnClickListener(v -> openExercise());
             } else {
                 btnContinue.setText("Hoàn tất: Xem tổng kết ngày học");
                 btnContinue.setOnClickListener(v -> {
@@ -420,5 +452,23 @@ public class DayActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    private void openLearnVocab() {
+        Intent intent = new Intent(this, LearnVocabActivity.class);
+        intent.putExtra("lessonId", lessonId);
+        startActivity(intent);
+    }
+
+    private void openVocabHub() {
+        Intent intent = new Intent(this, UnitDetailActivity.class);
+        intent.putExtra("lessonId", lessonId);
+        startActivity(intent);
+    }
+
+    private void openExercise() {
+        Intent intent = new Intent(this, ExerciseActivity.class);
+        intent.putExtra("lessonId", lessonId);
+        startActivity(intent);
     }
 }

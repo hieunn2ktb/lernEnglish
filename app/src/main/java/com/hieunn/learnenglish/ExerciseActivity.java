@@ -183,10 +183,42 @@ public class ExerciseActivity extends AppCompatActivity {
             return;
         }
 
+        // Kiểm tra xem có phiên luyện ngữ pháp trước đó chưa hoàn thành không
+        if (lessonId > 0 && ExerciseSessionManager.hasSavedSession(this, lessonId)) {
+            ExerciseSessionManager.SessionData data = ExerciseSessionManager.restoreSession(
+                    this,
+                    lessonId,
+                    allQuestions,
+                    questionState,
+                    correctStreak,
+                    answeredByMC,
+                    answeredByWrite,
+                    queue
+            );
+            if (data != null) {
+                sessionCorrect = data.sessionCorrect;
+                sessionWrong = data.sessionWrong;
+                practiceMode = data.practiceMode;
+                progressBar.setMax(allQuestions.size());
+                updateStatus();
+
+                if (queue.isEmpty()) {
+                    showCompletionDialog();
+                } else {
+                    Toast.makeText(this, "Tiếp tục luyện: Đã xong " + data.masteredCount + "/" + allQuestions.size() + " câu", Toast.LENGTH_SHORT).show();
+                    nextQuestion();
+                }
+                return;
+            }
+        }
+
         restartPractice(false);
     }
 
     private void restartPractice(boolean showMessage) {
+        if (lessonId > 0) {
+            ExerciseSessionManager.clearSession(this, lessonId);
+        }
         queue.clear();
         questionState.clear();
         correctStreak.clear();
@@ -561,6 +593,27 @@ public class ExerciseActivity extends AppCompatActivity {
     private void recordAnswer(boolean isCorrect) {
         int targetLessonId = (currentQuestion != null && currentQuestion.lessonId > 0) ? currentQuestion.lessonId : lessonId;
         LessonProgressManager.recordGrammarAnswer(this, targetLessonId, isCorrect, getMasteredCount());
+        saveCurrentSession(false);
+    }
+
+    private void saveCurrentSession(boolean isCompleted) {
+        int targetLessonId = (currentQuestion != null && currentQuestion.lessonId > 0) ? currentQuestion.lessonId : lessonId;
+        if (targetLessonId > 0 && !allQuestions.isEmpty()) {
+            ExerciseSessionManager.saveSession(
+                    this,
+                    targetLessonId,
+                    allQuestions,
+                    questionState,
+                    correctStreak,
+                    answeredByMC,
+                    answeredByWrite,
+                    queue,
+                    sessionCorrect,
+                    sessionWrong,
+                    practiceMode,
+                    isCompleted
+            );
+        }
     }
 
     private int getMasteredCount() {
@@ -594,6 +647,7 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void showCompletionDialog() {
+        saveCurrentSession(true);
         updateStatus();
         int total = sessionCorrect + sessionWrong;
         int accuracy = total > 0 ? (sessionCorrect * 100) / total : 100;
@@ -653,6 +707,12 @@ public class ExerciseActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveCurrentSession(false);
     }
 
     @Override
