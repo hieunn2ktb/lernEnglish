@@ -13,6 +13,7 @@ public class DatabaseSeeder {
     private static final String KEY_LESSON2_DEMONSTRATIVES = "lesson2_demonstratives_v1";
     private static final String KEY_MAPPED_PRACTICE = "mapped_practice_v1";
     private static final String KEY_JAPANESE_SEEDED = "japanese_seeded_v2";
+    private static final String KEY_KAITE_OBOERU_SEEDED = "kaite_oboeru_seeded_v3";
     private static final String DAY_1_VIDEO_ID = "x4F1npn2g8Q";
 
     public static void seedIfNeeded(Context context) {
@@ -59,6 +60,7 @@ public class DatabaseSeeder {
         }
 
         seedJapaneseIfNeeded(context, db, prefs);
+        seedKaiteOboeruIfNeeded(context, db, prefs);
     }
 
     public static void seedJapaneseIfNeeded(Context context, AppDatabase db, SharedPreferences prefs) {
@@ -120,6 +122,60 @@ public class DatabaseSeeder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void seedKaiteOboeruIfNeeded(Context context, AppDatabase db, SharedPreferences prefs) {
+        if (prefs.getBoolean(KEY_KAITE_OBOERU_SEEDED, false)) {
+            return;
+        }
+
+        try {
+            List<LessonEntity> allLessons = db.lessonDao().getAllLessons();
+            db.runInTransaction(() -> {
+                for (LessonEntity l : allLessons) {
+                    if (l.title != null && (l.title.startsWith("Bài ") || "ja".equalsIgnoreCase(l.videoUrl))) {
+                        int lNum = extractLessonNumber(l.title);
+                        if (lNum > 0 && lNum <= 50) {
+                            List<com.hieunn.learnenglish.GrammarQuiz> quizzes =
+                                    com.hieunn.learnenglish.KaiteOboeruDataManager.getQuizzesForLesson(context, lNum);
+                            if (quizzes != null && !quizzes.isEmpty()) {
+                                db.grammarQuizDao().deleteByLessonId(l.id);
+                                List<GrammarQuizEntity> entities = new java.util.ArrayList<>();
+                                for (com.hieunn.learnenglish.GrammarQuiz q : quizzes) {
+                                    List<String> opts = q.getOptions();
+                                    String a = opts.size() > 0 ? opts.get(0) : "";
+                                    String b = opts.size() > 1 ? opts.get(1) : "";
+                                    String c = opts.size() > 2 ? opts.get(2) : "";
+                                    String d = opts.size() > 3 ? opts.get(3) : "";
+                                    int cIdx = q.getCorrectIndex();
+                                    String correct = (cIdx >= 0 && cIdx < opts.size()) ? opts.get(cIdx) : a;
+                                    entities.add(new GrammarQuizEntity(l.id, q.getQuestion(), a, b, c, d, correct));
+                                }
+                                db.grammarQuizDao().insertAllQuiz(entities);
+                            }
+                        }
+                    }
+                }
+            });
+
+            prefs.edit().putBoolean(KEY_KAITE_OBOERU_SEEDED, true).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int extractLessonNumber(String title) {
+        if (title != null) {
+            String lower = title.toLowerCase().trim();
+            if (lower.startsWith("bài ")) {
+                try {
+                    String numStr = lower.substring(4).split("[:\\s]")[0].trim();
+                    return Integer.parseInt(numStr);
+                } catch (Exception ignored) {
+                }
+            }
+        }
+        return -1;
     }
 
     private static void seedDefaultLessons(AppDatabase db) {

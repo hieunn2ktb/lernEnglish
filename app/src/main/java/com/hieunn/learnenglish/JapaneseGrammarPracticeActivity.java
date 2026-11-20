@@ -29,6 +29,7 @@ public class JapaneseGrammarPracticeActivity extends AppCompatActivity {
     private int lessonNumber = 1;
     private int pointNumber = 1;
     private boolean isComprehensive = false;
+    private boolean isKaiteOboeru = false;
 
     private JapaneseGrammarLesson currentLesson;
     private JapaneseGrammarPoint currentPoint;
@@ -86,6 +87,7 @@ public class JapaneseGrammarPracticeActivity extends AppCompatActivity {
         lessonNumber = getIntent().getIntExtra("lessonNumber", 1);
         pointNumber = getIntent().getIntExtra("pointNumber", 1);
         isComprehensive = getIntent().getBooleanExtra("isComprehensive", false);
+        isKaiteOboeru = getIntent().getBooleanExtra("isKaiteOboeru", false);
 
         initViews();
         initTTS();
@@ -163,7 +165,14 @@ public class JapaneseGrammarPracticeActivity extends AppCompatActivity {
 
         quizList.clear();
 
-        if (isComprehensive) {
+        if (isKaiteOboeru) {
+            tvPracticeHeaderTitle.setText("Bài tập Kaite Oboeru – Bài " + lessonNumber);
+            tvPracticePointTag.setText("文法チェックシート • Minna no Nihongo");
+            List<GrammarQuiz> koList = KaiteOboeruDataManager.getQuizzesForLesson(this, lessonNumber);
+            if (koList != null && !koList.isEmpty()) {
+                quizList.addAll(koList);
+            }
+        } else if (isComprehensive) {
             tvPracticeHeaderTitle.setText("Kiểm tra tổng hợp Bài " + lessonNumber);
             tvPracticePointTag.setText(currentLesson.getTitle());
 
@@ -292,7 +301,12 @@ public class JapaneseGrammarPracticeActivity extends AppCompatActivity {
         int percent = total > 0 ? (int) Math.round((correctCount * 100.0) / total) : 0;
         tvCompletionScore.setText("Kết quả: " + correctCount + "/" + total + " Đúng (" + percent + "%)");
 
-        if (isComprehensive) {
+        if (isKaiteOboeru) {
+            tvCompletionTitle.setText("Hoàn thành Bài tập Kaite Oboeru!");
+            tvCompletionSubtitle.setText("Bạn đã làm xong phiếu bài tập ngữ pháp (文法チェックシート) của Minna no Nihongo Bài " + lessonNumber + ".");
+            btnNextPointOrFinish.setText("Quay về bài học");
+            btnNextPointOrFinish.setOnClickListener(v -> finish());
+        } else if (isComprehensive) {
             JapaneseGrammarProgressManager.setLessonQuizPassed(this, lessonNumber, true);
             tvCompletionTitle.setText("Hoàn thành Bài " + lessonNumber + "!");
             tvCompletionSubtitle.setText("Bạn đã hoàn thành bài kiểm tra tổng hợp Minna no Nihongo Bài " + lessonNumber + ".");

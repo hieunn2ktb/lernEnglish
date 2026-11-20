@@ -52,6 +52,8 @@ public class LearnVocabActivity extends AppCompatActivity {
     private boolean isWriteMode = false;
     private boolean starOnlyMode = false;  // Chỉ học từ gắn sao
     private TextToSpeech tts;
+    private boolean ttsReady = false;
+    private VocabItem pendingAutoSpeakWord;
     private int lessonId = -1;
     private int sessionCorrect = 0;
     private int sessionWrong = 0;
@@ -138,7 +140,17 @@ public class LearnVocabActivity extends AppCompatActivity {
 
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
+                ttsReady = true;
                 tts.setLanguage(Locale.US);
+
+                // The first card may appear before the speech engine is ready.
+                // Play that word once after initialization finishes.
+                if (pendingAutoSpeakWord != null
+                        && pendingAutoSpeakWord == currentWord
+                        && !isWriteMode) {
+                    pendingAutoSpeakWord = null;
+                    speakCurrentWord();
+                }
             }
         });
 
@@ -379,6 +391,7 @@ public class LearnVocabActivity extends AppCompatActivity {
         }
 
         answered = false;
+        pendingAutoSpeakWord = null;
         btnContinue.setVisibility(View.GONE);
 
         currentWord = pickNextWord();
@@ -419,7 +432,7 @@ public class LearnVocabActivity extends AppCompatActivity {
     // ======================== SHOW MODES ========================
 
     private void speakCurrentWord() {
-        if (currentWord == null || tts == null) return;
+        if (currentWord == null || tts == null || !ttsReady) return;
         String word = currentWord.getEnglishWord();
         if (VocabItem.isJapaneseText(word)) {
             tts.setLanguage(Locale.JAPANESE);
@@ -467,7 +480,11 @@ public class LearnVocabActivity extends AppCompatActivity {
         tvWord.setText(currentWord.getEnglishWord());
 
         if (btnAudio != null) btnAudio.setVisibility(View.VISIBLE);
-        speakCurrentWord();
+        if (ttsReady) {
+            speakCurrentWord();
+        } else {
+            pendingAutoSpeakWord = currentWord;
+        }
 
         for (int i = 0; i < 4; i++) {
             cards[i].setCardBackgroundColor(0xFFFFFFFF);
@@ -684,6 +701,8 @@ public class LearnVocabActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (tts != null) {
+            ttsReady = false;
+            pendingAutoSpeakWord = null;
             tts.stop();
             tts.shutdown();
         }

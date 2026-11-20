@@ -192,6 +192,34 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/btnOptionKaiteOboeru"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_rounded_quizlet"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:text="✍️ Bài tập Kaite Oboeru"
+                    android:textColor="#DC2626"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/btnOptionChoukai"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_rounded_quizlet"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:text="🎧 Luyện nghe Choukai"
+                    android:textColor="#2563EB"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!-- List Header -->

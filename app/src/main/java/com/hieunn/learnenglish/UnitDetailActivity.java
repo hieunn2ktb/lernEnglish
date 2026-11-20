@@ -103,19 +103,44 @@ public class UnitDetailActivity extends AppCompatActivity {
         });
 
         TextView btnOptionGrammar = findViewById(R.id.btnOptionGrammar);
-        if (btnOptionGrammar != null && lessonId > 0) {
+        TextView btnOptionKaiteOboeru = findViewById(R.id.btnOptionKaiteOboeru);
+        TextView btnOptionChoukai = findViewById(R.id.btnOptionChoukai);
+        if (lessonId > 0) {
             AppDatabase db = AppDatabase.getInstance(this);
             com.hieunn.learnenglish.db.LessonEntity lesson = db.lessonDao().getLessonById(lessonId);
             if (lesson != null && MainActivity.isJapaneseLesson(lesson)) {
                 int lessonNum = extractLessonNumber(lesson.title);
                 if (lessonNum > 0 && lessonNum <= 50) {
-                    btnOptionGrammar.setVisibility(android.view.View.VISIBLE);
-                    btnOptionGrammar.setText("⛩️ Ngữ pháp Bài " + lessonNum);
-                    btnOptionGrammar.setOnClickListener(v -> {
-                        Intent intent = new Intent(this, JapaneseGrammarDetailActivity.class);
-                        intent.putExtra("lessonNumber", lessonNum);
-                        startActivity(intent);
-                    });
+                    if (btnOptionGrammar != null) {
+                        btnOptionGrammar.setVisibility(android.view.View.VISIBLE);
+                        btnOptionGrammar.setText("⛩️ Ngữ pháp Bài " + lessonNum);
+                        btnOptionGrammar.setOnClickListener(v -> {
+                            Intent intent = new Intent(this, JapaneseGrammarDetailActivity.class);
+                            intent.putExtra("lessonNumber", lessonNum);
+                            startActivity(intent);
+                        });
+                    }
+
+                    if (btnOptionKaiteOboeru != null) {
+                        btnOptionKaiteOboeru.setVisibility(android.view.View.VISIBLE);
+                        btnOptionKaiteOboeru.setText("✍️ Bài tập Kaite Oboeru (Bài " + lessonNum + ")");
+                        btnOptionKaiteOboeru.setOnClickListener(v -> {
+                            Intent intent = new Intent(this, JapaneseGrammarPracticeActivity.class);
+                            intent.putExtra("lessonNumber", lessonNum);
+                            intent.putExtra("isKaiteOboeru", true);
+                            startActivity(intent);
+                        });
+                    }
+
+                    if (btnOptionChoukai != null) {
+                        btnOptionChoukai.setVisibility(android.view.View.VISIBLE);
+                        btnOptionChoukai.setText("🎧 Luyện nghe Choukai (Bài " + lessonNum + ")");
+                        btnOptionChoukai.setOnClickListener(v -> {
+                            Intent intent = new Intent(this, JapaneseChoukaiActivity.class);
+                            intent.putExtra("lessonNumber", lessonNum);
+                            startActivity(intent);
+                        });
+                    }
                 }
             }
         }

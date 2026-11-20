@@ -37,6 +37,8 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
     private TextView tvLessonBannerSummary;
     private RecyclerView rvGrammarPoints;
     private JapaneseGrammarPointAdapter adapter;
+    private CardView cardKaiteOboeru;
+    private CardView cardChoukai;
     private CardView cardComprehensiveQuiz;
     private TextView tvComprehensiveStatus;
     private Button btnPrevLesson;
@@ -73,7 +75,9 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
         tvLessonBannerTitle = findViewById(R.id.tvLessonBannerTitle);
         tvLessonBannerSummary = findViewById(R.id.tvLessonBannerSummary);
         rvGrammarPoints = findViewById(R.id.rvGrammarPoints);
+        cardKaiteOboeru = findViewById(R.id.cardKaiteOboeru);
         cardComprehensiveQuiz = findViewById(R.id.cardComprehensiveQuiz);
+        cardChoukai = findViewById(R.id.cardChoukai);
         tvComprehensiveStatus = findViewById(R.id.tvComprehensiveStatus);
         btnPrevLesson = findViewById(R.id.btnPrevLesson);
         btnNextLesson = findViewById(R.id.btnNextLesson);
@@ -92,12 +96,29 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
             openGrammarPointStudy(targetPoint);
         });
 
+        if (cardKaiteOboeru != null) {
+            cardKaiteOboeru.setOnClickListener(v -> {
+                Intent intent = new Intent(this, JapaneseGrammarPracticeActivity.class);
+                intent.putExtra("lessonNumber", lessonNumber);
+                intent.putExtra("isKaiteOboeru", true);
+                startActivity(intent);
+            });
+        }
+
         cardComprehensiveQuiz.setOnClickListener(v -> {
             Intent intent = new Intent(this, JapaneseGrammarPracticeActivity.class);
             intent.putExtra("lessonNumber", lessonNumber);
             intent.putExtra("isComprehensive", true);
             startActivity(intent);
         });
+
+        if (cardChoukai != null) {
+            cardChoukai.setOnClickListener(v -> {
+                Intent intent = new Intent(this, JapaneseChoukaiActivity.class);
+                intent.putExtra("lessonNumber", lessonNumber);
+                startActivity(intent);
+            });
+        }
 
         btnPrevLesson.setOnClickListener(v -> {
             if (lessonNumber > 1) {
