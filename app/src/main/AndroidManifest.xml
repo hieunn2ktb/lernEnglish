@@ -40,6 +40,8 @@
         <activity android:name=".KanjiDetailActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".KanjiTestActivity" android:exported="false" />
         <activity android:name=".JapaneseGrammarDetailActivity" android:exported="false" />
+        <activity android:name=".JapaneseGrammarPointStudyActivity" android:exported="false" />
+        <activity android:name=".JapaneseGrammarPracticeActivity" android:exported="false" />
 
     </application>
 
