@@ -15,6 +15,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -163,6 +165,11 @@ public class ChoukaiAudioHelper {
                 "/sdcard/Download/choukai/" + task.getCdName(),
                 "/storage/emulated/0/Music/choukai",
                 "/storage/emulated/0/Download/choukai",
+                "/storage/emulated/0/Download/choukai/" + task.getCdName(),
+                "/sdcard/choukai",
+                "/storage/emulated/0/choukai",
+                "/sdcard/Download/drive-download-20261120T083142Z-1-001",
+                "/storage/emulated/0/Download/drive-download-20261120T083142Z-1-001",
                 context.getExternalFilesDir("choukai") != null ? context.getExternalFilesDir("choukai").getAbsolutePath() : "",
                 "/home/nguyen-nhu-hieu/Downloads/nhat/1/nghe/drive-download-20261120T083142Z-1-001"
         };
@@ -374,6 +381,88 @@ public class ChoukaiAudioHelper {
         return currentSpeed;
     }
 
+    public void speakText(String text) {
+        if (tts != null && text != null && !text.trim().isEmpty()) {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                pause();
+            }
+            tts.setSpeechRate(currentSpeed);
+            tts.speak(cleanScriptForTts(text), TextToSpeech.QUEUE_FLUSH, null, "single_utterance");
+        }
+    }
+
+    private static class SpeechSegment {
+        final String cue;
+        final String text;
+        SpeechSegment(String cue, String text) {
+            this.cue = cue;
+            this.text = text;
+        }
+    }
+
+    private List<SpeechSegment> parseScriptSegments(String script) {
+        List<SpeechSegment> list = new ArrayList<>();
+        if (script == null) return list;
+        String[] lines = script.split("\n");
+        String currentCue = null;
+        StringBuilder currentSb = new StringBuilder();
+
+        for (int lineIdx = 0; lineIdx < lines.length; lineIdx++) {
+            String trimmed = lines[lineIdx].trim();
+            if (trimmed.isEmpty()) continue;
+
+            if (lineIdx == 0 && trimmed.matches("^\\d+\\..*$") && !trimmed.contains("A:")) {
+                continue;
+            }
+
+            String keyCandidate = null;
+            int sepIndex = -1;
+            if (trimmed.startsWith("例")) {
+                keyCandidate = "例";
+                sepIndex = 1;
+            } else {
+                int i = 0;
+                while (i < trimmed.length() && Character.isDigit(trimmed.charAt(i))) i++;
+                if (i > 0) {
+                    keyCandidate = trimmed.substring(0, i);
+                    sepIndex = i;
+                }
+            }
+
+            if (keyCandidate != null && sepIndex < trimmed.length()) {
+                char nextChar = trimmed.charAt(sepIndex);
+                if (nextChar == ')' || nextChar == '）' || nextChar == '.' || nextChar == ':' || nextChar == '：' || nextChar == '、') {
+                    if (currentCue != null || currentSb.length() > 0) {
+                        list.add(new SpeechSegment(currentCue, currentSb.toString().trim()));
+                        currentSb = new StringBuilder();
+                    }
+
+                    if (keyCandidate.equals("例")) {
+                        currentCue = "れい。";
+                    } else {
+                        currentCue = keyCandidate + "ばん。";
+                    }
+
+                    String rem = trimmed.substring(sepIndex + 1).trim();
+                    if (!rem.isEmpty()) {
+                        currentSb.append(rem).append("\n");
+                    }
+                    continue;
+                }
+            }
+
+            if (currentCue != null) {
+                currentSb.append(trimmed).append("\n");
+            }
+        }
+
+        if (currentCue != null || currentSb.length() > 0) {
+            list.add(new SpeechSegment(currentCue, currentSb.toString().trim()));
+        }
+
+        return list;
+    }
+
     private void playTts() {
         if (tts != null && currentTask != null) {
             String script = currentTask.getScript();
@@ -381,21 +470,50 @@ public class ChoukaiAudioHelper {
                 script = currentTask.getTitle();
             }
             tts.setSpeechRate(currentSpeed);
-            tts.speak(cleanScriptForTts(script), TextToSpeech.QUEUE_FLUSH, null, "choukai_utterance");
             isPlayingTts = true;
             if (listener != null) {
                 listener.onAudioStateChanged(true);
+            }
+
+            List<SpeechSegment> segments = parseScriptSegments(script);
+            if (segments.isEmpty()) {
+                tts.speak(cleanScriptForTts(script), TextToSpeech.QUEUE_FLUSH, null, "choukai_utterance");
+                return;
+            }
+
+            boolean first = true;
+            for (int i = 0; i < segments.size(); i++) {
+                SpeechSegment seg = segments.get(i);
+                int queueMode = first ? TextToSpeech.QUEUE_FLUSH : TextToSpeech.QUEUE_ADD;
+                first = false;
+
+                if (seg.cue != null && !seg.cue.isEmpty()) {
+                    tts.speak(seg.cue, queueMode, null, "cue_" + i);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        tts.playSilentUtterance(1200, TextToSpeech.QUEUE_ADD, "pause_cue_" + i);
+                    }
+                    queueMode = TextToSpeech.QUEUE_ADD;
+                }
+
+                String cleanDialogue = cleanScriptForTts(seg.text);
+                if (!cleanDialogue.isEmpty()) {
+                    String utteranceId = (i == segments.size() - 1) ? "choukai_utterance" : ("seg_" + i);
+                    tts.speak(cleanDialogue, queueMode, null, utteranceId);
+
+                    if (i < segments.size() - 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        tts.playSilentUtterance(2500, TextToSpeech.QUEUE_ADD, "pause_q_" + i);
+                    }
+                }
             }
         }
     }
 
     private String cleanScriptForTts(String script) {
-        // Strip line markers like "1. ", "例) ", "A: ", "B: ", "1) " for natural TTS flow
+        if (script == null) return "";
         return script.replaceAll("[A-Z]:", "")
-                .replaceAll("例\\)", "")
-                .replaceAll("\\d+\\)", "")
                 .replaceAll("――+", "")
-                .replaceAll("[★▲■●]", "");
+                .replaceAll("[★▲■●]", "")
+                .trim();
     }
 
     private void pauseTts() {

@@ -39,6 +39,7 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
     private JapaneseGrammarPointAdapter adapter;
     private CardView cardKaiteOboeru;
     private CardView cardChoukai;
+    private TextView tvChoukaiStatus;
     private CardView cardComprehensiveQuiz;
     private TextView tvComprehensiveStatus;
     private Button btnPrevLesson;
@@ -78,6 +79,7 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
         cardKaiteOboeru = findViewById(R.id.cardKaiteOboeru);
         cardComprehensiveQuiz = findViewById(R.id.cardComprehensiveQuiz);
         cardChoukai = findViewById(R.id.cardChoukai);
+        tvChoukaiStatus = findViewById(R.id.tvChoukaiStatus);
         tvComprehensiveStatus = findViewById(R.id.tvComprehensiveStatus);
         btnPrevLesson = findViewById(R.id.btnPrevLesson);
         btnNextLesson = findViewById(R.id.btnNextLesson);
@@ -142,6 +144,20 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void updateChoukaiStatus() {
+        if (tvChoukaiStatus == null) return;
+        ChoukaiLesson lesson = ChoukaiDataManager.getLesson(this, lessonNumber);
+        int total = ChoukaiProgressManager.getTotalQuestionCount(lesson);
+        int answered = ChoukaiProgressManager.getAnsweredCount(this, lesson);
+        if (total <= 0 || answered <= 0) {
+            tvChoukaiStatus.setText("Nghe hội thoại, làm bài tập & xem script");
+        } else if (answered >= total) {
+            tvChoukaiStatus.setText("Đã hoàn thành " + answered + "/" + total + " câu");
+        } else {
+            tvChoukaiStatus.setText("Tiếp tục: đã làm " + answered + "/" + total + " câu");
+        }
+    }
+
     private void loadLesson(int number) {
         lessonNumber = number;
         currentLesson = JapaneseGrammarDataManager.getLessonByNumber(this, lessonNumber);
@@ -167,6 +183,7 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
         adapter.setPoints(currentLesson.getPoints());
 
         updateProgressUI();
+        updateChoukaiStatus();
 
         btnPrevLesson.setEnabled(lessonNumber > 1);
         btnPrevLesson.setAlpha(lessonNumber > 1 ? 1.0f : 0.4f);
@@ -227,6 +244,7 @@ public class JapaneseGrammarDetailActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateProgressUI();
+        updateChoukaiStatus();
     }
 
     @Override

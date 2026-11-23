@@ -37,16 +37,30 @@
 
             <TextView
                 android:id="@+id/tvQuestionStatus"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:textColor="#16A34A"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnSpeakQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_tab_container"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="🔊 Nghe đoạn này"
+                android:textAllCaps="false"
+                android:textColor="#2563EB"
+                android:textSize="11sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Question Text -->
+        <!-- Question Text / Prompt -->
         <TextView
             android:id="@+id/tvQuestionText"
             android:layout_width="match_parent"

@@ -192,7 +192,9 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
         tvLessonSubtitle.setText(currentLesson.getTitle() + (currentLesson.getSubtitle().isEmpty() ? "" : " - " + currentLesson.getSubtitle()));
 
         buildTaskTabs();
-        selectTask(0);
+        int savedTask = ChoukaiProgressManager.getLastTask(
+                this, lessonNumber, currentLesson.getTasks().size());
+        selectTask(savedTask);
     }
 
     private void buildTaskTabs() {
@@ -202,7 +204,7 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
             final int index = i;
             ChoukaiTask t = tasks.get(i);
             Button tabBtn = new Button(this);
-            tabBtn.setText("Task " + t.getTaskNumber());
+            tabBtn.setText(getTaskTabText(t));
             tabBtn.setTextSize(13f);
             tabBtn.setAllCaps(false);
 
@@ -224,6 +226,7 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
 
         currentTaskIndex = index;
         currentTask = currentLesson.getTasks().get(index);
+        ChoukaiProgressManager.saveLastTask(this, lessonNumber, index);
 
         // Update tabs styling
         for (int i = 0; i < layoutTaskTabs.getChildCount(); i++) {
@@ -290,9 +293,38 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
             LinearLayout layoutExplanation = qView.findViewById(R.id.layoutExplanation);
             TextView tvExplanationText = qView.findViewById(R.id.tvExplanationText);
 
-            tvBadge.setText("Câu " + q.getQuestionNumber());
-            tvQText.setText(q.getQuestionText());
-            if (q.getQuestionVi() != null && !q.getQuestionVi().isEmpty()) {
+            Button btnSpeak = qView.findViewById(R.id.btnSpeakQuestion);
+            if (btnSpeak != null) {
+                final String subDiag = q.getDialogueScript();
+                final String cue = q.isExample() ? "れい。" : (q.getItemIndex() + "ばん。");
+                btnSpeak.setOnClickListener(v -> {
+                    if (audioHelper != null) {
+                        String toSpeak = cue + "\n" + (subDiag.isEmpty() ? q.getPrompt() : subDiag);
+                        audioHelper.speakText(toSpeak);
+                        Toast.makeText(this, "Đang đọc: " + (q.isExample() ? "Ví dụ (例)" : ("Câu " + q.getItemIndex())), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            if (q.isExample()) {
+                tvBadge.setText("Ví dụ (例)");
+                tvBadge.setBackgroundResource(R.drawable.bg_badge_mint);
+                tvBadge.setTextColor(Color.parseColor("#0F766E"));
+            } else {
+                tvBadge.setText("Câu " + q.getItemIndex() + " (" + q.getItemIndex() + "番)");
+                tvBadge.setBackgroundResource(R.drawable.bg_badge_blue);
+                tvBadge.setTextColor(Color.parseColor("#1D4ED8"));
+            }
+
+            String prompt = q.getPrompt();
+            if (prompt != null && !prompt.isEmpty()) {
+                tvQText.setText(prompt);
+                tvQText.setVisibility(View.VISIBLE);
+            } else {
+                tvQText.setVisibility(View.GONE);
+            }
+
+            if (q.getQuestionVi() != null && !q.getQuestionVi().isEmpty() && !q.getQuestionVi().equalsIgnoreCase(prompt)) {
                 tvQVi.setText(q.getQuestionVi());
                 tvQVi.setVisibility(View.VISIBLE);
             } else {
@@ -302,6 +334,8 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
             final List<String> options = q.getOptions();
             final int correctIdx = q.getCorrectIndex();
             final String explanation = q.getExplanation();
+            final String dialogueScript = q.getDialogueScript();
+            final String correctLetter = q.getCorrectAnswer();
 
             for (int optIdx = 0; optIdx < options.size(); optIdx++) {
                 final int selectedIdx = optIdx;
@@ -320,47 +354,83 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
                 optBtn.setLayoutParams(lp);
 
                 optBtn.setOnClickListener(v -> {
-                    // Disable all buttons in this question once answered
-                    for (int k = 0; k < layoutOptions.getChildCount(); k++) {
-                        View child = layoutOptions.getChildAt(k);
-                        child.setEnabled(false);
-                        if (k == correctIdx) {
-                            child.setBackgroundResource(R.drawable.bg_badge_green);
-                            if (child instanceof Button) {
-                                ((Button) child).setTextColor(Color.parseColor("#15803D"));
-                            }
-                        }
-                    }
-
-                    boolean isCorrect = (selectedIdx == correctIdx);
-                    if (isCorrect) {
-                        optBtn.setBackgroundResource(R.drawable.bg_badge_green);
-                        optBtn.setTextColor(Color.parseColor("#15803D"));
-                        tvStatus.setVisibility(View.VISIBLE);
-                        tvStatus.setText("✓ Chính xác");
-                        tvStatus.setTextColor(Color.parseColor("#15803D"));
-                    } else {
-                        optBtn.setBackgroundResource(R.drawable.bg_badge_red);
-                        optBtn.setTextColor(Color.parseColor("#B91C1C"));
-                        tvStatus.setVisibility(View.VISIBLE);
-                        tvStatus.setText("✗ Chưa đúng");
-                        tvStatus.setTextColor(Color.parseColor("#DC2626"));
-                    }
-
-                    // Show explanation
-                    layoutExplanation.setVisibility(View.VISIBLE);
-                    String correctText = (correctIdx >= 0 && correctIdx < options.size()) ? options.get(correctIdx) : "";
-                    String explMsg = "Đáp án đúng: " + correctText;
-                    if (explanation != null && !explanation.isEmpty()) {
-                        explMsg += "\n" + explanation;
-                    }
-                    tvExplanationText.setText(explMsg);
+                    ChoukaiProgressManager.saveAnswer(this, lessonNumber,
+                            currentTask.getTaskNumber(), q.getQuestionNumber(), selectedIdx);
+                    showAnsweredState(layoutOptions, tvStatus, layoutExplanation,
+                            tvExplanationText, options, correctIdx, selectedIdx, explanation, dialogueScript, correctLetter);
+                    updateCurrentTaskTab();
                 });
 
                 layoutOptions.addView(optBtn);
             }
 
+            int savedAnswer = ChoukaiProgressManager.getSelectedAnswer(this, lessonNumber,
+                    currentTask.getTaskNumber(), q.getQuestionNumber());
+            if (savedAnswer >= 0 && savedAnswer < options.size()) {
+                showAnsweredState(layoutOptions, tvStatus, layoutExplanation,
+                        tvExplanationText, options, correctIdx, savedAnswer, explanation, dialogueScript, correctLetter);
+            }
+
             layoutQuestions.addView(qView);
+        }
+    }
+
+    private void showAnsweredState(LinearLayout layoutOptions, TextView tvStatus,
+                                   LinearLayout layoutExplanation, TextView tvExplanationText,
+                                   List<String> options, int correctIdx, int selectedIdx,
+                                   String explanation, String dialogueScript, String correctLetter) {
+        for (int k = 0; k < layoutOptions.getChildCount(); k++) {
+            View child = layoutOptions.getChildAt(k);
+            child.setEnabled(false);
+            if (k == correctIdx) {
+                child.setBackgroundResource(R.drawable.bg_badge_green);
+                if (child instanceof Button) {
+                    ((Button) child).setTextColor(Color.parseColor("#15803D"));
+                }
+            }
+        }
+
+        View selected = layoutOptions.getChildAt(selectedIdx);
+        boolean isCorrect = selectedIdx == correctIdx;
+        if (!isCorrect) {
+            selected.setBackgroundResource(R.drawable.bg_badge_red);
+            if (selected instanceof Button) {
+                ((Button) selected).setTextColor(Color.parseColor("#B91C1C"));
+            }
+        }
+        tvStatus.setVisibility(View.VISIBLE);
+        tvStatus.setText(isCorrect ? "✓ Chính xác" : "✗ Chưa đúng");
+        tvStatus.setTextColor(Color.parseColor(isCorrect ? "#15803D" : "#DC2626"));
+
+        layoutExplanation.setVisibility(View.VISIBLE);
+        String correctOptionText = (correctIdx >= 0 && correctIdx < options.size())
+                ? options.get(correctIdx) : "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Đáp án đúng: ");
+        if (correctLetter != null && !correctLetter.isEmpty()) {
+            sb.append(correctLetter.toUpperCase()).append(". ");
+        }
+        sb.append(correctOptionText);
+
+        if (explanation != null && !explanation.isEmpty()) {
+            sb.append("\n").append(explanation);
+        }
+        if (dialogueScript != null && !dialogueScript.isEmpty()) {
+            sb.append("\n\n[Lời thoại đoạn này]:\n").append(dialogueScript);
+        }
+        tvExplanationText.setText(sb.toString());
+    }
+
+    private String getTaskTabText(ChoukaiTask task) {
+        boolean completed = ChoukaiProgressManager.isTaskCompleted(this, lessonNumber, task);
+        return "Task " + task.getTaskNumber() + (completed ? " ✓" : "");
+    }
+
+    private void updateCurrentTaskTab() {
+        if (currentTaskIndex < 0 || currentTaskIndex >= layoutTaskTabs.getChildCount()) return;
+        View child = layoutTaskTabs.getChildAt(currentTaskIndex);
+        if (child instanceof Button) {
+            ((Button) child).setText(getTaskTabText(currentTask));
         }
     }
 
@@ -373,8 +443,8 @@ public class JapaneseChoukaiActivity extends AppCompatActivity implements Chouka
         layout.setPadding(dpToPx(20), dpToPx(12), dpToPx(20), dpToPx(12));
 
         TextView tvGuide = new TextView(this);
-        tvGuide.setText("• Bài 1 đã có sẵn âm thanh gốc tích hợp trong ứng dụng (Assets).\n" +
-                "• Để nghe trọn vẹn 50 bài (Bài 2 -> 50) bằng file MP3 gốc từ CD:\n" +
+        tvGuide.setText("• Bài 1 đến Bài 5 (22 tracks) đã có sẵn âm thanh gốc tích hợp sẵn trong ứng dụng.\n" +
+                "• Để nghe trọn vẹn 50 bài bằng file MP3 gốc từ CD:\n" +
                 "  1. Hãy chép thư mục audio vào bộ nhớ máy:\n" +
                 "     /sdcard/Music/choukai/ hoặc /sdcard/Download/choukai/\n" +
                 "  2. Hoặc nhập đường dẫn tùy chỉnh bên dưới:\n");
